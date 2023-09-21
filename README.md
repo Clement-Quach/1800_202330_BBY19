@@ -6,9 +6,15 @@ This browser based web application to ...
 
 ## 2. Names of Contributors
 List team members and/or short bio's here... 
+<<<<<<< HEAD
 * Him my name is Daniel! I'm ready to work hard and collaborate with the team!
-* ...
+* Hi my name is Wayne.
 * Hi, my name is clement. im on the third line 
+=======
+* 
+* 
+* 
+>>>>>>> 4815070 (added one line of intro)
 	
 ## 3. Technologies and Resources Used
 List technologies (with version numbers), API's, icons, fonts, images, media or data sources, and other resources that were used.
