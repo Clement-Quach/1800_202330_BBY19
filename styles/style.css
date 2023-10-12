@@ -13,6 +13,10 @@
   }
 }
 
+.sign-up {
+  color: blue;
+}
+
 a.call-to-action span {
   border: 3px solid #785964;
   border-radius: 20px;
