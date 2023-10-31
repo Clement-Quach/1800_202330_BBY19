@@ -1,7 +1,6 @@
 #navbar-top {
   display: grid;
   grid-template-columns: auto auto;
-  justify-content: space-evenly;
 }
 
 .container h1 {
@@ -14,6 +13,16 @@
   text-align: center;
   margin-bottom: 20px;
   align-items: center;
+}
+
+.navbar-nav {
+  text-align: right;
+}
+
+.form-inline {
+  display: grid;
+  gap: 1%;
+  grid-template-columns: 1fr auto;
 }
 
 .sign-up {
