@@ -1,4 +1,4 @@
-nfunction getNameFromAuth() {
+function getNameFromAuth() {
   firebase.auth().onAuthStateChanged(user => {
       // Check if a user is signed in:
       if (user) {

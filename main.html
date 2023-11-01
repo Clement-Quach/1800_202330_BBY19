@@ -30,6 +30,7 @@
 
     <!-- Link to styles of your own -->
     <link rel="stylesheet" href="./styles/mainStyle.css">
+    <link rel="stylesheet" href="./styles/style.css">
 
 </head>
 
@@ -39,13 +40,11 @@
     <!-- Your HTML Layout go here -->
     <!------------------------------>
     <!-- Stuff for body goes here -->
-    <nav id="navbarPlaceholder">
-      <!-- Include your navigation links or menu here -->
-  </nav>
+  <nav id="navbarPlaceholder"></nav>
 
   <div class="container">
     <div class="welcome">
-      <h1>Welcome, [User Name]!</h1>
+      <h1>Welcome, <span id="name-goes-here">!</h1>
     </div>
   </div>
   <div class="card">
@@ -82,9 +81,7 @@
     <script src="./scripts/firebaseAPI_TEAM19.js"></script>
     <script src="./scripts/script.js"></script>
     <script src="./scripts/skeleton.js"></script>
-    <script>
-      logout();       //make sure user is logged out
-    </script>
+    <script src="./scripts/main.js"></script>
 </body>
 
 </html>

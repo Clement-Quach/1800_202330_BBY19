@@ -1,7 +1,19 @@
-#navbar-top {
-  display: grid;
-  grid-template-columns: auto auto;
+@media screen and (min-width: 1200px) {
+  #navbar-top {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-evenly;
+  }
 }
+
+@media screen and (max-width: 580px) {
+  #navbar-top {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-evenly;
+  }
+}
+
 
 .container h1 {
   font-size: 25px;
