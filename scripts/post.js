@@ -199,8 +199,8 @@ function ticketSubmit() {
 
     // Display confirmation message
     let newOuterDiv = document.getElementById("outerDiv");
-    newOuterDiv.style.color = "red";
-    newOuterDiv.innerHTML = "<h1>Submitted!!</h1>";
+    newOuterDiv.style.color = "black";
+    newOuterDiv.innerHTML = "<h1>Submitted!</h1>";
 
     // Push the ticket details to Firebase
     ref.push(ticketDetails);
