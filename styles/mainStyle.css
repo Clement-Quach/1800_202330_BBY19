@@ -1,6 +1,7 @@
 .main {
-  background-color: lightgray;
+  background-color: rgba(242, 241, 241, 0.876);
   height: 100vh;
+  padding: 1%;
 }
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -16,6 +17,7 @@
   
   .container {
     padding: 20px;
+    text-align: center;
   }
   
   .card a {
