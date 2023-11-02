@@ -1,10 +1,15 @@
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 990px) {
   #navbar-top {
     display: grid;
     grid-template-columns: auto auto;
     justify-content: space-evenly;
   }
+
+  #welcome-paragraph {
+    margin-left: 12%;
+  }
 }
+
 
 @media screen and (max-width: 580px) {
   #navbar-top {
@@ -12,6 +17,7 @@
     grid-template-columns: auto auto;
     justify-content: space-evenly;
   }
+
 }
 
 
@@ -73,4 +79,10 @@ a:focus {
   text-decoration: none;
 }
 
+#user-login {
+  text-align: center;
+}
 
+.text-muted {
+  margin-top: 5%;
+}
