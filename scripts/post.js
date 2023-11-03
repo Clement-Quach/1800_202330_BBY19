@@ -221,7 +221,6 @@ function ticketSubmit() {
             resetNewTicketDiv();
 
             // Display confirmation message or redirect to the table page
-            window.location.href = 'table.html';
         })
         .catch(error => {
             console.error('Error storing data in Firebase: ', error);
