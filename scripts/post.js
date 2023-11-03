@@ -22,6 +22,11 @@ function newTicket() {
     title.className = 'form-control';
     title.id = 'ticketName';
 
+    const createPostButton = document.getElementById('createPostButton');
+    if (createPostButton) {
+        createPostButton.style.display = 'none';
+    }
+
     let divLocation = document.createElement('div');
     divLocation.className = 'form-group';
     let labelLocation = document.createElement('label');
@@ -98,17 +103,11 @@ function newTicket() {
     optionPriority1.innerHTML = 'Medium';
     optionPriority2.value = 'High';
     optionPriority2.innerHTML = 'High';
-    optionPriority3.value = 'Critical';
-    optionPriority3.innerHTML = 'Critical';
-    optionPriority4.value = 'Emergency';
-    optionPriority4.innerHTML = 'Emergency';
     divPriority.appendChild(labelPriority);
     divPriority.appendChild(selectPriority);
     selectPriority.appendChild(optionPriority);
     selectPriority.appendChild(optionPriority1);
     selectPriority.appendChild(optionPriority2);
-    selectPriority.appendChild(optionPriority3);
-    selectPriority.appendChild(optionPriority4);
 
     let divMessage = document.createElement('div');
     divMessage.className = 'form-group';
@@ -207,7 +206,7 @@ function ticketSubmit() {
         priority: ticketPriority,
         details: ticketProblemDetails,
         name: ticketName,
-        action: 'new'
+        action: 'In progress'
         // image: Handle the image attachment here,
     };
     const db = firebase.firestore();
