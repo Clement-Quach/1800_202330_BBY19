@@ -1,6 +1,7 @@
 var ticketsArray = [];
 
 function newTicket() {
+    
     resetNewTicketDiv();
     let outerDiv = document.getElementById("outerDiv");
     outerDiv.className = 'container';
@@ -266,7 +267,7 @@ function resetNewTicketDiv() {
 }
 
 function randomTableColor(){
-    let x = Math.floor(Math.random()*5);
+    let x = Math.floor(Math.random()*3);
      let colors = ["table-primary","table-success","table-danger","table-info","table-warning","table-light"];
               return colors[x];
 }
