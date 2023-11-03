@@ -173,6 +173,22 @@ function newTicket() {
     document.body.appendChild(outerDiv);
 }
 
+function addRowToTable(tableId, rowData) {
+    const tableBody = document.getElementById("ticketTableBody");
+    const newRow = document.createElement('tr');
+
+    newRow.innerHTML = `
+        <td>${rowData.ticketNumber}</td>
+        <td>${rowData.title}</td>
+        <td>${rowData.concern}</td>
+        <td>${rowData.priority}</td>
+        <td>${rowData.name}</td>
+        <td>${rowData.action}</td>
+    `;
+
+    tableBody.appendChild(newRow);
+}
+
 function ticketSubmit() {
     let ticketNumber = generateTicketNumber();
     let ticketTitle = document.getElementById("ticketName").value;
@@ -191,16 +207,32 @@ function ticketSubmit() {
         priority: ticketPriority,
         details: ticketProblemDetails,
         name: ticketName,
+        action: 'new'
         // image: Handle the image attachment here,
     };
+    const db = firebase.firestore();
+    const submissionsRef = db.collection('formSubmissions');
+    const newSubmissionRef = submissionsRef.doc();
 
-    // Reset the form
-    resetNewTicketDiv();
+    // Store the form submission data in Firebase
+    newSubmissionRef.set(ticketDetails)
+        .then(() => {
+            // Reset the form
+            resetNewTicketDiv();
+
+            // Display confirmation message or redirect to the table page
+            window.location.href = 'table.html';
+        })
+        .catch(error => {
+            console.error('Error storing data in Firebase: ', error);
+        });
 
     // Display confirmation message
     let newOuterDiv = document.getElementById("outerDiv");
     newOuterDiv.style.color = "black";
     newOuterDiv.innerHTML = "<h1>Submitted!</h1>";
+
+    addRowToTable('ticketTable', ticketDetails);
 
     // Push the ticket details to Firebase
     ref.push(ticketDetails);
