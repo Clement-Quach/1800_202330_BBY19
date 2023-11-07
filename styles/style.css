@@ -35,6 +35,7 @@
 
 .navbar-nav {
   text-align: right;
+  align-items: left;
 }
 
 .form-inline {
@@ -86,3 +87,54 @@ a:focus {
 .text-muted {
   margin-top: 5%;
 }
+
+/* Apply some basic styling to the table */
+#ticketTable {
+  background-color: #f2f2f2;
+  width: 100%;
+  
+}
+
+#ticketTable th, #ticketTable td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ccc;
+  
+}
+
+/* Style header row differently for better readability */
+#ticketTable thead {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Style alternate rows with different background colors for better readability */
+#ticketTable tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+/* Style the "Action" cell with a different color */
+#ticketTable tbody td:nth-child(6) {
+  background-color: #dff0d8; /* Change to your preferred color */
+}
+
+.table-responsive {
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Reset margins and padding on table cells */
+#ticketTable th, #ticketTable td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ccc;
+  margin: 0;
+  padding: 10px;
+}
+
+#post {
+  margin-top: 1%;
+}
+
+

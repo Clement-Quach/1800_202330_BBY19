@@ -1,6 +1,7 @@
 var ticketsArray = [];
 
 function newTicket() {
+    
     resetNewTicketDiv();
     let outerDiv = document.getElementById("outerDiv");
     outerDiv.className = 'container';
@@ -21,6 +22,12 @@ function newTicket() {
     title.type = 'text';
     title.className = 'form-control';
     title.id = 'ticketName';
+
+    const createPostButton = document.getElementById('createPostButton');
+    const postForm = document.getElementsByClassName('outerDiv');
+    if (createPostButton) {
+        createPostButton.style.display = 'none';
+    }
 
     let divLocation = document.createElement('div');
     divLocation.className = 'form-group';
@@ -98,17 +105,11 @@ function newTicket() {
     optionPriority1.innerHTML = 'Medium';
     optionPriority2.value = 'High';
     optionPriority2.innerHTML = 'High';
-    optionPriority3.value = 'Critical';
-    optionPriority3.innerHTML = 'Critical';
-    optionPriority4.value = 'Emergency';
-    optionPriority4.innerHTML = 'Emergency';
     divPriority.appendChild(labelPriority);
     divPriority.appendChild(selectPriority);
     selectPriority.appendChild(optionPriority);
     selectPriority.appendChild(optionPriority1);
     selectPriority.appendChild(optionPriority2);
-    selectPriority.appendChild(optionPriority3);
-    selectPriority.appendChild(optionPriority4);
 
     let divMessage = document.createElement('div');
     divMessage.className = 'form-group';
@@ -207,7 +208,7 @@ function ticketSubmit() {
         priority: ticketPriority,
         details: ticketProblemDetails,
         name: ticketName,
-        action: 'new'
+        action: 'In progress'
         // image: Handle the image attachment here,
     };
     const db = firebase.firestore();
@@ -221,7 +222,6 @@ function ticketSubmit() {
             resetNewTicketDiv();
 
             // Display confirmation message or redirect to the table page
-            window.location.href = 'table.html';
         })
         .catch(error => {
             console.error('Error storing data in Firebase: ', error);
@@ -267,7 +267,7 @@ function resetNewTicketDiv() {
 }
 
 function randomTableColor(){
-    let x = Math.floor(Math.random()*5);
+    let x = Math.floor(Math.random()*3);
      let colors = ["table-primary","table-success","table-danger","table-info","table-warning","table-light"];
               return colors[x];
 }
