@@ -1,11 +1,11 @@
 function getNameFromAuth() {
-  firebase.auth().onAuthStateChanged(user => {
+  firebase.auth().onAuthStateChanged(users => {
       // Check if a user is signed in:
-      if (user) {
+      if (users) {
           // Do something for the currently logged-in user here: 
-          console.log(user.uid); //print the uid in the browser console
-          console.log(user.displayName);  //print the user name in the browser console
-          userName = user.displayName;
+          console.log(users.uid); //print the uid in the browser console
+          console.log(users.displayName);  //print the user name in the browser console
+          userName = users.displayName;
 
           document.getElementById("name-goes-here").innerText = userName;    
 
