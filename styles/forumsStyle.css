@@ -91,7 +91,7 @@ body{
   background-color: #c9d8f0;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
   background-color: #467bcb;
 }

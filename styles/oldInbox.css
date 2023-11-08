@@ -1,0 +1,26 @@
+.containerNotification {
+    display: grid;
+    grid-template-columns: 50vw 50vw;
+    grid-template-rows: 8vh 70vh 20vh;
+    text-align: center;
+}
+
+.activityHeader {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+    border: 1px solid black;
+}
+
+.activity {
+    margin-top: 4%
+}
+.ticketHeader {
+    grid-column: 2 / span 1;
+    grid-row: 1 / span 1;
+    border: 1px solid black;
+}
+
+.ticket {
+    margin-top: 4%;
+}
+
