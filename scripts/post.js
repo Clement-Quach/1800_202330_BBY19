@@ -2,12 +2,18 @@ var ticketsArray = [];
 
 function newTicket() {
     
+    var createButton = document.getElementById("outerDiv");
+
+    createButton.addEventListener("click", () => {
+        createButton.classList.add("ticket-form-appear");
+    })
+    
     resetNewTicketDiv();
     let outerDiv = document.getElementById("outerDiv");
     outerDiv.className = 'container';
     let div = document.createElement('div');
     div.className = 'jumbotron';
-    div.style.backgroundColor = "NavajoWhite"; // Use backgroundColor to set the background color
+    div.style.backgroundColor = "#498FF0"; // Use backgroundColor to set the background color
     let form = document.createElement('form');
     form.id = 'newTicketForm';
     form.innerHTML = '<h1>Create a post</h1>'; // Close the h1 tag
@@ -156,7 +162,7 @@ function newTicket() {
 
     let divSubmit = document.createElement('button'); // Change 'div' to 'button'
     divSubmit.type = 'button';
-    divSubmit.className = 'btn btn-success';
+    divSubmit.className = 'btn btn-light';
     divSubmit.innerHTML = 'SUBMIT';
     divSubmit.addEventListener("click", ticketSubmit);
 
@@ -266,7 +272,7 @@ function resetNewTicketDiv() {
     newOuterDiv.innerHTML = "";
 }
 
-function randomTableColor(){
+function randomTableColor() {
     let x = Math.floor(Math.random()*3);
      let colors = ["table-primary","table-success","table-danger","table-info","table-warning","table-light"];
               return colors[x];

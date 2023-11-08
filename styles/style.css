@@ -20,6 +20,13 @@
 
 }
 
+body {
+  background-color: #f1f1f173;
+}
+
+.bg-light {
+  background-color: #ffffff !important;
+}
 
 .container h1 {
   font-size: 25px;
@@ -137,4 +144,12 @@ a:focus {
   margin-top: 1%;
 }
 
+.ticket-form-appear {
+  margin-top: 3%;
+  margin-bottom: 10%;
+}
+
+#outerDiv {
+  color: white;
+}
 
