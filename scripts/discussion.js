@@ -1,12 +1,19 @@
 var ticketsArray = [];
 
 function newTicket() {
+
+    var createButton = document.getElementById("outerDiv");
+
+    createButton.addEventListener("click", () => {
+        createButton.classList.add("ticket-form-appear");
+    })
+
     resetNewTicketDiv();
     let outerDiv = document.getElementById("outerDiv");
     outerDiv.className = 'container';
     let div = document.createElement('div');
     div.className = 'jumbotron';
-    div.style.backgroundColor = "NavajoWhite"; // Use backgroundColor to set the background color
+    div.style.backgroundColor = "#498FF0"; // Use backgroundColor to set the background color
     let form = document.createElement('form');
     form.id = 'newTicketForm';
     form.innerHTML = '<h1>Create a post</h1>'; // Close the h1 tag
@@ -26,7 +33,7 @@ function newTicket() {
     if (createPostButton) {
         createPostButton.style.display = 'none';
     }
-
+    
     let divLocation = document.createElement('div');
     divLocation.className = 'form-group';
     let labelLocation = document.createElement('label');

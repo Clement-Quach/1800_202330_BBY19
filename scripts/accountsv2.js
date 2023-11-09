@@ -11,7 +11,7 @@ function populateUserInfo() {
                     currentUser.get()
                         .then(userDoc => {
                             //get the data fields of the user
-                            var userName = userDoc.name;
+                            var userName = userDoc.data().name;
 
                             //if the data fields are not empty, then write them in to the form.
                             if (userName != null) {
@@ -31,18 +31,27 @@ function editUserInfo() {
 
 function saveUserInfo() {
     //enter code here
-
     //a) get user entered values
     userName = document.getElementById('nameInput').value;       //get the value of the field with id="nameInput"
-    //b) update user's document in Firestore
-    currentUser.update({
-        name: userName,
-    })
-    .then(() => {
-        console.log("Document successfully updated!");
-    })
-    //c) disable edit 
-    document.getElementById('personalInfoFields').disabled = true;
+    
+    let confirmation = confirm(`Are you sure you want to change the name to: ${userName}`);
+
+    if (confirmation) {
+        //b) update user's document in Firestore
+        currentUser.update({
+            name: userName,
+        })
+        .then(() => {
+            console.log("Document successfully updated!");
+        })
+        //c) disable edit 
+        document.getElementById('personalInfoFields').disabled = true;
+        alert("Your changes have been successfully saved!")
+    } else {
+        alert("Canceled");
+    }
+
+    
 }
 //call the function to run it 
 populateUserInfo();

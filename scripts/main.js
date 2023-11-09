@@ -11,7 +11,7 @@ function getNameFromAuth() {
 
           //method #2:  insert using jquery
           // $("#name-goes-here").text(userName); //using jquery
-
+        
           //method #3:  insert using querySelector
           //document.querySelector("#name-goes-here").innerText = userName
 
