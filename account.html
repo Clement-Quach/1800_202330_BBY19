@@ -38,19 +38,31 @@
       <h1>Welcome, <span id="name-goes-here">!</h1>
     </div>
   </div>
+
   <div class="card">
 
 
       
     <div class="container">
-      <h1>User Profile </h1>
+      <h1>Name </h1>
       <form>
           <fieldset class="mb-3" id="personalInfoFields" disabled>
+              <!-- name card-->
               <div class="form-group">
-                  <label >Name</label>
+                  <label >Change the name people will refer to you as</label>
                   <input type="text" id="nameInput" class="form-control" placeholder="Enter your new name">
               </div>
+              <!-- contact info card-->
+              <div class="form-group">
+                <label >Display what city you live in</label>
+                <input type="text" id="cityInput" class="form-control" placeholder="Enter the name of your city">
+            </div>
+            <div class="form-group">
+              <label >Display your other socials so other people can contact you</label>
+              <input type="text" id="contactsInput" class="form-control" placeholder="Enter contact information">
+          </div>
           </fieldset>
+
           <div class="d-flex justify-content-end mt-5">
               <button type="button" class="btn btn-secondary" onclick="editUserInfo()">Edit</button>
               <span style="width: 10px"></span>
@@ -58,6 +70,9 @@
           </div>
       </form>
 </div>
+</div>
+
+
   <nav id="footerPlaceholder"></nav>
 
     <!---------------------------------------------->

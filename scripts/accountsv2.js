@@ -13,8 +13,8 @@ function populateUserInfo() {
                             //get the data fields of the user
 
                             var userName = userDoc.data().name;
-                            // var userSchool = userDoc.data().school;
-                            // var userCity = userDoc.data().city;
+                            var userContacts = userDoc.data().contactInfo;
+                            var userCity = userDoc.data().city;
 
 
                             //if the data fields are not empty, then write them in to the form.
@@ -25,9 +25,15 @@ function populateUserInfo() {
                             // if (userSchool != null) {
                             //     document.getElementById("schoolInput").value = userSchool;
                             // }
-                            // if (userCity != null) {
-                            //     document.getElementById("cityInput").value = userCity;
-                            // }
+                            if (userContacts != null) {
+                                document.getElementById("contactsInput").value = userContacts
+                            }
+
+                            if (userCity != null) {
+                                document.getElementById("cityInput").value = userCity;
+                            }
+
+
 
 
                         })
@@ -48,10 +54,13 @@ function saveUserInfo() {
         //a) get user entered values
         userName = document.getElementById('nameInput').value;       //get the value of the field with id="nameInput"
         // userSchool = document.getElementById('schoolInput').value;     //get the value of the field with id="schoolInput"
-        // userCity = document.getElementById('cityInput').value;       //get the value of the field with id="cityInput"
+        userCity = document.getElementById('cityInput').value;       //get the value of the field with id="cityInput"
+        userContacts = document.getElementById('contactsInput').value;
         //b) update user's document in Firestore
         currentUser.update({
           name: userName,
+          contactInfo: userContacts,
+          city: userCity,
 
       })
       .then(() => {
