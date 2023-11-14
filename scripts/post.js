@@ -1,5 +1,3 @@
-var ticketsArray = [];
-
 function newTicket() {
     
     var createButton = document.getElementById("outerDiv");
@@ -7,6 +5,13 @@ function newTicket() {
     createButton.addEventListener("click", () => {
         createButton.classList.add("ticket-form-appear");
     })
+    
+    
+    const createPostButton = document.getElementById('createPostButton');
+    const postForm = document.getElementsByClassName('outerDiv');
+    if (createPostButton) {
+        createPostButton.style.display = 'none';
+    }
     
     resetNewTicketDiv();
     let outerDiv = document.getElementById("outerDiv");
@@ -16,24 +21,18 @@ function newTicket() {
     div.style.backgroundColor = "#498FF0"; // Use backgroundColor to set the background color
     let form = document.createElement('form');
     form.id = 'newTicketForm';
-    form.innerHTML = '<h1>Create a post</h1>'; // Close the h1 tag
+    form.innerHTML = '<h1>Create a post</h1>';
     form.scrollIntoView();
     let divTitle = document.createElement('div');
     divTitle.className = 'form-group';
     let labelTitle = document.createElement('label');
     labelTitle.className = 'form-group';
     labelTitle.innerHTML = 'Title';
-    labelTitle.htmlFor = 'ticketName'; // Use htmlFor to associate the label with the input
+    labelTitle.htmlFor = 'ticketName';
     let title = document.createElement("input");
     title.type = 'text';
     title.className = 'form-control';
     title.id = 'ticketName';
-
-    const createPostButton = document.getElementById('createPostButton');
-    const postForm = document.getElementsByClassName('outerDiv');
-    if (createPostButton) {
-        createPostButton.style.display = 'none';
-    }
 
     let divLocation = document.createElement('div');
     divLocation.className = 'form-group';
@@ -205,7 +204,7 @@ function ticketSubmit() {
     let ticketName = document.getElementById("name").value;
     let imageAttachment = document.getElementById("imageAttachment").files[0];
 
-    // Handle the image attachment here, you can use the File API to upload it to a server or process it in any other way.
+    const userID = firebase.auth().currentUser.uid;
 
     let ticketDetails = {
         ticketNumber: ticketNumber,
@@ -214,8 +213,8 @@ function ticketSubmit() {
         priority: ticketPriority,
         details: ticketProblemDetails,
         name: ticketName,
-        action: 'In progress'
-        // image: Handle the image attachment here,
+        action: 'In progress',
+        userID: userID,
     };
     const db = firebase.firestore();
     const submissionsRef = db.collection('formSubmissions');

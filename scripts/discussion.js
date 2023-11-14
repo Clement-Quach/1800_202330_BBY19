@@ -170,14 +170,16 @@ function ticketSubmit() {
     let imageAttachment = document.getElementById("imageAttachment").files[0];
     // Handle the image attachment here, you can use the File API to upload it to a server or process it in any other way.
 
+    const userID = firebase.auth().currentUser.uid;
+
     let ticketDetails = {
         ticketNumber: ticketNumber,
         title: ticketTitle,
         concern: ticketConcern,
         details: ticketProblemDetails,
         name: ticketName,
-        action: 'In progress'
-        // image: Handle the image attachment here,
+        action: 'In progress',
+        userID: userID,
     };
     const db = firebase.firestore();
     const submissionsRef = db.collection('discussionSubmission');
