@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (doc.exists) {
         const name = doc.data().name;
 
-        nameGoesHere.textContent = name;
+        nameGoesHere.textContent = name + "!";
         
       } else {
         console.log("Name not Found");

@@ -13,8 +13,9 @@ function populateUserInfo() {
                             //get the data fields of the user
 
                             var userName = userDoc.data().name;
-                            var userContacts = userDoc.data().contactInfo;
                             var userCity = userDoc.data().city;
+                            var userPhone = userDoc.data().phoneNumber;
+                            var userEmail = userDoc.data().email;
 
 
                             //if the data fields are not empty, then write them in to the form.
@@ -22,20 +23,17 @@ function populateUserInfo() {
                                 document.getElementById("nameInput").value = userName;
                             }
 
-                            // if (userSchool != null) {
-                            //     document.getElementById("schoolInput").value = userSchool;
-                            // }
-                            if (userContacts != null) {
-                                document.getElementById("contactsInput").value = userContacts
-                            }
-
                             if (userCity != null) {
-                                document.getElementById("cityInput").value = userCity;
+                                document.getElementById("cityInput").value = userCity
                             }
 
+                            if (userPhone != null) {
+                                document.getElementById("phoneInput").value = userPhone;
+                            }
 
-
-
+                            if (userEmail != null) {
+                                document.getElementById("emailInput").value = userEmail;
+                            }
                         })
                 } else {
                     // No user is signed in.
@@ -44,32 +42,40 @@ function populateUserInfo() {
             });
         }
 function editUserInfo() {
-          //Enable the form fields
+          //Enable the form fields and save button
           document.getElementById('personalInfoFields').disabled = false;
+          document.getElementById('save-button').disabled = false;
        }
 
 function saveUserInfo() {
         //enter code here
-        
+
         //a) get user entered values
         userName = document.getElementById('nameInput').value;       //get the value of the field with id="nameInput"
-        // userSchool = document.getElementById('schoolInput').value;     //get the value of the field with id="schoolInput"
         userCity = document.getElementById('cityInput').value;       //get the value of the field with id="cityInput"
-        userContacts = document.getElementById('contactsInput').value;
-        //b) update user's document in Firestore
-        currentUser.update({
-          name: userName,
-          contactInfo: userContacts,
-          city: userCity,
+        userPhone = document.getElementById('phoneInput').value;
 
-      })
-      .then(() => {
-          console.log("Document successfully updated!");
-          window.location.href = "account.html";
-      })
-        //c) disable edit 
-        document.getElementById('personalInfoFields').disabled = true;
-      }
+        text = `Are you sure you want to change the information below?`
+
+        if (confirm(text) == true) {
+            //if yes, update user's document in Firestore
+            currentUser.update({
+                name: userName,
+                city: userCity,
+                phoneNumber: userPhone,
+    
+            })
+            .then(() => {
+                console.log("Document successfully updated!");
+                window.location.href = "account.html";
+            })
+            //c) disable edit 
+            document.getElementById('personalInfoFields').disabled = true;
+        } else {
+            //if no
+            alert("You canceled!");
+        }
+    }
 
 //call the function to run it 
 populateUserInfo();

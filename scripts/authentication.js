@@ -13,7 +13,7 @@ var uiConfig = {
                  name: user.displayName,                    //"users" collection
                  email: user.email,                         //with authenticated user's ID (user.uid)
                  city: "",                      //optional default profile info      
-                 contactInfo: "",                          //optional default profile info
+                 phoneNumber: "",                          //optional default profile info
           }).then(function () {
                  console.log("New user added to firestore");
                  window.location.assign("main.html");       //re-direct to main.html after signup
@@ -27,8 +27,6 @@ var uiConfig = {
     },
     uiShown: function() {
       // The widget is rendered.
-      // Hide the loader.
-      document.getElementById('loader').style.display = 'none';
     }
   },
   // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
