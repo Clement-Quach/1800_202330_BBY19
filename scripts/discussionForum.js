@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Retrieve the title data from Firestore and update the link text
     
     db.collection('discussionSubmission')
-      .doc('BV8xTnFP7J8yPfEUUrr5')
+      .doc('BV8xTnFP7J8yPfEUUrr5') // Replace 'yourDocumentId' with the actual document ID
       .get()
       .then((doc) => {
         if (doc.exists) {
@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
           // Update the text content of the <a> element with the fetched title
           discussionLink.textContent = title;
+          discussionLink2.textContent = title;
           detailsParagraph.textContent = details;
           nameLink.textContent = name;
           
