@@ -198,10 +198,10 @@ function ticketSubmit() {
 
     if (imageInput) {
         uploadPic(submissionID, imageInput)
-            .then(url => {
-                // Perform additional operations after obtaining the download URL
-                return someAdditionalOperation();
-            })
+            // .then(url => {
+            //     // Perform additional operations after obtaining the download URL
+            //     return someAdditionalOperation();
+            // })
             .then(() => {
                 // Update the collection to include "image" : url
                 return newSubmissionRef.update({ image: url });
@@ -257,7 +257,6 @@ function ticketSubmit() {
 
     addRowToTable('ticketTable', ticketDetails);
 }
-
 
 // Function to format timestamp
 function formatTimestamp(timestamp) {
