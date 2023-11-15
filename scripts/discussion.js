@@ -1,5 +1,23 @@
 var ticketsArray = [];
 
+function generateTicketNumber(){
+    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZ";
+    let nums = "0123456789";
+    let string_length = 3;
+    let number_length = 2;
+    let randomstring = '';
+    let randomnumber = '';
+    for (let i=0; i<string_length; i++) {
+        let rnum = Math.floor(Math.random() * chars.length);
+        randomstring += chars.substring(rnum,rnum+1);
+    }
+    for (let i=0; i<number_length; i++) {
+        let r = Math.floor(Math.random() * nums.length);
+        randomnumber += nums.substring(r,r+1);
+    }
+    return  (randomstring + randomnumber);
+}
+
 function newTicket() {
 
     var createButton = document.getElementById("outerDiv");
@@ -10,7 +28,7 @@ function newTicket() {
 
     resetNewTicketDiv();
     let outerDiv = document.getElementById("outerDiv");
-    outerDiv.className = 'container';
+    outerDiv.className = 'container';   
     let div = document.createElement('div');
     div.className = 'jumbotron';
     div.style.backgroundColor = "#498FF0"; // Use backgroundColor to set the background color
@@ -149,96 +167,144 @@ function newTicket() {
     form.appendChild(divMessage);
     form.appendChild(divImage);
     form.appendChild(divSubmit);
-    form.appendChild(divStatus);
     document.body.appendChild(outerDiv);
 }
 
-function addRowToTable(tableId, rowData) {
-    const tableBody = document.getElementById("ticketTableBody");
-    const newRow = document.createElement('tr');
-
-    newRow.innerHTML = `
-        <td>${rowData.ticketNumber}</td>
-        <td>${rowData.title}</td>
-        <td>${rowData.concern}</td>
-        <td>${rowData.name}</td>
-        <td>${rowData.action}</td>
-    `;
-
-    tableBody.appendChild(newRow);
-}
-
 function ticketSubmit() {
-    let ticketNumber = generateTicketNumber();
-    let ticketTitle = document.getElementById("ticketName").value;
-    let ticketConcern = document.getElementById("choseConcern").value;
-    let ticketProblemDetails = document.getElementById("inputText").value;
-    let ticketName = document.getElementById("name").value;
-    let imageAttachment = document.getElementById("imageAttachment").files[0];
-    // Handle the image attachment here, you can use the File API to upload it to a server or process it in any other way.
+    // Get the current user ID
+    const userID = firebase.auth().currentUser.uid;
+
+    // Get the current timestamp
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+
+    // Create a unique submission ID
+    const submissionID = firebase.firestore().collection('discussionSubmissions').doc().id;
 
     let ticketDetails = {
-        ticketNumber: ticketNumber,
-        title: ticketTitle,
-        concern: ticketConcern,
-        details: ticketProblemDetails,
-        name: ticketName,
-        action: 'In progress'
-        // image: Handle the image attachment here,
+        ticketNumber: generateTicketNumber(),
+        title: document.getElementById("ticketName").value,
+        concern: document.getElementById("choseConcern").value,
+        details: document.getElementById("inputText").value,
+        name: document.getElementById("name").value,
+        action: 'New',
+        userID: userID,
+        timestamp: timestamp,
+        documentSubmissionID: submissionID,
     };
-    const db = firebase.firestore();
-    const submissionsRef = db.collection('discussionSubmission');
-    const newSubmissionRef = submissionsRef.doc();
 
-    // Store the form submission data in Firebase
-    newSubmissionRef.set(ticketDetails)
-        .then(() => {
-            window.location.href = "discussionThanks.html";
-            // Reset the form
-            resetNewTicketDiv();
+    const newSubmissionRef = firebase.firestore().collection('discussionSubmissions').doc(submissionID);
 
-            // Display confirmation message or redirect to the table page
-        })
-        .catch(error => {
-            console.error('Error storing data in Firebase: ', error);
-        });
+    let imageInput = document.getElementById('imageAttachment').files[0];
+
+    if (imageInput) {
+        uploadPic(submissionID, imageInput)
+            .then(url => {
+                // Perform additional operations after obtaining the download URL
+                return someAdditionalOperation();
+            })
+            .then(() => {
+                // Update the collection to include "image" : url
+                return newSubmissionRef.update({ image: url });
+            })
+            .then(() => {
+                // Associate the documentSubmissionID with the user
+                const userRef = firebase.firestore().collection('users').doc(userID);
+                return userRef.update({
+                    userSubmissions: firebase.firestore.FieldValue.arrayUnion(submissionID)
+                });
+            })
+            .then(() => {
+                // Display formatted time
+                return newSubmissionRef.get(); // Fetch the document with the updated timestamp
+            })
+            .then(doc => {
+                const formattedTime = formatTimestamp(doc.data().timestamp);
+                console.log('Submission time:', formattedTime);
+
+                window.location.href = "discussionThanks.html";
+                // Reset the form
+                resetNewTicketDiv();
+            })
+            .catch(error => {
+                console.error('Error: ', error);
+            });
+    } else {
+        // If no image is selected, proceed with other data
+        newSubmissionRef.set(ticketDetails)
+            .then(() => {
+                // Associate the documentSubmissionID with the user
+                const userRef = firebase.firestore().collection('users').doc(userID);
+                return userRef.update({
+                    userSubmissions: firebase.firestore.FieldValue.arrayUnion(submissionID)
+                });
+            })
+            .then(() => {
+                // Display formatted time
+                return newSubmissionRef.get(); // Fetch the document with the original timestamp
+            })
+            .then(doc => {
+                const formattedTime = formatTimestamp(doc.data().timestamp);
+                console.log('Submission time:', formattedTime);
+
+                window.location.href = "discussionThanks.html";
+                // Reset the form
+                resetNewTicketDiv();
+            })
+            .catch(error => {
+                console.error('Error: ', error);
+            });
+    }
 
     addRowToTable('ticketTable', ticketDetails);
+}
 
-    // Push the ticket details to Firebase
-    ref.push(ticketDetails);
+
+// Function to format timestamp
+function formatTimestamp(timestamp) {
+    const date = timestamp.toDate(); // Convert Firebase timestamp to JavaScript Date object
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+}
+
+// Modify the uploadPic function to accept the submissionID and imageInput
+function uploadPic(submissionID, imageInput) {
+    console.log("inside uploadPic " + submissionID);
+    var storageRef = storage.ref("images/" + submissionID + ".jpg");
+
+    return storageRef.put(imageInput)
+        .then(() => {
+            console.log('2. Uploaded to Cloud Storage.');
+            return storageRef.getDownloadURL();
+        })
+        .then(url => {
+            console.log("3. Got the download URL.");
+            // Save the URL into discussionSubmissions collection
+            return db.collection("discussionSubmissions").doc(submissionID).update({
+                "image": url
+            });
+        })
+        .then(() => {
+            console.log('4. Added pic URL to Firestore.');
+            // Return the download URL for further use in the ticketSubmit function
+            return url;
+        })
+        .catch(error => {
+            console.log("error uploading to cloud storage", error);
+            throw error; // Rethrow the error to be caught in the ticketSubmit function
+        });
 }
 
 // Add an event listener to the "SUBMIT" button to call the ticketSubmit function
-let divSubmit = document.querySelector('.btn-success');
-divSubmit.addEventListener("click", ticketSubmit);
+document.addEventListener('DOMContentLoaded', function () {
+    let divSubmit = document.querySelector('.btn-success');
+    if (divSubmit) {
+        divSubmit.addEventListener("click", ticketSubmit);
+    }
+});
 
-function generateTicketNumber(){
-    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZ";
-    let nums = "0123456789";
-    let string_length = 3;
-    let number_length = 2;
-    let randomstring = '';
-    let randomnumber = '';
-    for (let i=0; i<string_length; i++) {
-        let rnum = Math.floor(Math.random() * chars.length);
-        randomstring += chars.substring(rnum,rnum+1);
-    }
-    for (let i=0; i<number_length; i++) {
-        let r = Math.floor(Math.random() * nums.length);
-        randomnumber += nums.substring(r,r+1);
-    }
-    return  (randomstring + randomnumber);
-}
 
 function resetNewTicketDiv() {
     let newOuterDiv = document.getElementById("outerDiv");
     newOuterDiv.style.color = "";
     newOuterDiv.innerHTML = "";
-}
-
-function randomTableColor(){
-    let x = Math.floor(Math.random()*5);
-     let colors = ["table-primary","table-success","table-danger","table-info","table-warning","table-light"];
-              return colors[x];
-}
+}   

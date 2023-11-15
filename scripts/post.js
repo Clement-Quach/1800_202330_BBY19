@@ -1,5 +1,3 @@
-var ticketsArray = [];
-
 function newTicket() {
     
     var createButton = document.getElementById("outerDiv");
@@ -7,6 +5,13 @@ function newTicket() {
     createButton.addEventListener("click", () => {
         createButton.classList.add("ticket-form-appear");
     })
+    
+    
+    const createPostButton = document.getElementById('createPostButton');
+    const postForm = document.getElementsByClassName('outerDiv');
+    if (createPostButton) {
+        createPostButton.style.display = 'none';
+    }
     
     resetNewTicketDiv();
     let outerDiv = document.getElementById("outerDiv");
@@ -16,24 +21,18 @@ function newTicket() {
     div.style.backgroundColor = "#3B3A38"; // Use backgroundColor to set the background color
     let form = document.createElement('form');
     form.id = 'newTicketForm';
-    form.innerHTML = '<h1>Create a ticket</h1>'; // Close the h1 tag
+    form.innerHTML = '<h1>Create a post</h1>';
     form.scrollIntoView();
     let divTitle = document.createElement('div');
     divTitle.className = 'form-group';
     let labelTitle = document.createElement('label');
     labelTitle.className = 'form-group';
     labelTitle.innerHTML = 'Title';
-    labelTitle.htmlFor = 'ticketName'; // Use htmlFor to associate the label with the input
+    labelTitle.htmlFor = 'ticketName';
     let title = document.createElement("input");
     title.type = 'text';
     title.className = 'form-control';
     title.id = 'ticketName';
-
-    const createPostButton = document.getElementById('createPostButton');
-    const postForm = document.getElementsByClassName('outerDiv');
-    if (createPostButton) {
-        createPostButton.style.display = 'none';
-    }
 
     let divLocation = document.createElement('div');
     divLocation.className = 'form-group';
@@ -197,6 +196,16 @@ function addRowToTable(tableId, rowData) {
 }
 
 function ticketSubmit() {
+    // Get the current user ID
+    const userID = firebase.auth().currentUser.uid;
+
+    // Get the current timestamp
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+
+    // Create a unique formSubmissionID
+    const formSubmissionID = firebase.firestore().collection('formSubmissions').doc().id;
+
+    // Retrieve form values
     let ticketNumber = generateTicketNumber();
     let ticketTitle = document.getElementById("ticketName").value;
     let ticketConcern = document.getElementById("choseConcern").value;
@@ -205,8 +214,7 @@ function ticketSubmit() {
     let ticketName = document.getElementById("name").value;
     let imageAttachment = document.getElementById("imageAttachment").files[0];
 
-    // Handle the image attachment here, you can use the File API to upload it to a server or process it in any other way.
-
+    // Create ticketDetails object
     let ticketDetails = {
         ticketNumber: ticketNumber,
         title: ticketTitle,
@@ -214,22 +222,29 @@ function ticketSubmit() {
         priority: ticketPriority,
         details: ticketProblemDetails,
         name: ticketName,
-        action: 'In progress'
-        // image: Handle the image attachment here,
+        action: 'In progress',
+        userID: userID,
+        timestamp: timestamp,
+        formSubmissionID: formSubmissionID, // Link formSubmissionID to user
     };
-    const db = firebase.firestore();
-    const submissionsRef = db.collection('formSubmissions');
-    const newSubmissionRef = submissionsRef.doc();
+
+    // Reference to the formSubmissions collection
+    const formSubmissionsRef = firebase.firestore().collection('formSubmissions').doc(formSubmissionID);
 
     // Store the form submission data in Firebase
-    newSubmissionRef.set(ticketDetails)
+    formSubmissionsRef.set(ticketDetails)
         .then(() => {
-            // redirect to thank you
+            // Update the user document with the formSubmissionID
+            const userRef = firebase.firestore().collection('users').doc(userID);
+            return userRef.update({
+                userPosts: firebase.firestore.FieldValue.arrayUnion(formSubmissionID)
+            });
+        })
+        .then(() => {
+            // Redirect to thank you
             window.location.href = "postThanks.html";
             // Reset the form
             resetNewTicketDiv();
-
-            // Display confirmation message or redirect to the table page
         })
         .catch(error => {
             console.error('Error storing data in Firebase: ', error);
@@ -240,10 +255,8 @@ function ticketSubmit() {
     newOuterDiv.style.color = "black";
     newOuterDiv.innerHTML = "<h1>Submitted!</h1>";
 
+    // Add row to the ticket table
     addRowToTable('ticketTable', ticketDetails);
-
-    // Push the ticket details to Firebase
-    ref.push(ticketDetails);
 }
 
 // Add an event listener to the "SUBMIT" button to call the ticketSubmit function

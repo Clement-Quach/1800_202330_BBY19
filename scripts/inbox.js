@@ -1,9 +1,11 @@
-// Define a function to retrieve and display Firestore data
-function displayFirestoreData() {
+// Define a function to retrieve and display Firestore data for a specific user
+function displayFirestoreData(userID) {
     const tableBody = document.getElementById('ticketTableBody');
 
-    // Retrieve form submission data from Firestore
-    db.collection('formSubmissions').get()
+    // Retrieve form submission data from Firestore based on the user ID
+    db.collection('formSubmissions')
+        .where('userID', '==', userID) // Add this line to filter by user ID
+        .get()
         .then(querySnapshot => {
             tableBody.innerHTML = ''; // Clear any previous data
 
@@ -27,4 +29,10 @@ function displayFirestoreData() {
 
 // Add an event listener to the "Fetch Data" button to call the function when clicked
 const fetchDataButton = document.getElementById('fetchDataButton');
-fetchDataButton.addEventListener('click', displayFirestoreData);
+fetchDataButton.addEventListener('click', () => {
+    // Get the current user ID
+    const userID = firebase.auth().currentUser.uid;
+
+    // Call the function with the user ID
+    displayFirestoreData(userID);
+});
