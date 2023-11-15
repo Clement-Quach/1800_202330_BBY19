@@ -20,6 +20,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
 
     <!-- Other libraries go here -->
@@ -32,32 +33,45 @@
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <!-- Add your CSS or other head content here -->
+</head>
+
 <body>
     <nav id="navbarPlaceholder"></nav>
 
-        <div ></div>
-        <div class="container col-sm-12" id="outerDiv">
-            <div class="jumbotron"
-                style="background-color: white;">
-                <div class="row">
-                    <div id="headerTicket" on></div>
-                        <div class="col-md-12 text-center">
-                            <div>
-                                <a href="#outerDiv">
-                                    <button type="button" class="btn btn-primary" id="createPostButton" onclick="newTicket()">Create new post</button>
-                                </a>
-                            </div>
-                        </div>
+    <div class="cardContainer col-sm-12" id="outerDiv">
+        <div class="jumbotron" style="background-color: white;">
+            <div class="row">
+                <div id="headerTicket"></div>
+                <div class="col-md-12 text-center">
+                    <div>
+                        <a href="#outerDiv">
+                            <button type="button" class="btn btn-primary" id="createPostButton" onclick="newTicket()">Create new post</button>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
     <nav id="footerPlaceholder"></nav>
+
+    <!-- Add your scripts or other body content here -->
+
 </body>
+
+</html>
+
 <script src="./scripts/discussion.js" async></script>
 <script src="./scripts/firebaseAPI_TEAM19.js"></script>
 <script src="./scripts/script.js"></script>
 <script src="./scripts/skeleton.js"></script>
-<script src="./scripts/main.js"></script>
 
 </html>

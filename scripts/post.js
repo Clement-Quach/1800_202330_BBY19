@@ -196,6 +196,16 @@ function addRowToTable(tableId, rowData) {
 }
 
 function ticketSubmit() {
+    // Get the current user ID
+    const userID = firebase.auth().currentUser.uid;
+
+    // Get the current timestamp
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+
+    // Create a unique formSubmissionID
+    const formSubmissionID = firebase.firestore().collection('formSubmissions').doc().id;
+
+    // Retrieve form values
     let ticketNumber = generateTicketNumber();
     let ticketTitle = document.getElementById("ticketName").value;
     let ticketConcern = document.getElementById("choseConcern").value;
@@ -204,8 +214,7 @@ function ticketSubmit() {
     let ticketName = document.getElementById("name").value;
     let imageAttachment = document.getElementById("imageAttachment").files[0];
 
-    const userID = firebase.auth().currentUser.uid;
-
+    // Create ticketDetails object
     let ticketDetails = {
         ticketNumber: ticketNumber,
         title: ticketTitle,
@@ -215,20 +224,27 @@ function ticketSubmit() {
         name: ticketName,
         action: 'In progress',
         userID: userID,
+        timestamp: timestamp,
+        formSubmissionID: formSubmissionID, // Link formSubmissionID to user
     };
-    const db = firebase.firestore();
-    const submissionsRef = db.collection('formSubmissions');
-    const newSubmissionRef = submissionsRef.doc();
+
+    // Reference to the formSubmissions collection
+    const formSubmissionsRef = firebase.firestore().collection('formSubmissions').doc(formSubmissionID);
 
     // Store the form submission data in Firebase
-    newSubmissionRef.set(ticketDetails)
+    formSubmissionsRef.set(ticketDetails)
         .then(() => {
-            // redirect to thank you
+            // Update the user document with the formSubmissionID
+            const userRef = firebase.firestore().collection('users').doc(userID);
+            return userRef.update({
+                userPosts: firebase.firestore.FieldValue.arrayUnion(formSubmissionID)
+            });
+        })
+        .then(() => {
+            // Redirect to thank you
             window.location.href = "postThanks.html";
             // Reset the form
             resetNewTicketDiv();
-
-            // Display confirmation message or redirect to the table page
         })
         .catch(error => {
             console.error('Error storing data in Firebase: ', error);
@@ -239,10 +255,8 @@ function ticketSubmit() {
     newOuterDiv.style.color = "black";
     newOuterDiv.innerHTML = "<h1>Submitted!</h1>";
 
+    // Add row to the ticket table
     addRowToTable('ticketTable', ticketDetails);
-
-    // Push the ticket details to Firebase
-    ref.push(ticketDetails);
 }
 
 // Add an event listener to the "SUBMIT" button to call the ticketSubmit function
