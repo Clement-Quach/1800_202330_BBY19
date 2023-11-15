@@ -15,7 +15,7 @@ function populateUserInfo() {
                             var userName = userDoc.data().name;
                             var userCity = userDoc.data().city;
                             var userPhone = userDoc.data().phoneNumber;
-                            var userEmail = userDoc.data().email;
+                            var userEmail = userDoc.data().userPreferedContactEmail;
 
 
                             //if the data fields are not empty, then write them in to the form.
@@ -54,7 +54,7 @@ function saveUserInfo() {
         userName = document.getElementById('nameInput').value;       //get the value of the field with id="nameInput"
         userCity = document.getElementById('cityInput').value;       //get the value of the field with id="cityInput"
         userPhone = document.getElementById('phoneInput').value;
-
+        userContactEmail = document.getElementById('emailInput').value;
         text = `Are you sure you want to change the information below?`
 
         if (confirm(text) == true) {
@@ -63,6 +63,7 @@ function saveUserInfo() {
                 name: userName,
                 city: userCity,
                 phoneNumber: userPhone,
+                userPreferedContactEmail: userContactEmail 
     
             })
             .then(() => {

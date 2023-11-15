@@ -6,29 +6,34 @@ function fetchDataAndDisplay() {
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-
         // Create HTML elements based on the data
         const dataElement = document.createElement('div');
         dataElement.className = 'card';
 
+
         const title = data.title;
         const details = data.details;
         const name = data.name;
+        const time = data.timestamp;
 
         dataElement.innerHTML = `
           <div class="card-header">
-            <img src="${data.imageURL}" alt="${data.title}" />
           </div>
           <div class="card-body">
             <span class="tag tag-teal" id="title">${data.action}</span>
             <h4 id="details">${data.title}</h4>
             <p>${data.details}</p>
             <div class="user">
-              <img src="${data.userImage}" alt="user" />
               <div class="user-info">
                 <h5 id="name">${name}</h5>
-                <small id="timestamp">${data.timestamp}</small>
+                <small id="timestamp">${time}</small>
               </div>
+              <div>
+              <span id="likeCount">Likes: ${data.likes || 0}</span>
+              <div>
+              <button onclick="likePost('${doc.id}', '${data.likes || 0}')">Like</button>
+              <button onclick="likePost('${doc.id}', '${data.likes || 0}')">Dislike</button>
+             
             </div>
           </div>
         `;
@@ -41,5 +46,29 @@ function fetchDataAndDisplay() {
       console.error('Error reading Firestore data:', error);
     });
 }
+fetchDataAndDisplay();
+                    //go to the correct user document by referencing to the user uid
+                    currentUser = db.collection("users").doc(user.id)
 
-document.getElementById('fetchDataButton').addEventListener('click', fetchDataAndDisplay);
+function likePost(docId, currentLikes) {
+    const dataContainer = document.getElementById('dataContainer');
+                        //enter code here
+                    
+                        const userID = firebase.auth().currentUser.uid;
+                        //a) get user entered values
+                        const userName = firebase.firestore().collection('users').doc(userID);
+
+
+
+                        db.collection('discussionSubmissions').doc(docId).update({
+                          
+                            likes: parseInt(currentLikes) +1,
+                            likedBy: firebase.firestore.FieldValue.arrayUnion(userName),
+                           
+                        
+                        }) .then(() => {
+                          console.log("Document successfully updated!");
+                      })}
+                     
+                    
+                    
