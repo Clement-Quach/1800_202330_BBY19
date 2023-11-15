@@ -16,7 +16,7 @@ function newTicket() {
     div.style.backgroundColor = "#3B3A38"; // Use backgroundColor to set the background color
     let form = document.createElement('form');
     form.id = 'newTicketForm';
-    form.innerHTML = '<h1>Create a post</h1>'; // Close the h1 tag
+    form.innerHTML = '<h1>Create a ticket</h1>'; // Close the h1 tag
     form.scrollIntoView();
     let divTitle = document.createElement('div');
     divTitle.className = 'form-group';

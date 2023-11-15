@@ -4,24 +4,44 @@
     grid-template-columns: auto auto;
     justify-content: space-evenly;
   }
-
+  
   #welcome-paragraph {
     margin-left: 12%;
   }
 }
 
-
-@media screen and (max-width: 585px) {
+@media screen and (min-width: 586px) and (max-width: 989px){
   #navbar-top {
     display: grid;
     grid-template-columns: auto auto;
     justify-content: space-evenly;
   }
+  
+  .navbar-collapse {
+    grid-column: span 2;
+  }
 
+  .navbar-brand img {
+    min-width:30%;
+  }
+
+  .dropdown-menu {
+    margin-bottom: 1rem;
+  }
 }
 
 body {
   background-color: #f1f1f173;
+}
+
+#navbar-top {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-evenly;
+}
+
+.navbar-brand img {
+  width: 50%;
 }
 
 .bg-light {
