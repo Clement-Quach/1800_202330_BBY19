@@ -1,8 +1,21 @@
+@media screen and (min-width: 990px) {
+  .main {
+    margin-bottom: 5rem;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .main {
+    margin-bottom: 2rem;
+  }
+}
+
 .main {
   background-color: rgba(242, 241, 241, 0.876);
   height: 100vh;
   padding: 1%;
 }
+
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
