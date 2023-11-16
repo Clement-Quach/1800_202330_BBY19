@@ -59,7 +59,7 @@ html, body {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  min-height: 250px;
+  min-height: fit-content;
 }
 
 .card-body div {

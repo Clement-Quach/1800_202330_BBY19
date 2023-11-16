@@ -1,0 +1,7 @@
+.image-preview-container {
+    border: 1px solid black;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    width:min-content;
+    margin-bottom: 20px;
+    display:block;
+}

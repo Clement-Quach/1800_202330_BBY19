@@ -145,9 +145,21 @@ function newTicket() {
     imageInput.type = 'file';
     imageInput.id = 'imageAttachment';
     imageInput.className = 'form-control-file';
+    // Add an event listener to the image input to trigger image preview
+    imageInput.addEventListener('change', previewImage);
+
+    // Create an image element for preview
+    let imagePreview = document.createElement('img');
+    imagePreview.id = 'preview-selected-image';
+    imagePreview.style.display = 'none'; // Initially hide the image preview
+
+    let divImagePreview = document.createElement('div');
+    divImagePreview.className = 'image-preview-container';
 
     divImage.appendChild(labelImage);
     divImage.appendChild(imageInput);
+    divImage.appendChild(imagePreview);
+    divImagePreview.appendChild(imagePreview);
 
     let divStatus = document.createElement('div');
     divStatus.id = 'status';
@@ -166,6 +178,7 @@ function newTicket() {
     form.appendChild(divConcern);
     form.appendChild(divMessage);
     form.appendChild(divImage);
+    form.appendChild(divImagePreview);
     form.appendChild(divSubmit);
     document.body.appendChild(outerDiv);
 }
@@ -214,12 +227,12 @@ function ticketSubmit() {
                 });
             })
             .then(() => {
-                return newSubmissionRef.get();
+                return formSubmissionRef.get(); // Change this line to use formSubmissionsRef instead of formSubmissionRef
             })
             .then(doc => {
                 const formattedTime = formatTimestamp(doc.data().timestamp);
                 console.log('Submission time:', formattedTime);
-                window.location.href = "discussionThanks.html";
+                window.location.href = "postThanks.html";
                 resetNewTicketDiv();
             })
             .catch(error => {
@@ -277,3 +290,14 @@ function resetNewTicketDiv() {
     newOuterDiv.style.color = "";
     newOuterDiv.innerHTML = "";
 }   
+
+const previewImage = (event) => {
+    const imageFiles = event.target.files;
+    const imageFilesLength = imageFiles.length;
+    if (imageFilesLength > 0) {
+        const imageSrc = URL.createObjectURL(imageFiles[0]);
+        const imagePreviewElement = document.querySelector("#preview-selected-image");
+        imagePreviewElement.src = imageSrc;
+        imagePreviewElement.style.display = "block";
+    }
+};
