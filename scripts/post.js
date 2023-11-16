@@ -1,3 +1,14 @@
+const previewImage = (event) => {
+    const imageFiles = event.target.files;
+    const imageFilesLength = imageFiles.length;
+    if (imageFilesLength > 0) {
+        const imageSrc = URL.createObjectURL(imageFiles[0]);
+        const imagePreviewElement = document.querySelector("#preview-selected-image");
+        imagePreviewElement.src = imageSrc;
+        imagePreviewElement.style.display = "block";
+    }
+};
+
 function newTicket() {
     
     var createButton = document.getElementById("outerDiv");
@@ -140,6 +151,23 @@ function newTicket() {
     nameInput.type = 'text';
     nameInput.className = 'form-control';
     nameInput.id = 'name';
+    firebase.auth().onAuthStateChanged(user => {
+        // Check if user is signed in:
+        if (user) {
+            //go to the correct user document by referencing to the user uid
+            currentUser = db.collection("users").doc(user.uid);
+            //get the document for current user.
+            currentUser.get().then(userDoc => {
+                    //get the data fields of the user
+
+                    var userName = userDoc.data().name;
+                    nameInput.value = userName;
+            })
+        } else {
+            // No user is signed in.
+            console.log ("No user is signed in");
+        }
+    });
 
     divName.appendChild(labelName);
     divName.appendChild(nameInput);
@@ -152,9 +180,21 @@ function newTicket() {
     imageInput.type = 'file';
     imageInput.id = 'imageAttachment';
     imageInput.className = 'form-control-file';
+    // Add an event listener to the image input to trigger image preview
+    imageInput.addEventListener('change', previewImage);
+
+    // Create an image element for preview
+    let imagePreview = document.createElement('img');
+    imagePreview.id = 'preview-selected-image';
+    imagePreview.style.display = 'none'; // Initially hide the image preview
+
+    let divImagePreview = document.createElement('div');
+    divImagePreview.className = 'image-preview-container';
 
     divImage.appendChild(labelImage);
     divImage.appendChild(imageInput);
+    divImage.appendChild(imagePreview);
+    divImagePreview.appendChild(imagePreview);
 
     let divStatus = document.createElement('div');
     divStatus.id = 'status';
@@ -174,6 +214,7 @@ function newTicket() {
     form.appendChild(divPriority);
     form.appendChild(divMessage);
     form.appendChild(divImage);
+    form.appendChild(divImagePreview);
     form.appendChild(divSubmit);
     form.appendChild(divStatus);
     document.body.appendChild(outerDiv);
