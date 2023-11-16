@@ -16,6 +16,9 @@ function fetchDataAndDisplay() {
           <div class="card-header">
           </div>
           <div class="card-body">
+          <div class="card-header">
+              <img src="${data.image}" alt="${data.title}" />
+          </div> 
             <span class="tag tag-teal" id="title">${data.action}</span>
             <h4 id="details">${data.title}</h4>
             <p>${data.details}</p>
