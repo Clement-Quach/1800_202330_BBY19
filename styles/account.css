@@ -1,5 +1,13 @@
-.main {
-  margin-bottom: 30%;
+@media screen and (min-width: 900px) {
+  .main {
+    margin-bottom: 10%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .main {
+    margin-bottom: 10%;
+  }
 }
 
 body {

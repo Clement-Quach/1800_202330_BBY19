@@ -27,12 +27,11 @@ function fetchDataAndDisplay() {
                 <h5 id="name">${data.name}</h5>
                 <small id="timestamp">${time.toDate()}</small>
               </div>
-              <div>
-              <span id="likeCount">Likes: ${data.likes || 0}</span>
-              <div>
-              <button onclick="likePost('${doc.id}', '${data.likes || 0}')">Like</button>
-              <button onclick="DislikePost('${doc.id}', '${data.likes || 0}')">Dislike</button>
-             
+              <div id="like-section">
+                <span id="likeCount">Likes: ${data.likes || 0}</span>
+                <button src="../images/like-button.png" id="like-image" onclick="likePost('${doc.id}', '${data.likes || 0}')">Like</button>
+                <button onclick="DislikePost('${doc.id}', '${data.likes || 0}')">Dislike</button>
+              </div>
             </div>
           </div>
         `;

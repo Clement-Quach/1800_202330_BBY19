@@ -20,6 +20,7 @@ html, body {
 @media screen and (max-width: 500px) {
   #dataContainer {
     margin-bottom: 5rem;
+    gap: 1rem;
   }
 }
 
@@ -85,6 +86,23 @@ html, body {
 }
 .tag-pink {
   background-color: #cd5b9f;
+}
+
+#like-section {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 2%;
+  margin-left: 2rem;
+  text-align: center;
+  align-items: center;
+}
+
+#likeCount {
+  grid-column: span 2;
+}
+
+.like-image {
+  width: 30%;
 }
 
 .card-body p {
