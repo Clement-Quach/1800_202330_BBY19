@@ -15,7 +15,6 @@ function populateUserInfo() {
                             var userPhone = userDoc.data().phoneNumber;
                             var userEmail = userDoc.data().email;
 
-
                             //if the data fields are not empty, then write them in to the form.
                             if (userName != null) {
                                 document.getElementById("nameInput").value = userName;

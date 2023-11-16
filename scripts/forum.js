@@ -20,12 +20,13 @@ function fetchDataAndDisplay() {
               <div class="user-info">
                 <h5 id="name">${data.name}</h5>
                 <small id="timestamp">${data.timestamp.toDate()}</small>
-                <button onclick="likePost('${doc.id}', '${data.likes || 0}')">Like</button>
+                <button id="likeButton" src="../images/like-button.png" onclick="likePost('${doc.id}', '${data.likes || 0}')"></button>
                 <span id="likeCount">Likes: ${data.likes || 0}</span>
               </div>
             </div>
           </div>
         `;
+
 
         // Append the HTML to the container
         dataContainer.appendChild(dataElement);
@@ -36,6 +37,7 @@ function fetchDataAndDisplay() {
     });
 }
 // document.getElementById('fetchDataButton').addEventListener('click', fetchDataAndDisplay);
+
 
 function likePost(docId, currentLikes) {
   const dataContainer = document.getElementById('dataContainer');

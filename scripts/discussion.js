@@ -170,6 +170,11 @@ function newTicket() {
     document.body.appendChild(outerDiv);
 }
 
+newTicket();
+
+outerDiv.style.marginBottom = '5rem';
+outerDiv.style.padding = '2rem';
+
 function ticketSubmit() {
     // Get the current user ID
     const userID = firebase.auth().currentUser.uid;

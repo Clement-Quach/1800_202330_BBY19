@@ -32,7 +32,23 @@ const fetchDataButton = document.getElementById('fetchDataButton');
 fetchDataButton.addEventListener('click', () => {
     // Get the current user ID
     const userID = firebase.auth().currentUser.uid;
-
+    console.log(userID);
     // Call the function with the user ID
     displayFirestoreData(userID);
 });
+
+// document.addEventListener('DOMContentLoaded', () => {
+//     // Get the current user ID
+//     firebase.auth().onAuthStateChanged(user => {
+//         // Check if user is signed in:
+//         if (user) {
+//             //go to the correct user document by referencing to the user uid
+//             currentUser = db.collection("users").doc(user.uid);
+//             // Call the function with the user ID
+//             console.log(currentUser);
+//             displayFirestoreData(currentUser);
+//         } else {
+//             console.log("Not found");
+//         }
+//     });
+// });

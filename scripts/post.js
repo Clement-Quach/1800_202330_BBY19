@@ -179,6 +179,12 @@ function newTicket() {
     document.body.appendChild(outerDiv);
 }
 
+newTicket();
+
+outerDiv.style.marginBottom = '5rem';
+outerDiv.style.padding = '2rem';
+
+
 function addRowToTable(tableId, rowData) {
     const tableBody = document.getElementById("ticketTableBody");
     const newRow = document.createElement('tr');
