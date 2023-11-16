@@ -13,6 +13,9 @@ function fetchDataAndDisplay() {
 
         dataElement.innerHTML = `
           <div class="card-body">
+          <div class="card-header">
+              <img src="${data.image}" alt="${data.title}" />
+          </div> 
             <span class="tag tag-teal" id="title">${data.action}</span>
             <h4 id="details">${data.title}</h4>
             <p>${data.details}</p>
@@ -57,8 +60,8 @@ function likePost(docId, currentLikes) {
 fetchDataAndDisplay();
 // Below is the image header and user image for dataElement.innerHTML
 
-{/* <div class="card-header">
-<img src="${data.imageURL}" alt="${data.title}" />
-</div> */}
+// {/* <div class="card-header">
+// <img src="${data.imageURL}" alt="${data.title}" />
+// </div> */}
 
 {/* <img src="${data.userImage}" alt="user" /> */}

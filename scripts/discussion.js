@@ -170,14 +170,15 @@ function newTicket() {
     document.body.appendChild(outerDiv);
 }
 
+function formatTimestamp(timestamp) {
+    const date = timestamp.toDate(); // Convert Firebase timestamp to JavaScript Date object
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+}
+
 function ticketSubmit() {
-    // Get the current user ID
     const userID = firebase.auth().currentUser.uid;
-
-    // Get the current timestamp
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-
-    // Create a unique submission ID
     const submissionID = firebase.firestore().collection('discussionSubmissions').doc().id;
 
     let ticketDetails = {
@@ -193,105 +194,69 @@ function ticketSubmit() {
     };
 
     const newSubmissionRef = firebase.firestore().collection('discussionSubmissions').doc(submissionID);
-
     let imageInput = document.getElementById('imageAttachment').files[0];
 
     if (imageInput) {
         uploadPic(submissionID, imageInput)
-            // .then(url => {
-            //     // Perform additional operations after obtaining the download URL
-            //     return someAdditionalOperation();
-            // })
-            .then(() => {
-                // Update the collection to include "image" : url
-                return newSubmissionRef.update({ image: url });
+            .then(url => {
+                ticketDetails.image = url; // Add the image URL to ticketDetails object
+                return newSubmissionRef.set(ticketDetails); // Create the submission with image URL
             })
             .then(() => {
-                // Associate the documentSubmissionID with the user
                 const userRef = firebase.firestore().collection('users').doc(userID);
                 return userRef.update({
                     userSubmissions: firebase.firestore.FieldValue.arrayUnion(submissionID)
                 });
             })
             .then(() => {
-                // Display formatted time
-                return newSubmissionRef.get(); // Fetch the document with the updated timestamp
+                return newSubmissionRef.get();
             })
             .then(doc => {
                 const formattedTime = formatTimestamp(doc.data().timestamp);
                 console.log('Submission time:', formattedTime);
-
                 window.location.href = "discussionThanks.html";
-                // Reset the form
                 resetNewTicketDiv();
             })
             .catch(error => {
                 console.error('Error: ', error);
             });
     } else {
-        // If no image is selected, proceed with other data
         newSubmissionRef.set(ticketDetails)
             .then(() => {
-                // Associate the documentSubmissionID with the user
                 const userRef = firebase.firestore().collection('users').doc(userID);
                 return userRef.update({
                     userSubmissions: firebase.firestore.FieldValue.arrayUnion(submissionID)
                 });
             })
             .then(() => {
-                // Display formatted time
-                return newSubmissionRef.get(); // Fetch the document with the original timestamp
+                return newSubmissionRef.get();
             })
             .then(doc => {
                 const formattedTime = formatTimestamp(doc.data().timestamp);
                 console.log('Submission time:', formattedTime);
-
                 window.location.href = "discussionThanks.html";
-                // Reset the form
                 resetNewTicketDiv();
             })
             .catch(error => {
                 console.error('Error: ', error);
             });
     }
-
-    addRowToTable('ticketTable', ticketDetails);
 }
 
-// Function to format timestamp
-function formatTimestamp(timestamp) {
-    const date = timestamp.toDate(); // Convert Firebase timestamp to JavaScript Date object
-    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
-    return new Intl.DateTimeFormat('en-US', options).format(date);
-}
-
-// Modify the uploadPic function to accept the submissionID and imageInput
 function uploadPic(submissionID, imageInput) {
-    console.log("inside uploadPic " + submissionID);
     var storageRef = storage.ref("images/" + submissionID + ".jpg");
 
     return storageRef.put(imageInput)
         .then(() => {
-            console.log('2. Uploaded to Cloud Storage.');
             return storageRef.getDownloadURL();
-        })
-        .then(url => {
-            console.log("3. Got the download URL.");
-            // Save the URL into discussionSubmissions collection
-            return db.collection("discussionSubmissions").doc(submissionID).update({
-                "image": url
-            });
-        })
-        .then(() => {
-            console.log('4. Added pic URL to Firestore.');
-            // Return the download URL for further use in the ticketSubmit function
-            return url;
         })
         .catch(error => {
             console.log("error uploading to cloud storage", error);
-            throw error; // Rethrow the error to be caught in the ticketSubmit function
+            throw error;
         });
 }
+
+
 
 // Add an event listener to the "SUBMIT" button to call the ticketSubmit function
 document.addEventListener('DOMContentLoaded', function () {
