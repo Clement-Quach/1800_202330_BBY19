@@ -1,5 +1,13 @@
-var ticketsArray = [];
-
+const previewImage = (event) => {
+    const imageFiles = event.target.files;
+    const imageFilesLength = imageFiles.length;
+    if (imageFilesLength > 0) {
+        const imageSrc = URL.createObjectURL(imageFiles[0]);
+        const imagePreviewElement = document.querySelector("#preview-selected-image");
+        imagePreviewElement.src = imageSrc;
+        imagePreviewElement.style.display = "block";
+    }
+};
 function generateTicketNumber(){
     let chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZ";
     let nums = "0123456789";
@@ -290,14 +298,3 @@ function resetNewTicketDiv() {
     newOuterDiv.style.color = "";
     newOuterDiv.innerHTML = "";
 }   
-
-const previewImage = (event) => {
-    const imageFiles = event.target.files;
-    const imageFilesLength = imageFiles.length;
-    if (imageFilesLength > 0) {
-        const imageSrc = URL.createObjectURL(imageFiles[0]);
-        const imagePreviewElement = document.querySelector("#preview-selected-image");
-        imagePreviewElement.src = imageSrc;
-        imagePreviewElement.style.display = "block";
-    }
-};
