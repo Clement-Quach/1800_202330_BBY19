@@ -183,6 +183,11 @@ function newTicket() {
     document.body.appendChild(outerDiv);
 }
 
+newTicket();
+
+outerDiv.style.marginBottom = '5rem';
+outerDiv.style.padding = '2rem';
+
 function formatTimestamp(timestamp) {
     const date = timestamp.toDate(); // Convert Firebase timestamp to JavaScript Date object
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };

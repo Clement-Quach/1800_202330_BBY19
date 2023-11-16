@@ -16,11 +16,11 @@ function fetchDataAndDisplay() {
           <div class="card-header">
           </div>
           <div class="card-body">
-          <div class="card-header">
-              <img src="${data.image}" alt="${data.title}" />
-          </div> 
             <span class="tag tag-teal" id="title">${data.action}</span>
             <h4 id="details">${data.title}</h4>
+            <div class="card-header">
+              <img src="${data.image}" alt="${data.title}" />
+            </div> 
             <p>${data.details}</p>
             <div class="user">
               <div class="user-info">
@@ -46,13 +46,14 @@ function fetchDataAndDisplay() {
               <div class="user-info">
                 <h5 id="name">${data.name}</h5>
                 <small id="timestamp">${data.timestamp.toDate()}</small>
-                <button onclick="likePost('${doc.id}', '${data.likes || 0}')">Like</button>
+                <button id="likeButton" src="../images/like-button.png" onclick="likePost('${doc.id}', '${data.likes || 0}')"></button>
                 <span id="likeCount">Likes: ${data.likes || 0}</span>
               </div>
             </div>
           </div>
         `;
         }
+
 
         // Append the HTML to the container
         dataContainer.appendChild(dataElement);
@@ -65,6 +66,7 @@ function fetchDataAndDisplay() {
 fetchDataAndDisplay();
 //go to the correct user document by referencing to the user uid
 currentUser = db.collection("users").doc(user.id)
+
 
 
 
