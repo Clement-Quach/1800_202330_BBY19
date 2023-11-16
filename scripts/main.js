@@ -27,7 +27,7 @@ var currentUser;
 document.addEventListener('DOMContentLoaded', function () {
 
   firebase.auth().onAuthStateChanged(users => {
-    const nameGoesHere = document.getElementById('name-goes-here');
+    const nameGoesHere = document.getElementById('name-link');
 
   db.collection('users')
     .doc(users.uid)
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (doc.exists) {
         const name = doc.data().name;
 
-        nameGoesHere.textContent = name + "!";
+        nameGoesHere.textContent = name;
         
       } else {
         console.log("Name not Found");
