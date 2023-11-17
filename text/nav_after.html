@@ -11,8 +11,15 @@
     <ul class="navbar-nav mr-auto" id="nav-list">
       <li class="search">
         <div class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+          <input id="search-bar" list="list-of-sections" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <datalist id="list-of-sections">
+              <option value="Create a Ticket">Create a Ticket</option>
+              <option value="Create a Post">Create a Post</option>
+              <option value="View Posts">View Posts</option>
+              <option value="View Tickets">View Tickets</option>
+              <option value="Manage Account">Manage Account</option>
+            </datalist>
+          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" onclick="searchInput()">Search</button>
         </div>
       </li>
       <li class="nav-item">

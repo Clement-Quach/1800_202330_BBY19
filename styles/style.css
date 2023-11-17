@@ -44,6 +44,13 @@ body {
   width: 50%;
 }
 
+input::-webkit-calendar-picker-indicator {
+  display: none;
+  background: transparent;
+  opacity: 0;
+  visibility: hidden;
+}
+
 .bg-light {
   background-color: #ffffff !important;
 }
