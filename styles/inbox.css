@@ -5,4 +5,11 @@
     text-align: center;
 }
 
+.container {
+    padding: 1rem;
+}
+
+div.junmbotron {
+    background-color: gray;
+}
 

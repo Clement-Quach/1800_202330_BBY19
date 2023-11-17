@@ -28,27 +28,22 @@ function displayFirestoreData(userID) {
 }
 
 // Add an event listener to the "Fetch Data" button to call the function when clicked
-const fetchDataButton = document.getElementById('fetchDataButton');
-fetchDataButton.addEventListener('click', () => {
-    // Get the current user ID
+// const fetchDataButton = document.getElementById('fetchDataButton');
+// fetchDataButton.addEventListener('click', () => {
+//     // Get the current user ID
+//     const userID = firebase.auth().currentUser.uid;
+//     console.log(userID);
+//     // Call the function with the user ID
+//     displayFirestoreData(userID);
+// });
+
+firebase.auth().onAuthStateChanged(user => {
+    // Check if user is signed in:
+    if (user) {
+      currentUser = db.collection("users").doc(user.id)
+    }
     const userID = firebase.auth().currentUser.uid;
     console.log(userID);
     // Call the function with the user ID
     displayFirestoreData(userID);
-});
-
-// document.addEventListener('DOMContentLoaded', () => {
-//     // Get the current user ID
-//     firebase.auth().onAuthStateChanged(user => {
-//         // Check if user is signed in:
-//         if (user) {
-//             //go to the correct user document by referencing to the user uid
-//             currentUser = db.collection("users").doc(user.uid);
-//             // Call the function with the user ID
-//             console.log(currentUser);
-//             displayFirestoreData(currentUser);
-//         } else {
-//             console.log("Not found");
-//         }
-//     });
-// });
+  });
