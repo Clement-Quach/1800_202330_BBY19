@@ -1,15 +1,35 @@
-@media screen and (min-width: 900px) {
+/* @media screen and (min-width: 990px) {
   .main {
-    margin-bottom: 10%;
+    margin-bottom: 10rem;
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 989px) {
   .main {
-    margin-bottom: 10%;
+    margin-bottom: 5rem;
   }
+} */
+
+.main {
+  height: 100vh;
+  padding: 1rem;
+  margin-bottom: 30%;
 }
 
 body {
   background-color: #e6e1e173;
+}
+
+.profile-section {
+  padding: 1rem;
+  align-items: center;
+  text-align: center;
+}
+
+.profile-section img {
+  width: 30%;
+}
+
+.profile-section h3 {
+  margin-top: 1rem;
 }

@@ -9,13 +9,19 @@ function populateUserInfo() {
                     //get the document for current user.
                     currentUser.get().then(userDoc => {
                             //get the data fields of the user
-
                             var userName = userDoc.data().name;
+                            var accountEmail = userDoc.data().email;
                             var userCity = userDoc.data().city;
                             var userPhone = userDoc.data().phoneNumber;
-                            var userEmail = userDoc.data().userPreferedContactEmail;
+                            var userPreferEmail = userDoc.data().userPreferedContactEmail;
 
                             //if the data fields are not empty, then write them in to the form.
+                            if (accountEmail != null) {
+                                email = document.getElementById("account-email");
+                                email.innerHTML = accountEmail;
+                                email.style.color = "grey";
+                            }
+
                             if (userName != null) {
                                 document.getElementById("nameInput").value = userName;
                             }
@@ -28,8 +34,8 @@ function populateUserInfo() {
                                 document.getElementById("phoneInput").value = userPhone;
                             }
 
-                            if (userEmail != null) {
-                                document.getElementById("emailInput").value = userEmail;
+                            if (userPreferEmail != null) {
+                                document.getElementById("emailInput").value = userPreferEmail;
                             }
                         })
                     

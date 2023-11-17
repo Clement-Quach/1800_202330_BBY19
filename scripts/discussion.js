@@ -252,7 +252,7 @@ function ticketSubmit() {
                 });
             })
             .then(() => {
-                return formSubmissionRef.get(); // Change this line to use formSubmissionsRef instead of formSubmissionRef
+                return formSubmissionsRef.get(); // Change this line to use formSubmissionsRef instead of formSubmissionRef
             })
             .then(doc => {
                 const formattedTime = formatTimestamp(doc.data().timestamp);

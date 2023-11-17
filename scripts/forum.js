@@ -62,10 +62,15 @@ function fetchDataAndDisplay() {
       console.error('Error reading Firestore data:', error);
     });
 }
+
 fetchDataAndDisplay();
 //go to the correct user document by referencing to the user uid
-currentUser = db.collection("users").doc(user.id)
-
+firebase.auth().onAuthStateChanged(user => {
+  // Check if user is signed in:
+  if (user) {
+    currentUser = db.collection("users").doc(user.id)
+  }
+});
 
 
 

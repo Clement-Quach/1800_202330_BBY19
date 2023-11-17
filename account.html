@@ -36,14 +36,16 @@
   <div class="main">
     <div class="container">
       <div class="welcome">
-        <h1>Welcome, <span id="name-goes-here">!</h1>
+        <h1>Welcome, <span id="name-goes-here"></span>!</h1>
       </div>
     </div>
 
+    <div class="profile-section">
+      <img src="./images/AM01.jpg">
+      <h3>Account Email: <span id="account-email"></span></h3>
+    </div>
+
     <div class="card">
-
-
-        
       <div class="container">
 
         <form>
@@ -68,7 +70,7 @@
               </div>
               <!-- email card-->
               <div class="form-group">
-                <h3>Email</h3>
+                <h3>Prefered Email</h3>
                 <label >The email you want notifications to be sent too</label>
                 <input type="text" id="emailInput" class="form-control" placeholder="Enter your email">
               </div>
@@ -77,7 +79,7 @@
             <div class="d-flex justify-content-end mt-5">
                 <button type="button" class="btn btn-secondary" onclick="editUserInfo()">Edit</button>
                 <span style="width: 10px"></span>
-                <button type="button" id="save-button" class="btn btn-info" onclick=saveUserInfo()>Save</button>
+                <button type="button" id="save-button" class="btn btn-info" onclick=saveUserInfo() disabled>Save</button>
             </div>
         </form>
       </div>
