@@ -29,6 +29,7 @@
 
 
     <!-- Link to styles of your own -->
+    <link rel="stylesheet" href="./styles/forumStyle.css">
     <link rel="stylesheet" href="./styles/style.css">
 
 </head>
@@ -41,34 +42,18 @@
     <!-- Stuff for body goes here -->
 <nav id="navbarPlaceholder"></nav>
 
-<div class="container col-xl-10 col-xxl-8 px-4 py-5">
-  <div class="row align-items-center g-lg-5 py-5">
-    <div class="col-lg-7 text-center text-lg-start">
-      <h1 class="display-5 fw-bold lh-1 mb-5">Welcome to CityConnect: <br>Your gateway to a stronger, more connected community!</h1>
-      <p class="col-lg-9 fs-4">Join us today and be part of the CityConnect community. Let's work together to create a city that thrives on your ideas, concerns, and collective strength. Your city hall is now just a tap away, and positive change begins with you.</p>
-    </div>
-    <div class="col-md-10 mx-auto col-lg-5">
-      <form class="p-4 p-md-5 border rounded-3 bg-light">
-        <div class="form-floating mb-3">
-          <label for="floatingInput">Email address:</label>
-          <input type="email" class="form-control" id="floatingInput" placeholder="Name@example.com">
-        </div>
-        <div class="form-floating mb-3">
-          <label for="floatingPassword">Password:</label>
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-        </div>
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
-        <hr class="my-4">
-        <small class="text-muted">Don't have an account yet? Sign up <span class="sign-up"><u><a href="signup.html">Here</a></u></span></small>
-      </form>
-    </div>
-  </div>
+<div class="inner-sidebar-header justify-content-center">
+  <a href="discussion.html" >
+      <button class="btn btn-primary has-icon btn-block" type="button">
+          NEW DISCUSSION
+      </button>
+  </a>
 </div>
+
+<div id="dataContainer">
+  <!-- The fetched data will be displayed here -->
+</div>
+
 
 <nav id="footerPlaceholder"></nav>
     <!---------------------------------------------->
@@ -80,6 +65,7 @@
     <script src="./scripts/script.js"></script>
     <script src="./scripts/skeleton.js"></script>
     <script src="./scripts/search.js"></script>
+    <script src="./scripts/myDiscussion.js"></script>
 </body>
 
 </html>

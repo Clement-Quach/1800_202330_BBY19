@@ -49,6 +49,7 @@ input::-webkit-calendar-picker-indicator {
   background: transparent;
   opacity: 0;
   visibility: hidden;
+  color: #ccc;
 }
 
 .bg-light {
