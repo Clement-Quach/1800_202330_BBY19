@@ -234,9 +234,12 @@ function ticketSubmit() {
         userID: userID,
         timestamp: timestamp,
         documentSubmissionID: submissionID,
+        likedBy: [],
+        dislikedBy: []
     };
 
     const newSubmissionRef = firebase.firestore().collection('discussionSubmissions').doc(submissionID);
+    
     let imageInput = document.getElementById('imageAttachment').files[0];
 
     if (imageInput) {
@@ -252,12 +255,12 @@ function ticketSubmit() {
                 });
             })
             .then(() => {
-                return formSubmissionsRef.get(); // Change this line to use formSubmissionsRef instead of formSubmissionRef
+                return newSubmissionRef.get(); // Change this line to use formSubmissionsRef instead of formSubmissionRef
             })
             .then(doc => {
                 const formattedTime = formatTimestamp(doc.data().timestamp);
                 console.log('Submission time:', formattedTime);
-                window.location.href = "postThanks.html";
+                window.location.href = "discussionThanks.html";
                 resetNewTicketDiv();
             })
             .catch(error => {

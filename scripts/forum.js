@@ -1,18 +1,18 @@
 function fetchDataAndDisplay() {
-  const dataContainer = document.getElementById('dataContainer');
+  const dataContainer = document.getElementById("dataContainer");
 
-  db.collection('discussionSubmissions')
+  db.collection("discussionSubmissions")
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         // Create HTML elements based on the data
-        const dataElement = document.createElement('div');
-        dataElement.className = 'card';
+        const dataElement = document.createElement("div");
+        dataElement.className = "card";
 
         const time = data.timestamp;
         if (data.image) {
-        dataElement.innerHTML = `
+          dataElement.innerHTML = `
           <div class="card-header">
           </div>
           <div class="card-body">
@@ -29,8 +29,12 @@ function fetchDataAndDisplay() {
               </div>
               <div id="like-section">
                 <span id="likeCount">Likes: ${data.likes || 0}</span>
-                <button src="../images/like-button.png" id="like-image" onclick="likePost('${doc.id}', '${data.likes || 0}')">Like</button>
-                <button onclick="DislikePost('${doc.id}', '${data.likes || 0}')">Dislike</button>
+                <button src="../images/like-button.png" id="like-image" onclick="likePost('${
+                  doc.id
+                }', '${data.likes || 0}')">Like</button>
+                <button onclick="DislikePost('${doc.id}', '${
+            data.likes || 0
+          }')">Dislike</button>
               </div>
             </div>
           </div>
@@ -45,81 +49,74 @@ function fetchDataAndDisplay() {
               <div class="user-info">
                 <h5 id="name">${data.name}</h5>
                 <small id="timestamp">${data.timestamp.toDate()}</small>
-                <button id="likeButton" src="../images/like-button.png" onclick="likePost('${doc.id}', '${data.likes || 0}')"></button>
+              </div>
+              <div id="like-section">
                 <span id="likeCount">Likes: ${data.likes || 0}</span>
+                <button class="btn btn-primary" id="like-image" onclick="likePost('${
+                  doc.id
+                }', '${data.likes || 0}')">Like</button>
+                <button class="btn btn-danger" onclick="DislikePost('${doc.id}', '${
+            data.likes || 0
+          }')">Dislike</button>
               </div>
             </div>
           </div>
         `;
         }
 
-
         // Append the HTML to the container
         dataContainer.appendChild(dataElement);
       });
     })
     .catch((error) => {
-      console.error('Error reading Firestore data:', error);
+      console.error("Error reading Firestore data:", error);
     });
 }
 
 fetchDataAndDisplay();
 //go to the correct user document by referencing to the user uid
-firebase.auth().onAuthStateChanged(user => {
+firebase.auth().onAuthStateChanged((user) => {
   // Check if user is signed in:
   if (user) {
-    currentUser = db.collection("users").doc(user.id)
+    currentUser = db.collection("users").doc(user.id);
   }
 });
 
-
-
 function likePost(docId, currentLikes) {
-  const dataContainer = document.getElementById('dataContainer');
+  const dataContainer = document.getElementById("dataContainer");
   //enter code here
 
   const userID = firebase.auth().currentUser.uid;
   //a) get user entered values
-  const userName = firebase.firestore().collection('users').doc(userID);
-  const docRef = db.collection('discussionSubmissions').doc(docId);
+  const userName = firebase.firestore().collection("users").doc(userID);
+  const docRef = db.collection("discussionSubmissions").doc(docId);
   docRef.get().then((doc) => {
     if (doc.exists) {
       const arrValue = doc.data().likedBy;
-      console.log(arrValue)
+      console.log(arrValue);
 
-      if (!(arrValue.includes(userID))) {
-        docRef.update({
-
-          likes: parseInt(currentLikes) + 1,
-          likedBy: firebase.firestore.FieldValue.arrayUnion(userID),
-
-
-        }).then(() => {
-          console.log("Document successfully updated!");
-        })
-
+      if (!arrValue.includes(userID)) {
+        docRef
+          .update({
+            likes: parseInt(currentLikes) + 1,
+            likedBy: firebase.firestore.FieldValue.arrayUnion(userID),
+          })
+          .then(() => {
+            console.log("Document successfully updated!");
+          });
       } else {
         docRef.update({
-
           likes: parseInt(currentLikes) - 1,
           likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
-
-        })
-
+        });
       }
     }
-
-
-  }
-
-  )
-
-
+  });
+  fetchDataAndDisplay()
   //   db.collection('discussionSubmissions').doc(docId).update({
 
   //       likes: parseInt(currentLikes) +1,
   //       likedBy: firebase.firestore.FieldValue.arrayUnion(userID),
-
 
   //   }) .then(() => {
   //     console.log("Document successfully updated!");
@@ -127,45 +124,34 @@ function likePost(docId, currentLikes) {
   // })}
 }
 function DislikePost(docId, currentLikes) {
-  const dataContainer = document.getElementById('dataContainer');
+  const dataContainer = document.getElementById("dataContainer");
   //enter code here
 
   const userID = firebase.auth().currentUser.uid;
   //a) get user entered values
-  const userName = firebase.firestore().collection('users').doc(userID);
-  const docRef = db.collection('discussionSubmissions').doc(docId);
+  const userName = firebase.firestore().collection("users").doc(userID);
+  const docRef = db.collection("discussionSubmissions").doc(docId);
   docRef.get().then((doc) => {
     if (doc.exists) {
       const arrValue = doc.data().dislikedBy;
-      console.log(arrValue)
+      console.log(arrValue);
 
-      if (!(arrValue.includes(userID))) {
-        docRef.update({
-
-          likes: parseInt(currentLikes) - 1,
-          dislikedBy: firebase.firestore.FieldValue.arrayUnion(userID),
-
-
-        }).then(() => {
-          console.log("Document successfully updated!");
-        })
-
+      if (!arrValue.includes(userID)) {
+        docRef
+          .update({
+            likes: parseInt(currentLikes) - 1,
+            dislikedBy: firebase.firestore.FieldValue.arrayUnion(userID),
+          })
+          .then(() => {
+            console.log("Document successfully updated!");
+          });
       } else {
         docRef.update({
-
           likes: parseInt(currentLikes) + 1,
           dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
-
-        })
-
+        });
       }
     }
-
-
-
-  })
+  });
+  fetchDataAndDisplay()
 }
-
-
-
-
