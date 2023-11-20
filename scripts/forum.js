@@ -2,6 +2,7 @@ function fetchDataAndDisplay() {
   const dataContainer = document.getElementById("dataContainer");
 
   db.collection("discussionSubmissions")
+    .orderBy("timestamp", "desc")
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
