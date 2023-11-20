@@ -6,6 +6,7 @@ const previewImage = (event) => {
         const imagePreviewElement = document.querySelector("#preview-selected-image");
         imagePreviewElement.src = imageSrc;
         imagePreviewElement.style.display = "block";
+
     }
 };
 function generateTicketNumber(){

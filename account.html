@@ -47,35 +47,33 @@
 
     <div class="card">
       <div class="container">
-
         <form>
             <fieldset class="mb-3" id="personalInfoFields" disabled>
               <!-- name card-->
               <div class="form-group">
                   <h3>Name: </h3>
-                  <label >Change the name people will refer to you as</label>
-                  <input type="text" id="nameInput" class="form-control" placeholder="Enter your new name">
+                  <!-- <label >Change the name people will refer to you as</label> -->
+                  <input type="text" id="nameInput" class="form-control" placeholder="Enter your new name" required>
               </div>
               <!-- city card-->
               <div class="form-group">
                 <h3>City: </h3>
-                <label >Display what city you live in</label>
+                <!-- <label >Display what city you live in</label> -->
                 <input type="text" id="cityInput" class="form-control" placeholder="Enter the name of your city">
               </div>
               <!-- phone number card-->
               <div class="form-group">
                 <h3>Phone Number: </h3>
-                <label >Change your phone number</label>
+                <!-- <label >Change your phone number</label> -->
                 <input type="text" id="phoneInput" class="form-control" placeholder="Enter your phone number">
               </div>
               <!-- email card-->
               <div class="form-group">
                 <h3>Prefered Email: </h3>
-                <label >The email you want notifications to be sent too</label>
+                <!-- <label >The email you want notifications to be sent too</label> -->
                 <input type="text" id="emailInput" class="form-control" placeholder="Enter your email">
               </div>
             </fieldset>
-
             <div class="d-flex justify-content-end mt-5">
                 <button type="button" class="btn btn-secondary" onclick="editUserInfo()">Edit</button>
                 <span style="width: 10px"></span>

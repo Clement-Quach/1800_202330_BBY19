@@ -55,32 +55,59 @@ function saveUserInfo() {
         //enter code here
 
         //a) get user entered values
-        userName = document.getElementById('nameInput').value;       //get the value of the field with id="nameInput"
-        userCity = document.getElementById('cityInput').value;       //get the value of the field with id="cityInput"
-        userPhone = document.getElementById('phoneInput').value;
-        userContactEmail = document.getElementById('emailInput').value;
-        text = `Are you sure you want to change the information below?`
-
-        if (confirm(text) == true) {
-            //if yes, update user's document in Firestore
-            currentUser.update({
-                name: userName,
-                city: userCity,
-                phoneNumber: userPhone,
-                userPreferedContactEmail: userContactEmail 
-            })
-            .then(() => {
-                console.log("Document successfully updated!");
-                window.location.href = "account.html";
-            })
-            alert("Successfully saved!");
-            //c) disable edit 
-            document.getElementById('personalInfoFields').disabled = true;
+        if (document.getElementById('nameInput').value.trim() === "") {
+            alert('Input cannot be blank. Please enter a value.');
         } else {
-            //if no
-            alert("You canceled!");
-        }
+            userName = document.getElementById('nameInput').value; 
+            userCity = document.getElementById('cityInput').value;       //get the value of the field with id="cityInput"
+            userPhone = document.getElementById('phoneInput').value;
+            userContactEmail = document.getElementById('emailInput').value;
+            text = `Are you sure you want to change the information below?`
+
+            if (confirm(text) == true) {
+                //if yes, update user's document in Firestore
+                currentUser.update({
+                    name: userName,
+                    city: userCity,
+                    phoneNumber: userPhone,
+                    userPreferedContactEmail: userContactEmail 
+                })
+                .then(() => {
+                    console.log("Document successfully updated!");
+                    window.location.href = "account.html";
+                })
+                alert("Successfully saved!");
+                //c) disable edit 
+                document.getElementById('personalInfoFields').disabled = true;
+            } else {
+                //if no
+                alert("You canceled!");
+            }
+        }      //get the value of the field with id="nameInput"
     }
+
 
 //call the function to run it 
 populateUserInfo();
+
+// Retrieve form submission data from Firestore based on the user ID
+// firebase.auth().onAuthStateChanged(user => {
+//     // Check if user is signed in:
+//         if (user) {
+//             currentUser = db.collection("users").doc(user.id)
+//         }
+//         const userID = firebase.auth().currentUser.uid;
+        
+//         db.collection('discussionSubmissions')
+//             .where('userID', '==', userID) // Add this line to filter by user ID
+//             .get()
+//             .then(querySnapshot => {
+//                 querySnapshot.forEach((doc) => {
+//                 const data = doc.data();
+//                 data.update({
+//                     name: userName
+//                 })
+//             })
+//             })
+//     });// 
+

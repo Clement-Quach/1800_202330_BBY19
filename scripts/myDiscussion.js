@@ -13,46 +13,72 @@ function fetchDataAndDisplay(userID) {
         dataElement.className = 'card';
 
         const time = data.timestamp;
+
+        const dateObject = time.toDate();
+
+        const year = dateObject.getFullYear();
+        const month = (dateObject.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+        const day = dateObject.getDate().toString().padStart(2, '0');
+
+        // Extracting time components
+        const hours = dateObject.getHours().toString().padStart(2, '0');
+        const minutes = dateObject.getMinutes().toString().padStart(2, '0');
+
+        // Formatting the date and time
+        const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
         if (data.image) {
         dataElement.innerHTML = `
           <div class="card-header">
+            <span class="tag tag-teal" id="title">${data.action}</span>
           </div>
           <div class="card-body">
-            <span class="tag tag-teal" id="title">${data.action}</span>
-            <h4 id="details">${data.title}</h4>
-            <div class="card-header">
-              <img src="${data.image}" alt="${data.title}" />
-            </div> 
-            <p>${data.details}</p>
             <div class="user">
-              <div class="user-info">
-                <h5 id="name">${data.name}</h5>
-                <small id="timestamp">${time.toDate()}</small>
-              </div>
-              <div id="like-section">
-                <span id="likeCount">Likes: ${data.likes || 0}</span>
-                <button src="../images/like-button.png" id="like-image" onclick="likePost('${doc.id}', '${data.likes || 0}')">Like</button>
-                <button onclick="DislikePost('${doc.id}', '${data.likes || 0}')">Dislike</button>
-              </div>
+              <h1 id="details">${data.title}</h1>
+              <small id="timestamp">${formattedDateTime}</small>
+              <h5 id="name">${data.name}</h5>
+            </div>
+            <div class="card-details">
+              <div class="card-image">
+                <img src="${data.image}" alt="${data.title}" />
+              </div> 
+              <p>${data.details}</p>
+            </div>
+            <div id="like-section">
+              <h3 id="likeCount">Likes: <span id="like-number">${data.likes || 0}</span></h3>
+              <button id="like-image" class="btn btn-primary" onclick="likePost('${
+                doc.id
+              }', '${data.likes || 0}')">Like</button>
+              <button class="btn btn-danger" onclick="DislikePost('${doc.id}', '${
+              data.likes || 0
+                }')">Dislike</button>
             </div>
           </div>
         `;
         } else {
           dataElement.innerHTML = `
-          <div class="card-body">
+          <div class="card-header">
             <span class="tag tag-teal" id="title">${data.action}</span>
-            <h4 id="details">${data.title}</h4>
-            <p>${data.details}</p>
+          </div>
+          <div class="card-body">
             <div class="user">
-              <div class="user-info">
-                <h5 id="name">${data.name}</h5>
-                <small id="timestamp">${data.timestamp.toDate()}</small>
-                <button id="likeButton" src="../images/like-button.png" onclick="likePost('${doc.id}', '${data.likes || 0}')"></button>
-                <span id="likeCount">Likes: ${data.likes || 0}</span>
-              </div>
+              <h1 id="details">${data.title}</h1>
+              <small id="timestamp">${formattedDateTime}</small>
+              <h5 id="name">${data.name}</h5>
+            </div>
+            <div class="card-details">
+              <p>${data.details}</p>
+            </div>
+            <div id="like-section">
+              <span id="likeCount">Likes: <span id="like-number">${data.likes || 0}</span></span>
+              <button id="like-image" onclick="likePost('${
+                doc.id
+              }', '${data.likes || 0}')">Like</button>
+              <button onclick="DislikePost('${doc.id}', '${
+                data.likes || 0
+              }')">Dislike</button>
             </div>
           </div>
-        `;
+          `;
         }
 
 

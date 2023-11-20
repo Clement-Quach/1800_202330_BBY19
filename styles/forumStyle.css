@@ -26,9 +26,6 @@ html, body {
     margin-bottom: 5rem;
     gap: 1rem;
   }
-
-  .class-details p {
-  }
 }
 
 #dataContainer {
@@ -60,6 +57,8 @@ html, body {
 }
 
 .card-image img {
+  max-width: 60%;
+  max-height: 60%;
   width: 60%;
   height: 60%;
   object-fit: cover;
