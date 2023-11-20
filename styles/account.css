@@ -33,3 +33,20 @@ body {
 .profile-section h3 {
   margin-top: 1rem;
 }
+
+.form-group {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items:center;
+  text-align: left;
+}
+
+.form-group label {
+  display: none;
+}
+
+.profile-section img {
+  border-radius: 50%; /* 50% creates a circle */
+  width: 250px;
+  height: 250px;
+}
