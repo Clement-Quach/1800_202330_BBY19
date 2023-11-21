@@ -333,9 +333,6 @@ function ticketSubmit() {
 
                 // Add row to the ticket table
                 addRowToTable(ticketDetails);
-
-                // Redirect to thank you
-                window.location.href = "postThanks.html";
             }
         }
     } else {
