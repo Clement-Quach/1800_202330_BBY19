@@ -8,18 +8,23 @@ html, body {
   box-sizing: border-box;
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 990px) {
   #dataContainer {
     gap: 1rem;
   }
   .card-body {
     padding: 1rem;
   }
+
+  .class-details p {
+    text-align: center;
+  }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 989px) {
   #dataContainer {
     margin-bottom: 5rem;
+    gap: 1rem;
   }
 }
 
@@ -31,6 +36,10 @@ html, body {
     padding-right: 2rem;
     margin-top: 1rem;
     margin-bottom: 6rem;
+    width: 70%;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .card:hover {
@@ -47,17 +56,21 @@ html, body {
   width: 100%;
 }
 
-.card-header img {
-  width: 100%;
-  height: 15%;
+.card-image img {
+  max-width: 80%;
+  max-height: 60%;
   object-fit: cover;
+}
+
+.card-image img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .card-body {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   padding: 1rem;
   min-height: fit-content;
 }
@@ -69,6 +82,7 @@ html, body {
 .tag {
   background: #cccccc;
   border-radius: 50px;
+  width: fit-content;
   font-size: 12px;
   margin: 0;
   color: #fff;
@@ -87,24 +101,32 @@ html, body {
   background-color: #cd5b9f;
 }
 
-.card-body p {
-  font-size: 13px;
-  margin: 0 0 40px;
+#like-section {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 2%;
+  padding: 1rem;
+  text-align: center;
+  align-items: center;
+}
+
+.card-details p {
+  font-size: 24px;
+  margin-top: 1rem;
 }
 
 .user {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
   margin-top: auto;
 }
-.user img {
 
-  width: 30%;
-  height: 20%;
-  margin-right: 10px;
-}
+#name {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: right;
 
-.user-info h5 {
-  margin: 0;
 }
 
 .user-info small {

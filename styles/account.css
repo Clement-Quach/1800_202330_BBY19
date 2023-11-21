@@ -1,7 +1,42 @@
 .main {
+  height: 100vh;
+  padding: 1rem;
   margin-bottom: 30%;
 }
 
 body {
   background-color: #e6e1e173;
 }
+
+.profile-section {
+  padding: 1rem;
+  align-items: center;
+  text-align: center;
+}
+
+.profile-section img {
+  width: 30%;
+}
+
+.profile-section h3 {
+  margin-top: 1rem;
+}
+
+#personalInfoFields {
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items:center;
+  text-align: left;
+}
+
+.profile-section img {
+  border-radius: 50%; /* 50% creates a circle */
+  width: 250px;
+  height: 250px;
+}
+

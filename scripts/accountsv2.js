@@ -9,13 +9,19 @@ function populateUserInfo() {
                     //get the document for current user.
                     currentUser.get().then(userDoc => {
                             //get the data fields of the user
-
                             var userName = userDoc.data().name;
+                            var accountEmail = userDoc.data().email;
                             var userCity = userDoc.data().city;
                             var userPhone = userDoc.data().phoneNumber;
-                            var userEmail = userDoc.data().userPreferedContactEmail;
+                            var userPreferEmail = userDoc.data().userPreferedContactEmail;
 
                             //if the data fields are not empty, then write them in to the form.
+                            if (accountEmail != null) {
+                                email = document.getElementById("account-email");
+                                email.innerHTML = accountEmail;
+                                email.style.color = "grey";
+                            }
+
                             if (userName != null) {
                                 document.getElementById("nameInput").value = userName;
                             }
@@ -28,8 +34,8 @@ function populateUserInfo() {
                                 document.getElementById("phoneInput").value = userPhone;
                             }
 
-                            if (userEmail != null) {
-                                document.getElementById("emailInput").value = userEmail;
+                            if (userPreferEmail != null) {
+                                document.getElementById("emailInput").value = userPreferEmail;
                             }
                         })
                     
@@ -49,32 +55,59 @@ function saveUserInfo() {
         //enter code here
 
         //a) get user entered values
-        userName = document.getElementById('nameInput').value;       //get the value of the field with id="nameInput"
-        userCity = document.getElementById('cityInput').value;       //get the value of the field with id="cityInput"
-        userPhone = document.getElementById('phoneInput').value;
-        userContactEmail = document.getElementById('emailInput').value;
-        text = `Are you sure you want to change the information below?`
-
-        if (confirm(text) == true) {
-            //if yes, update user's document in Firestore
-            currentUser.update({
-                name: userName,
-                city: userCity,
-                phoneNumber: userPhone,
-                userPreferedContactEmail: userContactEmail 
-            })
-            .then(() => {
-                console.log("Document successfully updated!");
-                window.location.href = "account.html";
-            })
-            alert("Successfully saved!");
-            //c) disable edit 
-            document.getElementById('personalInfoFields').disabled = true;
+        if (document.getElementById('nameInput').value.trim() === "") {
+            alert('Input cannot be blank. Please enter a value.');
         } else {
-            //if no
-            alert("You canceled!");
-        }
+            userName = document.getElementById('nameInput').value; 
+            userCity = document.getElementById('cityInput').value;       //get the value of the field with id="cityInput"
+            userPhone = document.getElementById('phoneInput').value;
+            userContactEmail = document.getElementById('emailInput').value;
+            text = `Are you sure you want to change the information below?`
+
+            if (confirm(text) == true) {
+                //if yes, update user's document in Firestore
+                currentUser.update({
+                    name: userName,
+                    city: userCity,
+                    phoneNumber: userPhone,
+                    userPreferedContactEmail: userContactEmail 
+                })
+                .then(() => {
+                    console.log("Document successfully updated!");
+                    window.location.href = "account.html";
+                })
+                alert("Successfully saved!");
+                //c) disable edit 
+                document.getElementById('personalInfoFields').disabled = true;
+            } else {
+                //if no
+                alert("You canceled!");
+            }
+        }      //get the value of the field with id="nameInput"
     }
+
 
 //call the function to run it 
 populateUserInfo();
+
+// Retrieve form submission data from Firestore based on the user ID
+// firebase.auth().onAuthStateChanged(user => {
+//     // Check if user is signed in:
+//         if (user) {
+//             currentUser = db.collection("users").doc(user.id)
+//         }
+//         const userID = firebase.auth().currentUser.uid;
+        
+//         db.collection('discussionSubmissions')
+//             .where('userID', '==', userID) // Add this line to filter by user ID
+//             .get()
+//             .then(querySnapshot => {
+//                 querySnapshot.forEach((doc) => {
+//                 const data = doc.data();
+//                 data.update({
+//                     name: userName
+//                 })
+//             })
+//             })
+//     });// 
+

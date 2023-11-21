@@ -1,3 +1,8 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 @media screen and (min-width: 990px) {
   #navbar-top {
     display: grid;
@@ -42,6 +47,14 @@ body {
 
 .navbar-brand img {
   width: 50%;
+}
+
+input::-webkit-calendar-picker-indicator {
+  display: none;
+  background: transparent;
+  opacity: 0;
+  visibility: hidden;
+  color: #ccc;
 }
 
 .bg-light {
