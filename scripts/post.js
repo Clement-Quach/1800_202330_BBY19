@@ -19,7 +19,6 @@ function newTicket() {
     
     
     const createPostButton = document.getElementById('createPostButton');
-    const postForm = document.getElementsByClassName('outerDiv');
     if (createPostButton) {
         createPostButton.style.display = 'none';
     }
@@ -225,7 +224,6 @@ newTicket();
 outerDiv.style.marginBottom = '5rem';
 outerDiv.style.padding = '2rem';
 
-
 function addRowToTable(rowData) {
     const tableBody = document.getElementById('td');
     const newRow = document.createElement('tr');
@@ -247,6 +245,12 @@ function addRowToTable(rowData) {
     }
 }
 
+function formatTimestamp(timestamp) {
+    const date = timestamp.toDate(); // Convert Firebase timestamp to JavaScript Date object
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+}
+
 function ticketSubmit() {
     // Get the current user ID
     const userID = firebase.auth().currentUser.uid;
@@ -256,14 +260,6 @@ function ticketSubmit() {
 
     // Create a unique formSubmissionID
     const formSubmissionID = firebase.firestore().collection('formSubmissions').doc().id;
-
-    // // Retrieve form values
-    // let ticketNumber = generateTicketNumber();
-    // let ticketTitle = document.getElementById("ticketName").value;
-    // let ticketConcern = document.getElementById("choseConcern").value;
-    // let ticketPriority = document.getElementById("chosePriority").value;
-    // let ticketProblemDetails = document.getElementById("inputText").value;
-    // let ticketName = document.getElementById("name").value;
 
     const text = "Ready to submit?";
 
@@ -287,48 +283,52 @@ function ticketSubmit() {
             const formSubmissionsRef = firebase.firestore().collection('formSubmissions').doc(formSubmissionID);
             let imageInput = document.getElementById('imageAttachment').files[0];
 
-            if (imageInput) {
-                uploadPic(formSubmissionID, imageInput)
-                    .then(url => {
-                        ticketDetails.image = url; // Add the image URL to ticketDetails object
-                        return formSubmissionsRef.set(ticketDetails); // Create the submission with image URL
-                    })
-                    .then(() => {
-                        const userRef = firebase.firestore().collection('users').doc(userID);
-                        return userRef.update({
-                            userSubmissions: firebase.firestore.FieldValue.arrayUnion(formSubmissionID)
-                        });
-                    })
-                    .then(() => {
-                        return formSubmissionsRef.get();
-                    })
-                    .then(doc => {
-                        const formattedTime = formatTimestamp(doc.data().timestamp);
-                        console.log('Submission time:', formattedTime);
-                        window.location.href = "postThanks.html";
-                        resetNewTicketDiv();
-                    })
-                    .catch(error => {
-                        console.error('Error: ', error);
-                    });
-            } else {
-                formSubmissionsRef.set(ticketDetails)
-                .then(() => {
-                    // Update the user document with the formSubmissionID
-                    const userRef = firebase.firestore().collection('users').doc(userID);
-                    return userRef.update({
-                        userPosts: firebase.firestore.FieldValue.arrayUnion(formSubmissionID)
-                    });
-                })
-                .then(() => {
-                    const formattedTime = formatTimestamp(doc.data().timestamp);
-                    console.log('Submission time:', formattedTime);
-                    // Reset the form
-                    resetNewTicketDiv();
-                })
-                .catch(error => {
-                    console.error('Error storing data in Firebase: ', error);
+    if (imageInput) {
+        uploadPic(formSubmissionID, imageInput)
+            .then(url => {
+                ticketDetails.image = url; // Add the image URL to ticketDetails object
+                return formSubmissionsRef.set(ticketDetails); // Create the submission with image URL
+            })
+            .then(() => {
+                const userRef = firebase.firestore().collection('users').doc(userID);
+                return userRef.update({
+                    userSubmissions: firebase.firestore.FieldValue.arrayUnion(formSubmissionID)
                 });
+            })
+            .then(() => {
+                return formSubmissionsRef.get(); // Retrieve the document reference
+            })
+            .then(doc => {
+                const formattedTime = formatTimestamp(doc.data().timestamp);
+                console.log('Submission time:', formattedTime);
+                // Redirect to thank you
+                window.location.href = "postThanks.html";
+                // Reset the form
+                resetNewTicketDiv();
+            })
+            .catch(error => {
+                console.error('Error: ', error);
+            });
+    } else {
+        formSubmissionsRef.set(ticketDetails)
+        .then(() => {
+            // Update the user document with the formSubmissionID
+            const userRef = firebase.firestore().collection('users').doc(userID);
+            return userRef.update({
+                userPosts: firebase.firestore.FieldValue.arrayUnion(formSubmissionID)
+            });
+        })
+        .then(() => {
+            return formSubmissionsRef.get(); // Retrieve the document reference
+        })
+        .then(doc => {
+            const formattedTime = formatTimestamp(doc.data().timestamp);
+            console.log('Submission time:', formattedTime);
+            // Redirect to thank you
+            window.location.href = "postThanks.html";
+            // Reset the form
+            resetNewTicketDiv();
+        })
 
 
                 // Add row to the ticket table
@@ -404,8 +404,3 @@ function uploadPic(submissionID, imageInput) {
         });
 }
 
-function formatTimestamp(timestamp) {
-    const date = timestamp.toDate(); // Convert Firebase timestamp to JavaScript Date object
-    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
-    return new Intl.DateTimeFormat('en-US', options).format(date);
-}
