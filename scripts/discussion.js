@@ -240,7 +240,7 @@ function ticketSubmit() {
             .then(doc => {
                 const formattedTime = formatTimestamp(doc.data().timestamp);
                 console.log('Submission time:', formattedTime);
-                window.location.href = "postThanks.html";
+                window.location.href = "discussionThanks.html";
                 resetNewTicketDiv();
             })
             .catch(error => {

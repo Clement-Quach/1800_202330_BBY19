@@ -19,7 +19,6 @@ function newTicket() {
     
     
     const createPostButton = document.getElementById('createPostButton');
-    const postForm = document.getElementsByClassName('outerDiv');
     if (createPostButton) {
         createPostButton.style.display = 'none';
     }
@@ -208,9 +207,8 @@ newTicket();
 outerDiv.style.marginBottom = '5rem';
 outerDiv.style.padding = '2rem';
 
-
-function addRowToTable(tableId, rowData) {
-    const tableBody = document.getElementById("ticketTableBody");
+function addRowToTable(rowData) {
+    const tableBody = document.getElementById('td');
     const newRow = document.createElement('tr');
 
     newRow.innerHTML = `
@@ -222,7 +220,18 @@ function addRowToTable(tableId, rowData) {
         <td>${rowData.action}</td>
     `;
 
-    tableBody.appendChild(newRow);
+    if (tableBody) {
+        // Perform the appendChild operation
+        tableBody.appendChild(newRow);
+    } else {
+        console.error("Table body element not found or is null.");
+    }
+}
+
+function formatTimestamp(timestamp) {
+    const date = timestamp.toDate(); // Convert Firebase timestamp to JavaScript Date object
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
+    return new Intl.DateTimeFormat('en-US', options).format(date);
 }
 
 function ticketSubmit() {
@@ -234,14 +243,6 @@ function ticketSubmit() {
 
     // Create a unique formSubmissionID
     const formSubmissionID = firebase.firestore().collection('formSubmissions').doc().id;
-
-    // // Retrieve form values
-    // let ticketNumber = generateTicketNumber();
-    // let ticketTitle = document.getElementById("ticketName").value;
-    // let ticketConcern = document.getElementById("choseConcern").value;
-    // let ticketPriority = document.getElementById("chosePriority").value;
-    // let ticketProblemDetails = document.getElementById("inputText").value;
-    // let ticketName = document.getElementById("name").value;
 
     // Create ticketDetails object
     let ticketDetails = {
@@ -274,12 +275,14 @@ function ticketSubmit() {
                 });
             })
             .then(() => {
-                return formSubmissionsRef.get();
+                return formSubmissionsRef.get(); // Retrieve the document reference
             })
             .then(doc => {
                 const formattedTime = formatTimestamp(doc.data().timestamp);
                 console.log('Submission time:', formattedTime);
+                // Redirect to thank you
                 window.location.href = "postThanks.html";
+                // Reset the form
                 resetNewTicketDiv();
             })
             .catch(error => {
@@ -295,6 +298,9 @@ function ticketSubmit() {
             });
         })
         .then(() => {
+            return formSubmissionsRef.get(); // Retrieve the document reference
+        })
+        .then(doc => {
             const formattedTime = formatTimestamp(doc.data().timestamp);
             console.log('Submission time:', formattedTime);
             // Redirect to thank you
@@ -302,9 +308,6 @@ function ticketSubmit() {
             // Reset the form
             resetNewTicketDiv();
         })
-        .catch(error => {
-            console.error('Error storing data in Firebase: ', error);
-        });
 
     // Display confirmation message
     let newOuterDiv = document.getElementById("outerDiv");
@@ -368,8 +371,3 @@ function uploadPic(submissionID, imageInput) {
         });
 }
 
-function formatTimestamp(timestamp) {
-    const date = timestamp.toDate(); // Convert Firebase timestamp to JavaScript Date object
-    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
-    return new Intl.DateTimeFormat('en-US', options).format(date);
-}
