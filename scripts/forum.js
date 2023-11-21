@@ -110,9 +110,18 @@ function likePost(docId, currentLikes) {
   docRef.get().then((doc) => {
     if (doc.exists) {
       const arrValue = doc.data().likedBy;
+      const oppValue = doc.data().dislikedBy;
       console.log(arrValue);
 
       if (!arrValue.includes(userID)) {
+        if(oppValue.includes(userID)){
+          docRef
+            .update({
+              dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
+          })
+
+
+        }
         docRef
           .update({
             likes: parseInt(currentLikes) + 1,
@@ -150,9 +159,19 @@ function DislikePost(docId, currentLikes) {
   docRef.get().then((doc) => {
     if (doc.exists) {
       const arrValue = doc.data().dislikedBy;
+      const oppValue = doc.data().likedBy;
       console.log(arrValue);
 
       if (!arrValue.includes(userID)) {
+        if(oppValue.includes(userID)){
+          docRef
+          .update({
+            likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
+
+          })
+        }
+
+
         docRef
           .update({
             likes: parseInt(currentLikes) - 1,
