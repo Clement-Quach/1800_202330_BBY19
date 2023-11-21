@@ -186,6 +186,24 @@ function newTicket() {
         }
     });
 
+    firebase.auth().onAuthStateChanged(user => {
+        // Check if user is signed in:
+        if (user) {
+            //go to the correct user document by referencing to the user uid
+            currentUser = db.collection("users").doc(user.uid);
+            //get the document for current user.
+            currentUser.get().then(userDoc => {
+                    //get the data fields of the user
+
+                    var userName = userDoc.data().name;
+                    nameInput.value = userName;
+            })
+        } else {
+            // No user is signed in.
+            console.log ("No user is signed in");
+        }
+    });
+
     divName.appendChild(labelName);
     divName.appendChild(nameInput);
 
@@ -279,23 +297,27 @@ function ticketSubmit() {
     // Create a unique formSubmissionID
     const formSubmissionID = firebase.firestore().collection('formSubmissions').doc().id;
 
-    // Create ticketDetails object
-    let ticketDetails = {
-        ticketNumber: generateTicketNumber(),
-        title: document.getElementById("ticketName").value,
-        concern: document.getElementById("choseConcern").value,
-        priority: document.getElementById("chosePriority").value,
-        details: document.getElementById("inputText").value,
-        name: document.getElementById("name").value,
-        action: 'new',
-        userID: userID,
-        timestamp: timestamp,
-        formSubmissionID: formSubmissionID,
-    };
+    const text = "Ready to submit?";
 
-    // Reference to the formSubmissions collection
-    const formSubmissionsRef = firebase.firestore().collection('formSubmissions').doc(formSubmissionID);
-    let imageInput = document.getElementById('imageAttachment').files[0];
+    if (inputNotEmpty() == true) {
+        if (confirm(text) == true) {
+            // Create ticketDetails object
+            let ticketDetails = {
+                ticketNumber: generateTicketNumber(),
+                title: document.getElementById("ticketName").value,
+                concern: document.getElementById("choseConcern").value,
+                priority: document.getElementById("chosePriority").value,
+                details: document.getElementById("inputText").value,
+                name: document.getElementById("name").value,
+                action: 'new',
+                userID: userID,
+                timestamp: timestamp,
+                formSubmissionID: formSubmissionID,
+            };
+
+            // Reference to the formSubmissions collection
+            const formSubmissionsRef = firebase.firestore().collection('formSubmissions').doc(formSubmissionID);
+            let imageInput = document.getElementById('imageAttachment').files[0];
 
     if (imageInput) {
         uploadPic(formSubmissionID, imageInput)
@@ -344,15 +366,24 @@ function ticketSubmit() {
             resetNewTicketDiv();
         })
 
-    // Display confirmation message
-    let newOuterDiv = document.getElementById("outerDiv");
-    newOuterDiv.style.color = "black";
-    newOuterDiv.innerHTML = "<h1>Submitted!</h1>";
 
-    // Add row to the ticket table
-    addRowToTable('ticketTable', ticketDetails);
+                // Add row to the ticket table
+                addRowToTable(ticketDetails);
+            }
+        }
+    } else {
+        alert("Please fill out all required fields before submitting the form.");
+    }
 }
 
+function inputNotEmpty() {
+    let title = document.getElementById("ticketName").value.trim();
+    let concern = document.getElementById("choseConcern").value.trim();
+    let priority = document.getElementById("chosePriority").value.trim();
+    let detail = document.getElementById("inputText").value.trim();
+    let name = document.getElementById("name").value.trim();
+
+    return title != "" && concern != "" && priority != "" && detail != "" && name != "";
 }
 
 

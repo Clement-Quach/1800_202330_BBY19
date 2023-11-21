@@ -1,62 +1,73 @@
 var currentUser;               //points to the document of the user who is logged in
 
 function populateUserInfo() {
-            firebase.auth().onAuthStateChanged(user => {
-                // Check if user is signed in:
-                if (user) {
-                    //go to the correct user document by referencing to the user uid
-                    currentUser = db.collection("users").doc(user.uid);
-                    //get the document for current user.
-                    currentUser.get().then(userDoc => {
-                            //get the data fields of the user
-                            var userName = userDoc.data().name;
-                            var accountEmail = userDoc.data().email;
-                            var userCity = userDoc.data().city;
-                            var userPhone = userDoc.data().phoneNumber;
-                            var userPreferEmail = userDoc.data().userPreferedContactEmail;
+    firebase.auth().onAuthStateChanged(user => {
+        // Check if user is signed in:
+        if (user) {
+            //go to the correct user document by referencing to the user uid
+            currentUser = db.collection("users").doc(user.uid);
+            //get the document for current user.
+            currentUser.get().then(userDoc => {
+                    //get the data fields of the user
+                    var userName = userDoc.data().name;
+                    var accountEmail = userDoc.data().email;
+                    var userCity = userDoc.data().city;
+                    var userPhone = userDoc.data().phoneNumber;
+                    var userPreferEmail = userDoc.data().userPreferedContactEmail;
 
-                            //if the data fields are not empty, then write them in to the form.
-                            if (accountEmail != null) {
-                                email = document.getElementById("account-email");
-                                email.innerHTML = accountEmail;
-                                email.style.color = "grey";
-                            }
+                    //if the data fields are not empty, then write them in to the form.
+                    if (accountEmail != null) {
+                        email = document.getElementById("account-email");
+                        email.innerHTML = accountEmail;
+                        email.style.color = "grey";
+                    }
 
-                            if (userName != null) {
-                                document.getElementById("nameInput").value = userName;
-                            }
+                    if (userName != null) {
+                        document.getElementById("nameInput").value = userName;
+                    }
 
-                            if (userCity != null) {
-                                document.getElementById("cityInput").value = userCity
-                            }
+                    if (userCity != null) {
+                        document.getElementById("cityInput").value = userCity
+                    }
 
-                            if (userPhone != null) {
-                                document.getElementById("phoneInput").value = userPhone;
-                            }
+                    if (userPhone != null) {
+                        document.getElementById("phoneInput").value = userPhone;
+                    }
 
-                            if (userPreferEmail != null) {
-                                document.getElementById("emailInput").value = userPreferEmail;
-                            }
-                        })
-                    
-                } else {
-                    // No user is signed in.
-                    console.log ("No user is signed in");
-                }
-            });
+                    if (userPreferEmail != null) {
+                        document.getElementById("emailInput").value = userPreferEmail;
+                    }
+                })
+            
+        } else {
+            // No user is signed in.
+            console.log ("No user is signed in");
         }
+    });
+}
+
 function editUserInfo() {
-          //Enable the form fields and save button
-          document.getElementById('personalInfoFields').disabled = false;
-          document.getElementById('save-button').disabled = false;
-       }
+    //Enable the form fields and save button
+    var edit = document.getElementById('personalInfoFields').disabled;
+    var save = document.getElementById('save-button').disabled;
+
+    if (edit == true) {
+        document.getElementById('personalInfoFields').disabled = false;
+        document.getElementById('save-button').disabled = false;
+        document.getElementById('edit-button').style.color = "black";
+    } else {
+        document.getElementById('personalInfoFields').disabled = true;
+        document.getElementById('save-button').disabled = true;
+        document.getElementById('edit-button').style.color = "white";
+    }
+}
 
 function saveUserInfo() {
         //enter code here
 
         //a) get user entered values
         if (document.getElementById('nameInput').value.trim() === "") {
-            alert('Input cannot be blank. Please enter a value.');
+            alert('Name cannot be blank. Please enter a name.');
         } else {
             userName = document.getElementById('nameInput').value; 
             userCity = document.getElementById('cityInput').value;       //get the value of the field with id="cityInput"

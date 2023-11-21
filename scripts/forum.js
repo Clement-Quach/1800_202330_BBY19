@@ -1,3 +1,5 @@
+var likeCount;
+
 function fetchDataAndDisplay() {
   const dataContainer = document.getElementById("dataContainer");
 
@@ -26,10 +28,35 @@ function fetchDataAndDisplay() {
 
         // Formatting the date and time
         const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+        const currentDate = new Date();
+
+        const timeDifference = currentDate - dateObject;
+
+        // Convert milliseconds to hours
+        const hoursDifference = timeDifference / (1000 * 60 * 60);
+
+        // Convert milliseconds to days
+        const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+        var status;
+        // Check if 24 hours have passed
+        if (daysDifference > 3) {
+          status = "Past";
+        }
+        else if (hoursDifference >= 24) {
+            status = "Recent";
+        } else {
+            status = data.action;
+        }
+
+        likeCount = data.likes || 0;
+
         if (data.image) {
           dataElement.innerHTML = `
           <div class="card-header">
-            <span class="tag tag-teal" id="title">${data.action}</span>
+            <span class="tag tag-teal" id="title">${status}</span>
+            <span class="tag tag-purple" id="title">${data.concern}</span>
           </div>
           <div class="card-body">
             <div class="user">
@@ -44,12 +71,12 @@ function fetchDataAndDisplay() {
               <p>${data.details}</p>
             </div>
             <div id="like-section">
-              <h3 id="likeCount">Likes: <span id="like-number">${data.likes || 0}</span></h3>
+              <h3 id="likeCount">Likes: <span id="like-number">${likeCount}</span></h3>
               <button id="like-image" onclick="likePost('${
                 doc.id
-              }', '${data.likes || 0}')">Like</button>
+              }', '${likeCount}')">Like</button>
               <button onclick="DislikePost('${doc.id}', '${
-              data.likes || 0
+                likeCount
                 }')">Dislike</button>
             </div>
           </div>
@@ -57,7 +84,8 @@ function fetchDataAndDisplay() {
         } else {
           dataElement.innerHTML = `
           <div class="card-header">
-            <span class="tag tag-teal" id="title">${data.action}</span>
+            <span class="tag tag-teal" id="title">${status}</span>
+            <span class="tag tag-purple" id="title">${data.concern}</span>
           </div>
           <div class="card-body">
             <div class="user">
@@ -69,12 +97,12 @@ function fetchDataAndDisplay() {
               <p>${data.details}</p>
             </div>
             <div id="like-section">
-              <span id="likeCount">Likes: <span id="like-number">${data.likes || 0}</span></span>
+              <h3 id="likeCount">Likes: <span id="like-number">${likeCount}</span></h3>
               <button id="like-image" onclick="likePost('${
                 doc.id
               }', '${data.likes || 0}')">Like</button>
               <button onclick="DislikePost('${doc.id}', '${
-                data.likes || 0
+                likeCount
               }')">Dislike</button>
             </div>
           </div>
@@ -128,13 +156,18 @@ function likePost(docId, currentLikes) {
             likedBy: firebase.firestore.FieldValue.arrayUnion(userID),
           })
           .then(() => {
+            document.getElementById("like-number").innerHTML = parseInt(currentLikes) + 1;
             console.log("Document successfully updated!");
           });
       } else {
         docRef.update({
           likes: parseInt(currentLikes) - 1,
           likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
-        });
+        })
+        .then(() => {
+          document.getElementById("like-number").innerHTML = parseInt(currentLikes) - 1;
+          console.log("Document successfully updated!");
+        })
       }
     }
   });
@@ -147,6 +180,7 @@ function likePost(docId, currentLikes) {
   //     console.log("Document successfully updated!");
 
   // })}
+  
 }
 function DislikePost(docId, currentLikes) {
   const dataContainer = document.getElementById("dataContainer");
@@ -188,5 +222,4 @@ function DislikePost(docId, currentLikes) {
       }
     }
   });
-
 }

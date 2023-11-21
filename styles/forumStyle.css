@@ -54,6 +54,7 @@ html, body {
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   width: 100%;
+  transition: background-color 0.25s;
 }
 
 .card-image img {
@@ -131,4 +132,11 @@ html, body {
 
 .user-info small {
   color: #545d7a;
+}
+
+.header {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1em;
 }
