@@ -226,8 +226,8 @@ outerDiv.style.marginBottom = '5rem';
 outerDiv.style.padding = '2rem';
 
 
-function addRowToTable(tableId, rowData) {
-    const tableBody = document.getElementById("ticketTableBody");
+function addRowToTable(rowData) {
+    const tableBody = document.getElementById('td');
     const newRow = document.createElement('tr');
 
     newRow.innerHTML = `
@@ -239,7 +239,12 @@ function addRowToTable(tableId, rowData) {
         <td>${rowData.action}</td>
     `;
 
-    tableBody.appendChild(newRow);
+    if (tableBody) {
+        // Perform the appendChild operation
+        tableBody.appendChild(newRow);
+    } else {
+        console.error("Table body element not found or is null.");
+    }
 }
 
 function ticketSubmit() {
@@ -260,78 +265,92 @@ function ticketSubmit() {
     // let ticketProblemDetails = document.getElementById("inputText").value;
     // let ticketName = document.getElementById("name").value;
 
-    // Create ticketDetails object
-    let ticketDetails = {
-        ticketNumber: generateTicketNumber(),
-        title: document.getElementById("ticketName").value,
-        concern: document.getElementById("choseConcern").value,
-        priority: document.getElementById("chosePriority").value,
-        details: document.getElementById("inputText").value,
-        name: document.getElementById("name").value,
-        action: 'new',
-        userID: userID,
-        timestamp: timestamp,
-        formSubmissionID: formSubmissionID,
-    };
+    const text = "Ready to submit?";
 
-    // Reference to the formSubmissions collection
-    const formSubmissionsRef = firebase.firestore().collection('formSubmissions').doc(formSubmissionID);
-    let imageInput = document.getElementById('imageAttachment').files[0];
+    if (inputNotEmpty() == true) {
+        if (confirm(text) == true) {
+            // Create ticketDetails object
+            let ticketDetails = {
+                ticketNumber: generateTicketNumber(),
+                title: document.getElementById("ticketName").value,
+                concern: document.getElementById("choseConcern").value,
+                priority: document.getElementById("chosePriority").value,
+                details: document.getElementById("inputText").value,
+                name: document.getElementById("name").value,
+                action: 'new',
+                userID: userID,
+                timestamp: timestamp,
+                formSubmissionID: formSubmissionID,
+            };
 
-    if (imageInput) {
-        uploadPic(formSubmissionID, imageInput)
-            .then(url => {
-                ticketDetails.image = url; // Add the image URL to ticketDetails object
-                return formSubmissionsRef.set(ticketDetails); // Create the submission with image URL
-            })
-            .then(() => {
-                const userRef = firebase.firestore().collection('users').doc(userID);
-                return userRef.update({
-                    userSubmissions: firebase.firestore.FieldValue.arrayUnion(formSubmissionID)
+            // Reference to the formSubmissions collection
+            const formSubmissionsRef = firebase.firestore().collection('formSubmissions').doc(formSubmissionID);
+            let imageInput = document.getElementById('imageAttachment').files[0];
+
+            if (imageInput) {
+                uploadPic(formSubmissionID, imageInput)
+                    .then(url => {
+                        ticketDetails.image = url; // Add the image URL to ticketDetails object
+                        return formSubmissionsRef.set(ticketDetails); // Create the submission with image URL
+                    })
+                    .then(() => {
+                        const userRef = firebase.firestore().collection('users').doc(userID);
+                        return userRef.update({
+                            userSubmissions: firebase.firestore.FieldValue.arrayUnion(formSubmissionID)
+                        });
+                    })
+                    .then(() => {
+                        return formSubmissionsRef.get();
+                    })
+                    .then(doc => {
+                        const formattedTime = formatTimestamp(doc.data().timestamp);
+                        console.log('Submission time:', formattedTime);
+                        window.location.href = "postThanks.html";
+                        resetNewTicketDiv();
+                    })
+                    .catch(error => {
+                        console.error('Error: ', error);
+                    });
+            } else {
+                formSubmissionsRef.set(ticketDetails)
+                .then(() => {
+                    // Update the user document with the formSubmissionID
+                    const userRef = firebase.firestore().collection('users').doc(userID);
+                    return userRef.update({
+                        userPosts: firebase.firestore.FieldValue.arrayUnion(formSubmissionID)
+                    });
+                })
+                .then(() => {
+                    const formattedTime = formatTimestamp(doc.data().timestamp);
+                    console.log('Submission time:', formattedTime);
+                    // Reset the form
+                    resetNewTicketDiv();
+                })
+                .catch(error => {
+                    console.error('Error storing data in Firebase: ', error);
                 });
-            })
-            .then(() => {
-                return formSubmissionsRef.get();
-            })
-            .then(doc => {
-                const formattedTime = formatTimestamp(doc.data().timestamp);
-                console.log('Submission time:', formattedTime);
+
+
+                // Add row to the ticket table
+                addRowToTable(ticketDetails);
+
+                // Redirect to thank you
                 window.location.href = "postThanks.html";
-                resetNewTicketDiv();
-            })
-            .catch(error => {
-                console.error('Error: ', error);
-            });
+            }
+        }
     } else {
-        formSubmissionsRef.set(ticketDetails)
-        .then(() => {
-            // Update the user document with the formSubmissionID
-            const userRef = firebase.firestore().collection('users').doc(userID);
-            return userRef.update({
-                userPosts: firebase.firestore.FieldValue.arrayUnion(formSubmissionID)
-            });
-        })
-        .then(() => {
-            const formattedTime = formatTimestamp(doc.data().timestamp);
-            console.log('Submission time:', formattedTime);
-            // Redirect to thank you
-            window.location.href = "postThanks.html";
-            // Reset the form
-            resetNewTicketDiv();
-        })
-        .catch(error => {
-            console.error('Error storing data in Firebase: ', error);
-        });
-
-    // Display confirmation message
-    let newOuterDiv = document.getElementById("outerDiv");
-    newOuterDiv.style.color = "black";
-    newOuterDiv.innerHTML = "<h1>Submitted!</h1>";
-
-    // Add row to the ticket table
-    addRowToTable('ticketTable', ticketDetails);
+        alert("Please fill out all required fields before submitting the form.");
+    }
 }
 
+function inputNotEmpty() {
+    let title = document.getElementById("ticketName").value.trim();
+    let concern = document.getElementById("choseConcern").value.trim();
+    let priority = document.getElementById("chosePriority").value.trim();
+    let detail = document.getElementById("inputText").value.trim();
+    let name = document.getElementById("name").value.trim();
+
+    return title != "" && concern != "" && priority != "" && detail != "" && name != "";
 }
 
 
