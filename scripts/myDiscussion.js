@@ -4,6 +4,7 @@ function fetchDataAndDisplay(userID) {
   // Retrieve form submission data from Firestore based on the user ID
   db.collection('discussionSubmissions')
       .where('userID', '==', userID) // Add this line to filter by user ID
+      .orderBy('timestamp', 'desc')
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach((doc) => {
@@ -31,13 +32,20 @@ function fetchDataAndDisplay(userID) {
         // Convert milliseconds to hours
         const hoursDifference = timeDifference / (1000 * 60 * 60);
 
+        // Convert milliseconds to days
+        const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
         var status;
         // Check if 24 hours have passed
-        if (hoursDifference >= 24) {
-            status = "Previous"
+        if (daysDifference > 3) {
+          status = "Past";
+        }
+        else if (hoursDifference >= 24) {
+            status = "Recent";
         } else {
             status = data.action;
         }
+
         // Formatting the date and time
         const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
 

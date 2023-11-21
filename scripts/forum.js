@@ -36,10 +36,16 @@ function fetchDataAndDisplay() {
         // Convert milliseconds to hours
         const hoursDifference = timeDifference / (1000 * 60 * 60);
 
+        // Convert milliseconds to days
+        const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
         var status;
         // Check if 24 hours have passed
-        if (hoursDifference >= 24) {
-            status = "Previous"
+        if (daysDifference > 3) {
+          status = "Past";
+        }
+        else if (hoursDifference >= 24) {
+            status = "Recent";
         } else {
             status = data.action;
         }

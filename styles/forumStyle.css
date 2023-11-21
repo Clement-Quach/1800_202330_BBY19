@@ -133,3 +133,10 @@ html, body {
 .user-info small {
   color: #545d7a;
 }
+
+.header {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1em;
+}
