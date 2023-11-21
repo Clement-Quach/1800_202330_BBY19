@@ -9,6 +9,24 @@ const previewImage = (event) => {
     }
 };
 
+function generateTicketNumber(){
+    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZ";
+    let nums = "0123456789";
+    let string_length = 3;
+    let number_length = 2;
+    let randomstring = '';
+    let randomnumber = '';
+    for (let i=0; i<string_length; i++) {
+        let rnum = Math.floor(Math.random() * chars.length);
+        randomstring += chars.substring(rnum,rnum+1);
+    }
+    for (let i=0; i<number_length; i++) {
+        let r = Math.floor(Math.random() * nums.length);
+        randomnumber += nums.substring(r,r+1);
+    }
+    return  (randomstring + randomnumber);
+}
+
 function newTicket() {
     
     var createButton = document.getElementById("outerDiv");
@@ -150,6 +168,23 @@ function newTicket() {
     nameInput.type = 'text';
     nameInput.className = 'form-control';
     nameInput.id = 'name';
+    firebase.auth().onAuthStateChanged(user => {
+        // Check if user is signed in:
+        if (user) {
+            //go to the correct user document by referencing to the user uid
+            currentUser = db.collection("users").doc(user.uid);
+            //get the document for current user.
+            currentUser.get().then(userDoc => {
+                    //get the data fields of the user
+
+                    var userName = userDoc.data().name;
+                    nameInput.value = userName;
+            })
+        } else {
+            // No user is signed in.
+            console.log ("No user is signed in");
+        }
+    });
 
     divName.appendChild(labelName);
     divName.appendChild(nameInput);
@@ -328,22 +363,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function generateTicketNumber(){
-    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZ";
-    let nums = "0123456789";
-    let string_length = 3;
-    let number_length = 2;
-    let randomstring = '';
-    let randomnumber = '';
-    for (let i=0; i<string_length; i++) {
-        let rnum = Math.floor(Math.random() * chars.length);
-        randomstring += chars.substring(rnum,rnum+1);
-    }
-    for (let i=0; i<number_length; i++) {
-        let r = Math.floor(Math.random() * nums.length);
-        randomnumber += nums.substring(r,r+1);
-    }
-    return  (randomstring + randomnumber);
+
+function uploadPic(submissionID, imageInput) {
+    var storageRef = storage.ref("images/" + submissionID + ".jpg");
+
+    return storageRef.put(imageInput)
+        .then(() => {
+            return storageRef.getDownloadURL();
+        })
+        .catch(error => {
+            console.log("error uploading to cloud storage", error);
+            throw error;
+        });
 }
 
 function resetNewTicketDiv() {
@@ -358,16 +389,5 @@ function randomTableColor() {
               return colors[x];
 }
 
-function uploadPic(submissionID, imageInput) {
-    var storageRef = storage.ref("images/" + submissionID + ".jpg");
 
-    return storageRef.put(imageInput)
-        .then(() => {
-            return storageRef.getDownloadURL();
-        })
-        .catch(error => {
-            console.log("error uploading to cloud storage", error);
-            throw error;
-        });
-}
 
