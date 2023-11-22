@@ -4,7 +4,7 @@
 
 .container {
     display: grid;
-    grid-template-rows: 40vh auto;
+    grid-template-rows: 40vh 30vh auto;
     grid-template-columns: auto;
     padding: 0px;
     margin: 0px;
@@ -43,13 +43,12 @@
 
 .comment {
     display: grid;
-    grid-template-rows:15% 25% auto 25%;
+    grid-template-rows:15% 25% 35% 25%;
     grid-template-columns: repeat(5, 20%);
     border: 1px solid black;
     box-shadow: 0 4px 8px 0 rgba(128, 128, 128, 0.4);
     margin-top: 3vh;
     align-items: center;
-    overflow: hidden;
 }
 
 #commentMessage {
@@ -57,7 +56,6 @@
     grid-row: 1 / span 1;
     padding: 5vw;
     font-family: 'Inter', sans-serif;
-    position: sticky;
 }
 
 #commentImage {
@@ -68,17 +66,24 @@
 
 }
 
-#commentBox {
-    grid-row: 3 / span 1;
-    grid-column: 1 / span 5;
-    padding: 1vw;
-    border: 1px solid black;
+#commentName {
+    grid-row: 2 / span 1;
+    grid-column: 2 / span 4;
+    padding: 5vw;
+    border-top: 1px solid grey;
 }
 
-textarea {
+#commentInput {
     width: 100%;
     border: none;
     outline: none;
+}
+
+#commentBox {
+    grid-row: 3 / span 1;
+    grid-column: 1 / span 5;
+    padding: 2vw;
+    border: 1px solid black;
 }
 
 #commentPost {
@@ -87,27 +92,19 @@ textarea {
     grid-column: 3 / span 2;
 }
 
-
-#commentName {
-    grid-row: 2 / span 1;
-    grid-column: 2 / span 4;
-    padding: 5vw;
-    border-top: 1px solid grey;
-}
 #commentPreview {
     background-color: transparent;
     color: red;
     font-family: 'Varela Round', sans-serif;
-    border: 2px solid red; 
+    border: 2px solid red; /* Maintain the border size */
     border-radius: 8px;
     margin-right: 1vw;
-    position: sticky;
 }
 
 #commentPostComment {
     background-color: transparent;
     color: red;
     font-family: 'Varela Round', sans-serif;
-    border: 2px solid red;
+    border: 2px solid red; /* Maintain the border size */
     border-radius: 8px;
 }
