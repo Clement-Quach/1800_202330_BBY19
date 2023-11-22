@@ -56,6 +56,7 @@ function newTicket() {
     title.type = 'text';
     title.className = 'form-control';
     title.id = 'ticketName';
+    title.setAttribute('required', true);
 
     const createPostButton = document.getElementById('createPostButton');
     if (createPostButton) {
@@ -96,6 +97,7 @@ function newTicket() {
     let select = document.createElement('select');
     select.id = 'choseConcern';
     select.className = 'form-control';
+    select.setAttribute('required', true);
     let option = document.createElement('option');
     let option1 = document.createElement('option');
     let option2 = document.createElement('option');

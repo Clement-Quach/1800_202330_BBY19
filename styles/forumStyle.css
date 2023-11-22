@@ -114,6 +114,18 @@ html, body {
     row-gap: 2rem;
 }
 
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 500,
+  'GRAD' 0,
+  'opsz' 30
+}
+
+#upvote:hover {
+  cursor: pointer;
+}
+
 .header {
   display: grid;
   padding: 1rem;

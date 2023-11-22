@@ -75,16 +75,13 @@ function fetchDataAndDisplay(sort, order) {
               <p>${data.details}</p>
             </div>
             <div id="like-section">
-              <div class="like">
-                <img src="/images/vote-icon.png" class="likeCount">
-                <span id="like-number">${likeCount}</span>
-              </div>
-              <img src="/images/upvote.png" class="vote-image" onclick="likePost('${
+              <span id="upvote" class="material-symbols-outlined" onclick="likePost('${
                 doc.id
-              }', '${likeCount}')">
-              <img src="/images/downvote.png" class="vote-image" onclick="DislikePost('${doc.id}', '${
+              }', '${likeCount}')">arrow_circle_up</span>
+              <span id="like-number">${likeCount}</span>
+              <span id="downvote" class="material-symbols-outlined" onclick="DislikePost('${doc.id}', '${
                 likeCount
-                }')">
+                }')">arrow_circle_down</span>
             </div>
           </div>
         `;
@@ -175,6 +172,11 @@ firebase.auth().onAuthStateChanged((user) => {
 });
 
 function likePost(docId, currentLikes) {
+
+  var up = document.getElementById('upvote');
+
+  toggleFontVariation(up);
+
   const dataContainer = document.getElementById("dataContainer");
   //enter code here
 
@@ -229,7 +231,14 @@ function likePost(docId, currentLikes) {
   // })}
   
 }
+
+
 function DislikePost(docId, currentLikes) {
+
+  var down = document.getElementById('downvote');
+
+  toggleFontVariation(down);
+
   const dataContainer = document.getElementById("dataContainer");
   //enter code here
 
@@ -269,4 +278,20 @@ function DislikePost(docId, currentLikes) {
       }
     }
   });
+}
+
+var isClicked = false;
+
+function toggleFontVariation(id) {
+  // Get the element by its class name
+  var element = id
+
+  // Toggle the state and change the 'FILL' value accordingly
+  isClicked = !isClicked;
+
+  if (isClicked) {
+    element.style.fontVariationSettings = "'FILL' 50, 'wght' 500, 'GRAD' 0, 'opsz' 30";
+  } else {
+    element.style.fontVariationSettings = "'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 30";
+  }
 }
