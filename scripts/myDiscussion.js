@@ -1,10 +1,12 @@
-function fetchDataAndDisplay(userID) {
+var sortSelect = document.getElementById('sort-type');
+
+function fetchDataAndDisplay(userID, sort, order) {
   const dataContainer = document.getElementById('dataContainer');
 
   // Retrieve form submission data from Firestore based on the user ID
   db.collection('discussionSubmissions')
       .where('userID', '==', userID) // Add this line to filter by user ID
-      .orderBy('timestamp', 'desc')
+      .orderBy(sort, order)
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach((doc) => {
@@ -54,6 +56,7 @@ function fetchDataAndDisplay(userID) {
           <div class="card-header">
             <span class="tag tag-teal" id="title">${status}</span>
             <span class="tag tag-purple" id="title">${data.concern}</span>
+            <span class="tag tag-pink" id="title">${data.location}</span>
           </div>
           <div class="card-body">
             <div class="user">
@@ -68,11 +71,11 @@ function fetchDataAndDisplay(userID) {
               <p>${data.details}</p>
             </div>
             <div id="like-section">
-              <h3 id="likeCount">Likes: <span id="like-number">${data.likes || 0}</span></h3>
-              <button id="like-image" class="btn btn-primary" onclick="likePost('${
+              <button id="like-image" onclick="likePost('${
                 doc.id
               }', '${data.likes || 0}')">Like</button>
-              <button class="btn btn-danger" onclick="DislikePost('${doc.id}', '${
+              <h5 id="likeCount"><span id="like-number">${data.likes || 0}</span></h5>
+              <button onclick="DislikePost('${doc.id}', '${
               data.likes || 0
                 }')">Dislike</button>
             </div>
@@ -83,6 +86,7 @@ function fetchDataAndDisplay(userID) {
           <div class="card-header">
             <span class="tag tag-teal" id="title">${status}</span>
             <span class="tag tag-purple" id="title">${data.concern}</span>
+            <span class="tag tag-pink" id="title">${data.location}</span>
           </div>
           <div class="card-body">
             <div class="user">
@@ -94,18 +98,17 @@ function fetchDataAndDisplay(userID) {
               <p>${data.details}</p>
             </div>
             <div id="like-section">
-              <span id="likeCount">Likes: <span id="like-number">${data.likes || 0}</span></span>
               <button id="like-image" onclick="likePost('${
                 doc.id
               }', '${data.likes || 0}')">Like</button>
+              <h5 id="likeCount"><span id="like-number">${data.likes || 0}</span></h5>
               <button onclick="DislikePost('${doc.id}', '${
-                data.likes || 0
-              }')">Dislike</button>
+              data.likes || 0
+                }')">Dislike</button>
             </div>
           </div>
           `;
         }
-
 
         // Append the HTML to the container
         dataContainer.appendChild(dataElement);
@@ -118,6 +121,32 @@ function fetchDataAndDisplay(userID) {
 }
 
 firebase.auth().onAuthStateChanged(user => {
+
+  var sort;
+  var order;
+
+  if (localStorage.getItem('dropdownValue')) {
+    sortSelect.value = localStorage.getItem('dropdownValue');
+    var sortType = localStorage.getItem('dropdownValue');
+  }
+
+  if (sortType == 'New') {
+    sort = "timestamp";
+    order = "desc";
+  } else if (sortType == 'Old') {
+    sort = "timestamp";
+    order = "asc";
+  } else if (sortType == 'Concern') {
+    sort = "concern";
+    order = "asc";
+  } else if (sortType == 'Likes') {
+    sort = "likes";
+    order = "desc";
+  } else if (sortType == 'City') {
+    sort = "location";
+    order = "asc";
+  }
+
   // Check if user is signed in:
   if (user) {
     currentUser = db.collection("users").doc(user.id)
@@ -125,111 +154,99 @@ firebase.auth().onAuthStateChanged(user => {
   const userID = firebase.auth().currentUser.uid;
   console.log(userID);
   // Call the function with the user ID
-  fetchDataAndDisplay(userID);
+  fetchDataAndDisplay(userID, sort, order);
+});
+
+sortSelect.addEventListener("change", function() {
+  localStorage.setItem('dropdownValue', this.value);
+  changeSort();
 });
 
 
+function changeSort() {
+  dataContainer.innerHTML = "";
+  
+  setTimeout(function() {
+    window.location.href = "loadingMyDiscussion.html";
+  }, 100);
+}
 
 //go to the correct user document by referencing to the user uid
-// currentUser = db.collection("users").doc(user.id);
-
-
-
-
+firebase.auth().onAuthStateChanged((user) => {
+  // Check if user is signed in:
+  if (user) {
+    currentUser = db.collection("users").doc(user.id);
+  }
+});
 
 function likePost(docId, currentLikes) {
-  const dataContainer = document.getElementById('dataContainer');
-  //enter code here
+
+  // var up = document.getElementById('upvote');
+
+  // toggleFontVariation(up);
 
   const userID = firebase.auth().currentUser.uid;
-  //a) get user entered values
-  const userName = firebase.firestore().collection('users').doc(userID);
-  const docRef = db.collection('discussionSubmissions').doc(docId);
+  const docRef = db.collection("discussionSubmissions").doc(docId);
+
   docRef.get().then((doc) => {
     if (doc.exists) {
-      const arrValue = doc.data().likedBy;
-      console.log(arrValue)
+      const likedBy = doc.data().likedBy || [];
+      const dislikedBy = doc.data().dislikedBy || [];
 
-      if (!(arrValue.includes(userID))) {
-        var currentNumber = parseInt(currentLikes) + 1;
+      if (likedBy.includes(userID)) {
+        // If previously liked and now unliking
         docRef.update({
-
-          likes: currentNumber,
-          likedBy: firebase.firestore.FieldValue.arrayUnion(userID),
-
-
-        }).then(() => {
-          // var numberDisplay = document.getElementById("like-number");
-          // numberDisplay.textContent = currentNumber;
-          console.log("Document successfully updated!");
-        })
-
-      } else {
-        var currentNumber = parseInt(currentLikes) - 1;
-        docRef.update({
-
-          likes: currentNumber,
+          likes: parseInt(currentLikes) - 1,
           likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
-
         }).then(() => {
-          // var numberDisplay = document.getElementById("like-number");
-          // numberDisplay.textContent = currentNumber;
           console.log("Document successfully updated!");
-        })
-
+        });
+      } else {
+        // If not previously liked or changing from dislike to like
+        docRef.update({
+          likes: dislikedBy.includes(userID) ? parseInt(currentLikes) + 2 : parseInt(currentLikes) + 1,
+          likedBy: firebase.firestore.FieldValue.arrayUnion(userID),
+          dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
+        }).then(() => {
+          console.log("Document successfully updated!");
+        });
       }
     }
-  }
-
-  )
-
-
-  //   db.collection('discussionSubmissions').doc(docId).update({
-
-  //       likes: parseInt(currentLikes) +1,
-  //       likedBy: firebase.firestore.FieldValue.arrayUnion(userID),
-
-
-  //   }) .then(() => {
-  //     console.log("Document successfully updated!");
-
-  // })}
+  });
 }
+
 function DislikePost(docId, currentLikes) {
-  const dataContainer = document.getElementById('dataContainer');
-  //enter code here
+
+  // var down = document.getElementById('downvote');
+
+  // toggleFontVariation(down);
 
   const userID = firebase.auth().currentUser.uid;
-  //a) get user entered values
-  const userName = firebase.firestore().collection('users').doc(userID);
-  const docRef = db.collection('discussionSubmissions').doc(docId);
+  const docRef = db.collection("discussionSubmissions").doc(docId);
+
   docRef.get().then((doc) => {
     if (doc.exists) {
-      const arrValue = doc.data().dislikedBy;
-      console.log(arrValue)
+      const likedBy = doc.data().likedBy || [];
+      const dislikedBy = doc.data().dislikedBy || [];
 
-      if (!(arrValue.includes(userID))) {
-        docRef.update({
-
-          likes: parseInt(currentLikes) - 1,
-          dislikedBy: firebase.firestore.FieldValue.arrayUnion(userID),
-
-
-        }).then(() => {
-          console.log("Document successfully updated!");
-        })
-
-      } else {
+      if (dislikedBy.includes(userID)) {
+        // If previously disliked and now undisliking
         docRef.update({
           likes: parseInt(currentLikes) + 1,
           dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
-
-        })
-
+        }).then(() => {
+          console.log("Document successfully updated!");
+        });
+      } else {
+        // If not previously disliked or changing from like to dislike
+        docRef.update({
+          likes: likedBy.includes(userID) ? parseInt(currentLikes) - 2 : parseInt(currentLikes) - 1,
+          dislikedBy: firebase.firestore.FieldValue.arrayUnion(userID),
+          likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
+        }).then(() => {
+          console.log("Document successfully updated!");
+        });
       }
     }
-
-
-
-  })
+  });
 }

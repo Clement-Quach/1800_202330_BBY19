@@ -236,6 +236,7 @@ function ticketSubmit() {
                 ticketNumber: generateTicketNumber(),
                 title: document.getElementById("ticketName").value,
                 concern: document.getElementById("choseConcern").value,
+                location: document.getElementById("choseLocation").value,
                 details: document.getElementById("inputText").value,
                 name: document.getElementById("name").value,
                 action: 'New',
@@ -306,6 +307,7 @@ function inputNotEmpty() {
     let concern = document.getElementById("choseConcern").value.trim();
     let detail = document.getElementById("inputText").value.trim();
     let name = document.getElementById("name").value.trim();
+
 
     return title != "" && concern != "" && detail != "" && name != "";
 }

@@ -54,6 +54,11 @@ html, body {
     margin-left: auto;
     margin-right: auto;
   }
+
+  .card-image img {
+    max-width: 60%;
+    max-height: 40%;
+  }
 }
 
 @media screen and (max-width: 400px) {
@@ -86,7 +91,7 @@ html, body {
   }
 
   .user h5 {
-    font-size: 16px;
+    font-size: 12px;
   }
 
   .card-details p {
@@ -106,7 +111,6 @@ html, body {
     display: grid;
     grid-template-columns: auto;
     align-items: center;
-    margin-top: 2rem;
     margin-bottom: 6rem;
     justify-content: center;
     margin-left: auto;
@@ -128,7 +132,7 @@ html, body {
 
 .header {
   display: grid;
-  padding: 1rem;
+  padding: 0.5rem;
   align-items: center;
   margin-left: auto;
   margin-right: auto;
