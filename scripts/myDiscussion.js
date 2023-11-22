@@ -78,6 +78,8 @@ function fetchDataAndDisplay(userID, sort, order) {
               <button onclick="DislikePost('${doc.id}', '${
               data.likes || 0
                 }')">Dislike</button>
+                <button id="editSubmit" onclick="editPost('${doc.id}')">edit</button>
+                <input type="text" id="editInput" placeholder="edit content" >
             </div>
           </div>
         `;
@@ -105,6 +107,8 @@ function fetchDataAndDisplay(userID, sort, order) {
               <button onclick="DislikePost('${doc.id}', '${
               data.likes || 0
                 }')">Dislike</button>
+              <button id="editSubmit" onclick="editPost('${doc.id}')">edit</button>
+              <input type="text" id="editInput" placeholder="edit content" >
             </div>
           </div>
           `;
@@ -250,3 +254,21 @@ function DislikePost(docId, currentLikes) {
     }
   });
 }
+
+
+function editPost(docId){
+  const docRef = db.collection("discussionSubmissions").doc(docId)
+  console.log("before the get")
+  docRef.get().then((doc) => {
+    
+      const changes = document.getElementById("editInput").value;
+      console.log(changes)
+      docRef.update({
+        details: changes
+
+      })
+
+    
+  })
+
+  }
