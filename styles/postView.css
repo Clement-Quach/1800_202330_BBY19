@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Montserrat:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Goblin+One&family=Lato:wght@100&family=PT+Sans+Caption&family=Varela+Round&display=swap');
+
+.container {
+    display: grid;
+    grid-template-rows: 40vh auto;
+    grid-template-columns: auto;
+    padding: 0px;
+    margin: 0px;
+}
+
+.title {
+    padding: 5vw;
+    font-size: 20px;
+}
+
+.post {
+    display: grid;
+    grid-template-rows:25% 75%;
+    grid-template-columns: repeat(5, 20%);
+    border: 1px solid black;
+    box-shadow: 0 4px 8px 0 rgba(128, 128, 128, 0.4);
+}
+
+#userImage {
+    grid-row: 1 / span 1;
+    grid-column: 1 / span 1;
+    padding: 5vw;
+}
+#userInfo {
+    grid-row: 1 / span 1;
+    grid-column: 2 / span 3;
+    padding: 5vw;
+}
+
+#discussion {
+    grid-row: 2 / span 1;
+    grid-column: 1 / span 5;
+    border-top: 1px solid grey;
+    padding: 5vw;
+}
+
+.comment {
+    display: grid;
+    grid-template-rows:15% 25% auto 25%;
+    grid-template-columns: repeat(5, 20%);
+    border: 1px solid black;
+    box-shadow: 0 4px 8px 0 rgba(128, 128, 128, 0.4);
+    margin-top: 3vh;
+    align-items: center;
+    overflow: hidden;
+}
+
+#commentMessage {
+    grid-column: 1 / span 5;
+    grid-row: 1 / span 1;
+    padding: 5vw;
+    font-family: 'Inter', sans-serif;
+    position: sticky;
+}
+
+#commentImage {
+    grid-row: 2 / span 1;
+    grid-column: 1 / span 1;
+    padding: 5vw;
+    border-top: 1px solid grey;
+
+}
+
+#commentBox {
+    grid-row: 3 / span 1;
+    grid-column: 1 / span 5;
+    padding: 1vw;
+    border: 1px solid black;
+}
+
+textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+#commentPost {
+    display: flex;
+    grid-row: 4 / span 1;
+    grid-column: 3 / span 2;
+}
+
+
+#commentName {
+    grid-row: 2 / span 1;
+    grid-column: 2 / span 4;
+    padding: 5vw;
+    border-top: 1px solid grey;
+}
+#commentPreview {
+    background-color: transparent;
+    color: red;
+    font-family: 'Varela Round', sans-serif;
+    border: 2px solid red; 
+    border-radius: 8px;
+    margin-right: 1vw;
+    position: sticky;
+}
+
+#commentPostComment {
+    background-color: transparent;
+    color: red;
+    font-family: 'Varela Round', sans-serif;
+    border: 2px solid red;
+    border-radius: 8px;
+}
