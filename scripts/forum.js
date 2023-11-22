@@ -7,13 +7,19 @@ function fetchDataAndDisplay(sort, order) {
 
   const dataContainer = document.getElementById("dataContainer");
 
+  // Clear previous data before re-rendering
+  dataContainer.innerHTML = "";
+
+  // Set up a real-time listener on the 'discussionSubmissions' collection
   db.collection("discussionSubmissions")
     .orderBy(sort, order)
-    .get()
-    .then((querySnapshot) => {
+    .onSnapshot((querySnapshot) => {
+
+      dataContainer.innerHTML = "";
+
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        // Create HTML elements based on the data
+
         const dataElement = document.createElement("div");
         dataElement.className = "card";
 
@@ -112,12 +118,9 @@ function fetchDataAndDisplay(sort, order) {
           </div>
         `;
         }
-
-        // Append the HTML to the container
         dataContainer.appendChild(dataElement);
       });
-    })
-    .catch((error) => {
+    }, (error) => {
       console.error("Error reading Firestore data:", error);
     });
 }
@@ -177,46 +180,20 @@ function likePost(docId, currentLikes) {
 
   toggleFontVariation(up);
 
-  const dataContainer = document.getElementById("dataContainer");
-  //enter code here
-
   const userID = firebase.auth().currentUser.uid;
-  //a) get user entered values
-  const userName = firebase.firestore().collection("users").doc(userID);
   const docRef = db.collection("discussionSubmissions").doc(docId);
+
   docRef.get().then((doc) => {
     if (doc.exists) {
-      const arrValue = doc.data().likedBy;
-      const oppValue = doc.data().dislikedBy;
-      console.log(arrValue);
+      const likedBy = doc.data().likedBy || [];
+      const dislikedBy = doc.data().dislikedBy || [];
 
-      if (!arrValue.includes(userID)) {
-        if(oppValue.includes(userID)){
-          docRef
-            .update({
-              dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
-          })
-
-
-        }
-        docRef
-          .update({
-            likes: parseInt(currentLikes) + 1,
-            likedBy: firebase.firestore.FieldValue.arrayUnion(userID),
-          })
-          .then(() => {
-            // document.getElementById("like-number").innerHTML = parseInt(currentLikes) + 1;
-            console.log("Document successfully updated!");
-          });
-      } else {
+      if (likedBy.includes(userID)) {
+        // If previously liked and now unliking
         docRef.update({
           likes: parseInt(currentLikes) - 1,
           likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
-        })
-        .then(() => {
-          // document.getElementById("like-number").innerHTML = parseInt(currentLikes) - 1;
-          console.log("Document successfully updated!");
-        })
+        });
       }
     }
   });
@@ -229,7 +206,6 @@ function likePost(docId, currentLikes) {
   //     console.log("Document successfully updated!");
 
   // })}
-  
 }
 
 
@@ -239,29 +215,15 @@ function DislikePost(docId, currentLikes) {
 
   toggleFontVariation(down);
 
-  const dataContainer = document.getElementById("dataContainer");
-  //enter code here
-
   const userID = firebase.auth().currentUser.uid;
-  //a) get user entered values
-  const userName = firebase.firestore().collection("users").doc(userID);
   const docRef = db.collection("discussionSubmissions").doc(docId);
+
   docRef.get().then((doc) => {
     if (doc.exists) {
       const arrValue = doc.data().dislikedBy;
-      const oppValue = doc.data().likedBy;
       console.log(arrValue);
 
       if (!arrValue.includes(userID)) {
-        if(oppValue.includes(userID)){
-          docRef
-          .update({
-            likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
-
-          })
-        }
-
-
         docRef
           .update({
             likes: parseInt(currentLikes) - 1,
@@ -271,14 +233,22 @@ function DislikePost(docId, currentLikes) {
             console.log("Document successfully updated!");
           });
       } else {
+        // If not previously disliked or changing from like to dislike
         docRef.update({
-          likes: parseInt(currentLikes) + 1,
-          dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
+          likes: likedBy.includes(userID) ? parseInt(currentLikes) - 2 : parseInt(currentLikes) - 1,
+          dislikedBy: firebase.firestore.FieldValue.arrayUnion(userID),
+          likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
+        }).then(() => {
+          console.log("Document successfully updated!");
         });
       }
     }
   });
 }
+
+
+
+
 
 var isClicked = false;
 
