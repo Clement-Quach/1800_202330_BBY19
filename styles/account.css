@@ -1,7 +1,37 @@
+@media screen and (max-width: 400px) {
+  .container h3 {
+    font-size: 15px;
+    margin-right: 0.5rem;
+  }
+
+  .main {
+    margin-bottom: 20rem;
+  }
+
+  input {
+    width: 20rem;
+    height: 20px;
+  }
+
+  input::placeholder {
+    font-size: 12px;
+  }
+}
+
+@media screen and (min-width: 401px) {
+  .main {
+    margin-bottom: 22rem;
+  }
+
+  .container h3 {
+    font-size: 20px;
+    margin-right: 2rem;
+  }
+}
+
 .main {
   height: 100vh;
-  padding: 1rem;
-  margin-bottom: 30%;
+  padding: 1%;
 }
 
 body {
@@ -36,7 +66,7 @@ body {
 
 .profile-section img {
   border-radius: 50%; /* 50% creates a circle */
-  width: 250px;
-  height: 250px;
+  width: 150px;
+  height: 150px;
 }
 

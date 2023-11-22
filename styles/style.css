@@ -15,7 +15,7 @@ html, body {
   }
 }
 
-@media screen and (min-width: 586px) and (max-width: 989px){
+@media screen and (max-width: 989px){
   #navbar-top {
     display: grid;
     grid-template-columns: auto auto;

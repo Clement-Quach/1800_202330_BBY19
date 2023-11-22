@@ -10,10 +10,16 @@
   }
 }
 
+@media screen and (max-width: 400px) {
+  .main {
+    margin-bottom: 15rem;
+  }
+}
+
 .main {
   background-color: rgba(242, 241, 241, 0.876);
   height: 100vh;
-  padding: 1%;
+  padding: 2%;
 }
 
 .card {

@@ -1,10 +1,14 @@
 var likeCount;
 
-function fetchDataAndDisplay() {
+var sortSelect = document.getElementById('sort-type');
+
+
+function fetchDataAndDisplay(sort, order) {
+
   const dataContainer = document.getElementById("dataContainer");
 
   db.collection("discussionSubmissions")
-    .orderBy("timestamp", "desc")
+    .orderBy(sort, order)
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -71,13 +75,16 @@ function fetchDataAndDisplay() {
               <p>${data.details}</p>
             </div>
             <div id="like-section">
-              <h3 id="likeCount">Likes: <span id="like-number">${likeCount}</span></h3>
-              <button id="like-image" onclick="likePost('${
+              <div class="like">
+                <img src="/images/vote-icon.png" class="likeCount">
+                <span id="like-number">${likeCount}</span>
+              </div>
+              <img src="/images/upvote.png" class="vote-image" onclick="likePost('${
                 doc.id
-              }', '${likeCount}')">Like</button>
-              <button onclick="DislikePost('${doc.id}', '${
+              }', '${likeCount}')">
+              <img src="/images/downvote.png" class="vote-image" onclick="DislikePost('${doc.id}', '${
                 likeCount
-                }')">Dislike</button>
+                }')">
             </div>
           </div>
         `;
@@ -97,16 +104,16 @@ function fetchDataAndDisplay() {
               <p>${data.details}</p>
             </div>
             <div id="like-section">
-              <h3 id="likeCount">Likes: <span id="like-number">${likeCount}</span></h3>
+              <p id="likeCount">Likes: <span id="like-number">${likeCount}</span></p>
               <button id="like-image" onclick="likePost('${
                 doc.id
-              }', '${data.likes || 0}')">Like</button>
+              }', '${likeCount}')">Like</button>
               <button onclick="DislikePost('${doc.id}', '${
                 likeCount
-              }')">Dislike</button>
+                }')">Dislike</button>
             </div>
           </div>
-          `;
+        `;
         }
 
         // Append the HTML to the container
@@ -118,7 +125,47 @@ function fetchDataAndDisplay() {
     });
 }
 
-fetchDataAndDisplay();
+sortSelect.addEventListener("change", function() {
+  localStorage.setItem('dropdownValue', this.value);
+  changeSort(this.value);
+});
+
+
+function changeSort(sortType) {
+  dataContainer.innerHTML = "";
+  
+  setTimeout(function() {
+    window.location.href = "loading.html";
+  }, 100);
+}
+
+function runPage() {
+  var sort;
+  var order;
+
+  if (localStorage.getItem('dropdownValue')) {
+    sortSelect.value = localStorage.getItem('dropdownValue');
+    var sortType = localStorage.getItem('dropdownValue');
+  }
+
+  if (sortType == 'New') {
+    sort = "timestamp";
+    order = "desc";
+  } else if (sortType == 'Old') {
+    sort = "timestamp";
+    order = "asc";
+  } else if (sortType == 'Concern') {
+    sort = "concern";
+    order = "asc";
+  }
+
+  fetchDataAndDisplay(sort, order);
+}
+
+runPage();
+
+
+
 //go to the correct user document by referencing to the user uid
 firebase.auth().onAuthStateChanged((user) => {
   // Check if user is signed in:
@@ -156,7 +203,7 @@ function likePost(docId, currentLikes) {
             likedBy: firebase.firestore.FieldValue.arrayUnion(userID),
           })
           .then(() => {
-            document.getElementById("like-number").innerHTML = parseInt(currentLikes) + 1;
+            // document.getElementById("like-number").innerHTML = parseInt(currentLikes) + 1;
             console.log("Document successfully updated!");
           });
       } else {
@@ -165,7 +212,7 @@ function likePost(docId, currentLikes) {
           likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
         })
         .then(() => {
-          document.getElementById("like-number").innerHTML = parseInt(currentLikes) - 1;
+          // document.getElementById("like-number").innerHTML = parseInt(currentLikes) - 1;
           console.log("Document successfully updated!");
         })
       }

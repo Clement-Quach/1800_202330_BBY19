@@ -101,16 +101,27 @@ function newTicket() {
     let option2 = document.createElement('option');
     let option3 = document.createElement('option');
     let option4 = document.createElement('option');
+    let option5 = document.createElement('option');
     option.value = 'Street';
     option1.value = 'Safety';
     option3.value = 'Public Service';
     option4.value = 'Housing';
     option2.value = 'Emergency';
+    option5.value = 'Others';
+
+    var inputElement = document.createElement("input");
+    // Set attributes for the input element
+    inputElement.id = "other-input";
+    inputElement.type = "text";
+    inputElement.placeholder = "Type something...";
+    inputElement.style.display = "none";
+
     option.innerHTML = 'Street';
     option1.innerHTML = 'Safety';
     option3.innerHTML = 'Public Service';
     option4.innerHTML = 'Housing';
     option2.innerHTML = 'Emergency';
+    option5.innerHTML = 'Others';
     divConcern.appendChild(labelConcern);
     divConcern.appendChild(select);
     select.appendChild(option);
@@ -118,6 +129,9 @@ function newTicket() {
     select.appendChild(option2);
     select.appendChild(option3);
     select.appendChild(option4);
+    select.appendChild(option5);
+    select.appendChild(inputElement);
+
 
     let divPriority = document.createElement('div');
     divPriority.className = 'form-group';
@@ -256,6 +270,14 @@ function newTicket() {
 }
 
 newTicket();
+
+var comboBox = document.getElementById("choseConcern");
+var otherInput = document.getElementById("other-input");
+
+comboBox.addEventListener("change", function() {
+    // Display the input field if "Other" is selected, hide otherwise
+    otherInput.style.display = (comboBox.value === "Others") ? "block" : "none";
+  });
 
 outerDiv.style.marginBottom = '5rem';
 outerDiv.style.padding = '2rem';
