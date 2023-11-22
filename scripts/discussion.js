@@ -6,6 +6,7 @@ const previewImage = (event) => {
         const imagePreviewElement = document.querySelector("#preview-selected-image");
         imagePreviewElement.src = imageSrc;
         imagePreviewElement.style.display = "block";
+        imagePreviewElement.style.objectFit = 'contain';
 
     }
 };
@@ -225,69 +226,86 @@ function ticketSubmit() {
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
     const submissionID = firebase.firestore().collection('discussionSubmissions').doc().id;
 
-    let ticketDetails = {
-        ticketNumber: generateTicketNumber(),
-        title: document.getElementById("ticketName").value,
-        concern: document.getElementById("choseConcern").value,
-        details: document.getElementById("inputText").value,
-        name: document.getElementById("name").value,
-        action: 'New',
-        userID: userID,
-        timestamp: timestamp,
-        documentSubmissionID: submissionID,
-        likedBy: [],
-        dislikedBy: []
-    };
+    const text = "Ready to submit?";
 
-    const newSubmissionRef = firebase.firestore().collection('discussionSubmissions').doc(submissionID);
-    
-    let imageInput = document.getElementById('imageAttachment').files[0];
-
-    if (imageInput) {
-        uploadPic(submissionID, imageInput)
-            .then(url => {
-                ticketDetails.image = url; // Add the image URL to ticketDetails object
-                return newSubmissionRef.set(ticketDetails); // Create the submission with image URL
-            })
-            .then(() => {
-                const userRef = firebase.firestore().collection('users').doc(userID);
-                return userRef.update({
-                    userSubmissions: firebase.firestore.FieldValue.arrayUnion(submissionID)
-                });
-            })
-            .then(() => {
-                return newSubmissionRef.get(); // Change this line to use formSubmissionsRef instead of formSubmissionRef
-            })
-            .then(doc => {
-                const formattedTime = formatTimestamp(doc.data().timestamp);
-                console.log('Submission time:', formattedTime);
-                window.location.href = "discussionThanks.html";
-                resetNewTicketDiv();
-            })
-            .catch(error => {
-                console.error('Error: ', error);
-            });
+    if (inputNotEmpty() == true) {
+        if (confirm(text) == true) {
+            let ticketDetails = {
+                ticketNumber: generateTicketNumber(),
+                title: document.getElementById("ticketName").value,
+                concern: document.getElementById("choseConcern").value,
+                details: document.getElementById("inputText").value,
+                name: document.getElementById("name").value,
+                action: 'New',
+                userID: userID,
+                timestamp: timestamp,
+                documentSubmissionID: submissionID,
+                likedBy: [],
+                dislikedBy: []
+            };
+        
+            const newSubmissionRef = firebase.firestore().collection('discussionSubmissions').doc(submissionID);
+            
+            let imageInput = document.getElementById('imageAttachment').files[0];
+        
+            if (imageInput) {
+                uploadPic(submissionID, imageInput)
+                    .then(url => {
+                        ticketDetails.image = url; // Add the image URL to ticketDetails object
+                        return newSubmissionRef.set(ticketDetails); // Create the submission with image URL
+                    })
+                    .then(() => {
+                        const userRef = firebase.firestore().collection('users').doc(userID);
+                        return userRef.update({
+                            userSubmissions: firebase.firestore.FieldValue.arrayUnion(submissionID)
+                        });
+                    })
+                    .then(() => {
+                        return newSubmissionRef.get(); // Change this line to use formSubmissionsRef instead of formSubmissionRef
+                    })
+                    .then(doc => {
+                        const formattedTime = formatTimestamp(doc.data().timestamp);
+                        console.log('Submission time:', formattedTime);
+                        window.location.href = "discussionThanks.html";
+                        resetNewTicketDiv();
+                    })
+                    .catch(error => {
+                        console.error('Error: ', error);
+                    });
+            } else {
+                newSubmissionRef.set(ticketDetails)
+                    .then(() => {
+                        const userRef = firebase.firestore().collection('users').doc(userID);
+                        return userRef.update({
+                            userSubmissions: firebase.firestore.FieldValue.arrayUnion(submissionID)
+                        });
+                    })
+                    .then(() => {
+                        return newSubmissionRef.get();
+                    })
+                    .then(doc => {
+                        const formattedTime = formatTimestamp(doc.data().timestamp);
+                        console.log('Submission time:', formattedTime);
+                        window.location.href = "discussionThanks.html";
+                        resetNewTicketDiv();
+                    })
+                    .catch(error => {
+                        console.error('Error: ', error);
+                    });
+            }
+        }
     } else {
-        newSubmissionRef.set(ticketDetails)
-            .then(() => {
-                const userRef = firebase.firestore().collection('users').doc(userID);
-                return userRef.update({
-                    userSubmissions: firebase.firestore.FieldValue.arrayUnion(submissionID)
-                });
-            })
-            .then(() => {
-                return newSubmissionRef.get();
-            })
-            .then(doc => {
-                const formattedTime = formatTimestamp(doc.data().timestamp);
-                console.log('Submission time:', formattedTime);
-                window.location.href = "discussionThanks.html";
-                resetNewTicketDiv();
-            })
-            .catch(error => {
-                console.error('Error: ', error);
-            });
+        alert("Please fill out all required fields before submitting the form.");
     }
+}
+
+function inputNotEmpty() {
+    let title = document.getElementById("ticketName").value.trim();
+    let concern = document.getElementById("choseConcern").value.trim();
+    let detail = document.getElementById("inputText").value.trim();
+    let name = document.getElementById("name").value.trim();
+
+    return title != "" && concern != "" && detail != "" && name != "";
 }
 
 function uploadPic(submissionID, imageInput) {

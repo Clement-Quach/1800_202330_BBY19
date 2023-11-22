@@ -1,13 +1,19 @@
 .image-preview-container {
     border: 1px solid black;
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
-    width:62%;
+    width:min-content;
     margin-bottom: 20px;
     display:block;
+    
+    
 }
 
 
 
 #preview-selected-image {
-    width:20%;
+    max-width: 60%;
+    max-height: 60%;
+    width: 60%;
+    height: 60%;
+    object-fit: cover;
 }

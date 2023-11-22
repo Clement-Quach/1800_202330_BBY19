@@ -4,6 +4,7 @@ function fetchDataAndDisplay(userID) {
   // Retrieve form submission data from Firestore based on the user ID
   db.collection('discussionSubmissions')
       .where('userID', '==', userID) // Add this line to filter by user ID
+      .orderBy('timestamp', 'desc')
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach((doc) => {
@@ -24,12 +25,35 @@ function fetchDataAndDisplay(userID) {
         const hours = dateObject.getHours().toString().padStart(2, '0');
         const minutes = dateObject.getMinutes().toString().padStart(2, '0');
 
+        const currentDate = new Date();
+
+        const timeDifference = currentDate - dateObject;
+
+        // Convert milliseconds to hours
+        const hoursDifference = timeDifference / (1000 * 60 * 60);
+
+        // Convert milliseconds to days
+        const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+        var status;
+        // Check if 24 hours have passed
+        if (daysDifference > 3) {
+          status = "Past";
+        }
+        else if (hoursDifference >= 24) {
+            status = "Recent";
+        } else {
+            status = data.action;
+        }
+
         // Formatting the date and time
         const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+
         if (data.image) {
         dataElement.innerHTML = `
           <div class="card-header">
-            <span class="tag tag-teal" id="title">${data.action}</span>
+            <span class="tag tag-teal" id="title">${status}</span>
+            <span class="tag tag-purple" id="title">${data.concern}</span>
           </div>
           <div class="card-body">
             <div class="user">
@@ -57,7 +81,8 @@ function fetchDataAndDisplay(userID) {
         } else {
           dataElement.innerHTML = `
           <div class="card-header">
-            <span class="tag tag-teal" id="title">${data.action}</span>
+            <span class="tag tag-teal" id="title">${status}</span>
+            <span class="tag tag-purple" id="title">${data.concern}</span>
           </div>
           <div class="card-body">
             <div class="user">
@@ -126,28 +151,34 @@ function likePost(docId, currentLikes) {
       console.log(arrValue)
 
       if (!(arrValue.includes(userID))) {
+        var currentNumber = parseInt(currentLikes) + 1;
         docRef.update({
 
-          likes: parseInt(currentLikes) + 1,
+          likes: currentNumber,
           likedBy: firebase.firestore.FieldValue.arrayUnion(userID),
 
 
         }).then(() => {
+          // var numberDisplay = document.getElementById("like-number");
+          // numberDisplay.textContent = currentNumber;
           console.log("Document successfully updated!");
         })
 
       } else {
+        var currentNumber = parseInt(currentLikes) - 1;
         docRef.update({
 
-          likes: parseInt(currentLikes) - 1,
+          likes: currentNumber,
           likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
 
+        }).then(() => {
+          // var numberDisplay = document.getElementById("like-number");
+          // numberDisplay.textContent = currentNumber;
+          console.log("Document successfully updated!");
         })
 
       }
     }
-
-
   }
 
   )
@@ -190,7 +221,6 @@ function DislikePost(docId, currentLikes) {
 
       } else {
         docRef.update({
-
           likes: parseInt(currentLikes) + 1,
           dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
 

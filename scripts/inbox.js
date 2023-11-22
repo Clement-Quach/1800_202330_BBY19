@@ -4,6 +4,7 @@ function displayFirestoreData(userID) {
 
     // Retrieve form submission data from Firestore based on the user ID
     db.collection('formSubmissions')
+        .orderBy('timestamp', 'desc')
         .where('userID', '==', userID) // Add this line to filter by user ID
         .get()
         .then(querySnapshot => {
