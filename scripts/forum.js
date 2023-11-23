@@ -124,12 +124,13 @@ function fetchDataAndDisplay(sort, order) {
     });
 }
 
+//call changeSort() every time the user changes the value in the dropdown list
 sortSelect.addEventListener("change", function() {
   localStorage.setItem('dropdownValue', this.value);
   changeSort(this.value);
 });
 
-
+//when the user changes the value, it directs them to the loading page
 function changeSort(sortType) {
   dataContainer.innerHTML = "";
   
@@ -138,6 +139,7 @@ function changeSort(sortType) {
   }, 100);
 }
 
+//change the sort and order variable when the value has changed
 function runPage() {
   var sort;
   var order;
@@ -167,6 +169,7 @@ function runPage() {
   fetchDataAndDisplay(sort, order);
 }
 
+//run the function
 runPage();
 
 
