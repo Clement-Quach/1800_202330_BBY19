@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        /* Style the overlay background */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Style the popup box */
+        .popup {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Your form goes here -->
+<form id="myForm">
+    <!-- Add your form inputs with appropriate attributes -->
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <!-- Add more inputs as needed -->
+
+    <button type="button" onclick="validateForm()">Submit</button>
+</form>
+
+<!-- The overlay and popup box -->
+<div class="overlay" id="overlay">
+    <div class="popup">
+        <p>Please fill in all the required inputs.</p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+</div>
+
+<script>
+    function validateForm() {
+        // Get all required inputs
+        var requiredInputs = document.querySelectorAll('input[required]');
+
+        // Check if any required input is empty
+        var isValid = Array.from(requiredInputs).every(input => input.value.trim() !== '');
+
+        // If any required input is empty, show the popup
+        if (!isValid) {
+            document.getElementById('overlay').style.display = 'flex';
+        } else {
+            // Submit the form or perform other actions
+            document.getElementById('myForm').submit();
+        }
+    }
+
+    function closePopup() {
+        // Close the popup
+        document.getElementById('overlay').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+/* Style the overlay background */
+.overlay {
+  display: none;
+  position: fixed;
+  grid-template-columns: auto;
+  gap: 50%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(27, 26, 26, 0.506);
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 2;
+}
+
+/* Style the popup box */
+.popup {
+  background-color: rgba(2, 2, 2, 0.411);
+  border-radius: 5px;
+  text-align: center;
+  z-index: 2;
+}
+
+.card-pop {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  z-index: 0;
+  background-color: #f0f0f0;
+}
+  
+.card-pop:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  background-color: #f0f0f0;
+}
+
+.container-pop {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.card-pop a {
+  text-decoration: none;
+  color: black; /* Dark gray text */
+}

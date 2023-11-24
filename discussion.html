@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="./styles/mainStyle.css">
     <link rel="stylesheet" href="./styles/style.css">
     <link rel="stylesheet" href="./styles/post.css">
+    <link rel="stylesheet" href="./styles/discussion.css">
+    <link rel="stylesheet" href="./styles/footer.css">
 </head>
 
 <body>
@@ -53,6 +55,13 @@
         </div>
     </div>
 
+    <div class="overlay" id="overlay">
+        <div class="popup">
+            <p>Please fill in all the required inputs.</p>
+            <button onclick="closePopup()">OK</button>
+        </div>
+    </div>
+
     <nav id="footerPlaceholder"></nav>
 
     <!-- Add your scripts or other body content here -->
@@ -66,5 +75,6 @@
 <script src="./scripts/script.js"></script>
 <script src="./scripts/skeleton.js"></script>
 <script src="./scripts/search.js"></script>
+<script src="./scripts/footer.js"></script>
 
 </html>

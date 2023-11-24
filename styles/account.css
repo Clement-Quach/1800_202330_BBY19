@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:ital,wght@0,400;0,500;1,400&display=swap');
+
 @media screen and (max-width: 400px) {
   .container h3 {
     font-size: 15px;
@@ -39,13 +41,32 @@ body {
 }
 
 .profile-section {
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
+  gap: 1rem;
   align-items: center;
   text-align: center;
 }
 
 .profile-section img {
+  margin-left: auto;
+  margin-right: auto;
   width: 30%;
+}
+
+#edit-text {
+  position: relative;
+  opacity: 0;
+  top: -100px;
+  color: #0e0d0d;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.image-input {
+  width: 60%;
+  display: none;
 }
 
 .profile-section h3 {
@@ -65,8 +86,16 @@ body {
 }
 
 .profile-section img {
-  border-radius: 50%; /* 50% creates a circle */
+  border-radius: 50%;
   width: 150px;
   height: 150px;
+  background-color: #ddd; /* Placeholder background color */
+  cursor: pointer;
 }
+
+.container h3 {
+  font-size: 14px;
+}
+
+
 

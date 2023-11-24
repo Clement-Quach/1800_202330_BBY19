@@ -1,7 +1,27 @@
 <footer class="navbar bg-light fixed-bottom">
   <div class="container d-flex justify-content-around">
-     <a href="main.html" class="call-to-action"><span class="material-symbols-outlined">Home</span></a>
-     <a href="post.html" class="call-to-action"><span class="material-symbols-outlined">Add</span></a>
-     <a href="notification.html" class="call-to-action"><span class="material-symbols-outlined">Notifications</span></a>
+    <a href="main.html" class="call-to-action"><span class="material-symbols-outlined">Home</span></a>
+    <a class="call-to-action"><span class="material-symbols-outlined" onclick="createForm()">Add</span></a>
+    <div class="overlay" id="overlay" onclick="closePopup()">
+      <div class="popup">
+        <div class="card-pop">
+          <a href="post.html" target="_self">
+            <div class="container-pop">
+              <h4><b>Create a Ticket</b></h4>
+              <p>Report an issue</p>
+            </div>
+          </a>
+        </div>
+        <div class="card-pop">
+          <a href="discussion.html" target="_self">
+            <div class="container-pop">
+              <h4><b>Create a Post</b></h4>
+              <p>Let your community know whats happening</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <a href="notification.html" class="call-to-action"><span class="material-symbols-outlined">Notifications</span></a>
   </div>
 </footer>

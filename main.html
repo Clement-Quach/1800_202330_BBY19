@@ -27,11 +27,14 @@
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
     
     <!-- Other libraries go here -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&display=swap" rel="stylesheet">
 
 
     <!-- Link to styles of your own -->
     <link rel="stylesheet" href="./styles/mainStyle.css">
     <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/footer.css">
+
 
 </head>
 
@@ -50,20 +53,32 @@
     </div>
   </div>
   <div class="card">
-    <a href="post.html" target="_self">
+    <a target="_self" onclick="createForm()">
       <div class="container">
-        <h4><b>Create a Ticket</b></h4>
-        <p>Report an issue</p>
+        <h4><b>Create Post & Ticket</b></h4>
+        <p>Report an issue or share your thoughts with the community!</p>
       </div>
     </a>
   </div>
-  <div class="card">
-    <a href="discussion.html" target="_self">
-      <div class="container">
-        <h4><b>Create a Post</b></h4>
-        <p>Let your community know whats happening</p>
+  <div class="overlay" id="overlay" onclick="closePopup()">
+    <div class="popup">
+      <div class="card">
+        <a href="post.html" target="_self">
+          <div class="container">
+            <h4><b>Create a Ticket</b></h4>
+            <p>Report an issue</p>
+          </div>
+        </a>
       </div>
-    </a>
+      <div class="card">
+        <a href="discussion.html" target="_self">
+          <div class="container">
+            <h4><b>Create a Post</b></h4>
+            <p>Let your community know whats happening</p>
+          </div>
+        </a>
+      </div>
+    </div>
   </div>
   <div class="card">
     <a href="forums.html" target="_self">
@@ -88,7 +103,7 @@
         <p>Share your thoughts and feedback</p>
       </div>
     </a>
-    </div>
+  </div>
 
   <nav id="footerPlaceholder"></nav>
 </div>
@@ -102,6 +117,7 @@
   <script src="./scripts/skeleton.js"></script>
   <script src="./scripts/main.js"></script>
   <script src="./scripts/search.js"></script>
+  <script src="./scripts/footer.js"></script>
 </body>
 
 </html>

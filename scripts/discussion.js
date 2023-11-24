@@ -298,7 +298,7 @@ function ticketSubmit() {
             }
         }
     } else {
-        alert("Please fill out all required fields before submitting the form.");
+        document.getElementById('overlay').style.display = 'flex';
     }
 }
 
@@ -310,6 +310,11 @@ function inputNotEmpty() {
 
 
     return title != "" && concern != "" && detail != "" && name != "";
+}
+
+function closePopup() {
+    // Close the popup
+    document.getElementById('overlay').style.display = 'none';
 }
 
 function uploadPic(submissionID, imageInput) {
