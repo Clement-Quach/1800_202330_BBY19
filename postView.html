@@ -27,34 +27,42 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="./styles/postView.css">
+    <link rel="stylesheet" href="./styles/style.css">
 </head>
 
 <body>
-<div class="title">Title goes here</div>
+<!-- <div class="title">Title goes here</div>
 <div class="container">
     <div class="post">
-        <div id="userImage">image</div>
-        <div id="userInfo">profile goes here</div>
+        <div id="userImage">
+            <img src="./images/userIcon.jpg">
+        </div>
+        <div id="userInfo">name goes here</div>
         <div id="discussion">Discussion goes here</div>
     </div>
     <div class="comment">
         <div id="commentMessage">LEAVE A COMMENT</div>
-        <div id="commentImage">image</div>
+        <div id="commentImage">
+        <img src="./images/userIcon.jpg">
+        </div>
         <div id="commentName">name</div>
         <div id="commentBox">
-            <input id="commentInput" placeholder="Comment here" type="input"></input>
+            <textarea id="commentInput" placeholder="Comment here"></textarea>
         </div>
         <div id="commentPost">
             <input id="commentPreview" type="button" value="PREVIEW">
             <input id="commentPostComment"  type="button" value="POST COMMENT">
         </div>
     </div>
-</div>
+</div> -->
+<div id="postContent"></div>
+<nav id="footerPlaceholder"></nav>
 </body>
 <script src="./scripts/firebaseAPI_TEAM19.js"></script>
 <script src="./scripts/script.js"></script>
 <script src="./scripts/skeleton.js"></script>
 <script src="./scripts/search.js"></script>
+<script src="./scripts/postView.js"></script>
 <!-- <script src="./scripts/main.js"></script> -->
 
 </html>

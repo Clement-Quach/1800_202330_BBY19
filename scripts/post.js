@@ -286,6 +286,12 @@ function addRowToTable(rowData) {
     const tableBody = document.getElementById('td');
     const newRow = document.createElement('tr');
 
+    // Display confirmation message
+    let newOuterDiv = document.getElementById("outerDiv");
+    newOuterDiv.style.color = "black";
+    newOuterDiv.innerHTML = "<h1>Submitted!</h1>";
+
+
     newRow.innerHTML = `
         <td>${rowData.ticketNumber}</td>
         <td>${rowData.title}</td>
