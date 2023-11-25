@@ -4,10 +4,11 @@
 
 .container {
     display: grid;
-    grid-template-rows: 40vh 30vh auto;
+    grid-template-rows: 30vh 40vh auto;
     grid-template-columns: auto;
     padding: 0px;
     margin: 0px;
+    background-color: white;
 }
 
 .title {
@@ -27,10 +28,22 @@
     grid-row: 1 / span 1;
     grid-column: 1 / span 1;
     padding: 5vw;
+    height: 100%;
+    width: 100%;
 }
+
+#userImage img {
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover; 
+}
+
 #userInfo {
     grid-row: 1 / span 1;
     grid-column: 2 / span 3;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     padding: 5vw;
 }
 
@@ -43,7 +56,7 @@
 
 .comment {
     display: grid;
-    grid-template-rows:15% 25% 35% 25%;
+    grid-template-rows: 15% auto auto auto;
     grid-template-columns: repeat(5, 20%);
     border: 1px solid black;
     box-shadow: 0 4px 8px 0 rgba(128, 128, 128, 0.4);
@@ -56,30 +69,42 @@
     grid-row: 1 / span 1;
     padding: 5vw;
     font-family: 'Inter', sans-serif;
+    border-bottom: 1px solid grey;
 }
 
 #commentImage {
     grid-row: 2 / span 1;
     grid-column: 1 / span 1;
     padding: 5vw;
-    border-top: 1px solid grey;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: inherit;
+}
 
+#commentImage img {
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover; 
+    background-color: transparent;
 }
 
 #commentName {
     grid-row: 2 / span 1;
     grid-column: 2 / span 4;
     padding: 5vw;
-    border-top: 1px solid grey;
 }
 
 #commentInput {
+    display: block;
     width: 100%;
+    outline: none;  
     border: none;
-    outline: none;
+    max-height: 100px;
 }
 
 #commentBox {
+    display: flex;
     grid-row: 3 / span 1;
     grid-column: 1 / span 5;
     padding: 2vw;
