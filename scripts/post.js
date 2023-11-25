@@ -325,9 +325,12 @@ function ticketSubmit() {
     // Create a unique formSubmissionID
     const formSubmissionID = firebase.firestore().collection('formSubmissions').doc().id;
 
+    var warningMessage = document.getElementById('warning-message');
+
     const text = "Ready to submit?";
 
     if (inputNotEmpty() == true) {
+        warningMessage.style.display = 'none';
         if (confirm(text) == true) {
             // Create ticketDetails object
             let ticketDetails = {
@@ -400,7 +403,7 @@ function ticketSubmit() {
             }
         }
     } else {
-        alert("Please fill out all required fields before submitting the form.");
+        warningMessage.style.display = 'block';
     }
 }
 

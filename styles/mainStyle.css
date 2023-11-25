@@ -7,25 +7,28 @@ body {
 
 @media screen and (min-width: 990px) {
   .main {
-    margin-bottom: 5rem;
+    margin-bottom: 10rem;
   }
 }
 
 @media screen and (max-width: 989px) and (min-width: 401px) {
   .main {
-    margin-bottom: 5rem;
+    margin-bottom: 1rem;
   }
 }
 
 @media screen and (max-width: 400px) {
   .main {
-    margin-bottom: 15rem;
+    margin-bottom: 10rem;
   }
 }
 
+body {
+  height: 100%;
+}
+
 .main {
-  background-color: rgba(242, 241, 241, 0.876);
-  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.876);
   padding: 2%;
 }
 
@@ -61,4 +64,4 @@ h4 {
 p {
   font-size: 14px;
   margin: 0;
-}  
+} 

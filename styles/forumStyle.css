@@ -14,10 +14,6 @@ html, body {
     width: 80%;
   }
 
-  .card {
-    min-width: 380px;
-  }
-
   .card-body {
     padding: 1rem;
   }
@@ -58,6 +54,10 @@ html, body {
     width: 50%;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .card {
+    width: 80%;
   }
 
   .card-image img {
@@ -105,11 +105,6 @@ html, body {
     max-height: 40%;
   }
 
-  .card-image img {
-    max-width: 60%;
-    max-height: 40%;
-  }
-
   #like-section {
     align-items: center;
   }
@@ -148,7 +143,6 @@ html, body {
     grid-template-columns: auto;
     align-items: center;
     margin-bottom: 6rem;
-    justify-content: center;
     margin-left: auto;
     margin-right: auto;
     row-gap: 2rem;

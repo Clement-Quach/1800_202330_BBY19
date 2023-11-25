@@ -3,49 +3,48 @@
     <img src=".\images\cityconnect.png" alt="CityConnect">
   </a>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+  <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><span class="navbar-toggler-icon"></span></button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto" id="nav-list">
-      <li class="search">
-        <div class="form-inline my-2 my-lg-0">
-          <input id="search-bar" list="list-of-sections" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <datalist id="list-of-sections">
-              <option value="Create a Ticket">Create a Ticket</option>
-              <option value="Create a Post">Create a Post</option>
-              <option value="View Posts">View Posts</option>
-              <option value="View Tickets">View Tickets</option>
-              <option value="Manage Account">Manage Account</option>
-            </datalist>
-          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" onclick="searchInput()">Search</button>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="../account.html">Profile</a>
-      </li>
-      <!-- <li class="nav-item active">
-        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
-      </li> -->
-      <li class="nav-item">
-        <a class="nav-link" href="../about.html"> About Us</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Community
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="../forums.html">View Post</a>
-          <a class="dropdown-item" href="../myDIscussion.html">My Post</a>
-          <a class="dropdown-item" href="../inbox.html">My Ticket</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Settings</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a href="../login.html"><button class="btn btn-dark my-2 my-sm-0" type="submit" onclick="logout()">Log Out</button></a>
-      </li>
-    </ul>
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <button type="button" id="close-button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <!-- <div class="search">
+      <input id="search-bar" list="list-of-sections" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <datalist id="list-of-sections">
+        <option value="Create a Ticket">Create a Ticket</option>
+        <option value="Create a Post">Create a Post</option>
+        <option value="View Posts">View Posts</option>
+        <option value="View Tickets">View Tickets</option>
+        <option value="Manage Account">Manage Account</option>
+      </datalist>
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" onclick="searchInput()">Search</button>
+    </div> -->
+    <div class="nav-list">
+      <img id="main-profile-picture" src="./images/default_profile_picture.png">
+      <div class="nav-link">
+        <img class="icon-image" src="../images/profile-icon.png">
+        <a href="../account.html">Profile</a>
+      </div>
+      <div class="nav-link">
+        <img class="icon-image" src="../images/post-icon.png" id="view">
+        <a href="../forums.html">View Post</a>
+      </div>
+      <div class="nav-link">
+        <img class="icon-image" src="../images/mypost-icon.png" id="my-post">
+        <a href="../myDIscussion.html">My Post</a>
+      </div>
+      <div class="nav-link">
+        <img class="icon-image" src="../images/ticket-icon.png" id="my-ticket">
+        <a href="../inbox.html">My Ticket</a>
+      </div>
+      <div class="nav-link">
+        <img class="icon-image" src="../images/saved-icon.png">
+        <a href="../inbox.html">Saved</a>
+      </div>
+      <div class="nav-link">
+        <img class="icon-image" src="../images/about-icon.png">
+        <a href="../about.html"> About Us</a>
+      </div>
+      <a href="../login.html"><button class="btn btn-dark my-2 my-sm-0" id="logout" type="submit" onclick="logout()">Log Out</button></a>
+    </div>
   </div>
 </nav>
