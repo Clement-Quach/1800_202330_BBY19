@@ -227,10 +227,12 @@ function ticketSubmit() {
     const userID = firebase.auth().currentUser.uid;
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
     const submissionID = firebase.firestore().collection('discussionSubmissions').doc().id;
+    var warningMessage = document.getElementById('warning-message');
 
     const text = "Ready to submit?";
 
     if (inputNotEmpty() == true) {
+        warningMessage.style.display = 'none';
         if (confirm(text) == true) {
             let ticketDetails = {
                 ticketNumber: generateTicketNumber(),
@@ -298,7 +300,7 @@ function ticketSubmit() {
             }
         }
     } else {
-        document.getElementById('overlay').style.display = 'flex';
+        warningMessage.style.display = 'block';
     }
 }
 
@@ -310,11 +312,6 @@ function inputNotEmpty() {
 
 
     return title != "" && concern != "" && detail != "" && name != "";
-}
-
-function closePopup() {
-    // Close the popup
-    document.getElementById('overlay').style.display = 'none';
 }
 
 function uploadPic(submissionID, imageInput) {

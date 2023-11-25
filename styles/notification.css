@@ -1,8 +1,7 @@
-.container {
+#notification-list {
   display: grid;
   margin-top: 5%;
   gap: 3%;
-  width: 60%;
 }
 
 .notification {

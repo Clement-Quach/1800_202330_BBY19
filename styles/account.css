@@ -7,7 +7,7 @@
   }
 
   .main {
-    margin-bottom: 20rem;
+    margin-bottom: 2rem;
   }
 
   input {
@@ -21,30 +21,69 @@
 }
 
 @media screen and (min-width: 401px) {
-  .main {
-    margin-bottom: 22rem;
-  }
 
   .container h3 {
     font-size: 20px;
-    margin-right: 2rem;
+    margin-right: 1rem;
+  }
+
+  .main {
+    margin-bottom: 10rem;
   }
 }
 
-.main {
-  height: 100vh;
-  padding: 1%;
+body {
+  height: 100%;
 }
 
-body {
-  background-color: #e6e1e173;
+.main {
+  background-color: rgba(255, 255, 255, 0.876);
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  margin: 0.5rem;
+  padding: 1rem;
+  border-radius: 10px;
+  z-index: 0;
+}
+  
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  background-color: #f0f0f0;
+}
+
+.container {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.card a {
+  text-decoration: none;
+  color: black; /* Dark gray text */
+}
+
+h4 {
+  font-size: 24px;
+  margin: 0;
+}
+
+p {
+  font-size: 14px;
+  margin: 0;
+}  
+
+.main {
+  height: 100%;
+  padding: 0.5rem;
 }
 
 .profile-section {
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  gap: 1rem;
+  gap: 0.5rem;
   align-items: center;
   text-align: center;
 }
@@ -52,15 +91,16 @@ body {
 .profile-section img {
   margin-left: auto;
   margin-right: auto;
-  width: 30%;
+  width: 100%;
 }
 
 #edit-text {
   position: relative;
   opacity: 0;
   top: -100px;
-  color: #0e0d0d;
-  font-size: 14px;
+  color: #ffffffee;
+  font-size: 20px;
+  font-weight: bold;
   cursor: pointer;
 }
 
@@ -74,7 +114,6 @@ body {
 }
 
 #personalInfoFields {
-  margin-top: 1rem;
   padding: 1rem;
 }
 

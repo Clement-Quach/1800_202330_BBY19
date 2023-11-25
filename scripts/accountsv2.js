@@ -19,8 +19,8 @@ function populateUserInfo() {
         //if the data fields are not empty, then write them in to the form.
         if (accountEmail != null) {
           email = document.getElementById("account-email");
-          email.innerHTML = accountEmail;
-          email.style.color = "grey";
+          email.value = accountEmail;
+
         }
 
         if (userName != null) {
