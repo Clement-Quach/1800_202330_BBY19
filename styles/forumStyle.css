@@ -138,6 +138,10 @@ html, body {
   }
 }
 
+.clicked {
+  background-color: aqua;
+}
+
 #dataContainer {
     display: grid;
     grid-template-columns: auto;

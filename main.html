@@ -51,69 +51,43 @@
     <!-- Your HTML Layout go here -->
     <!------------------------------>
     <!-- Stuff for body goes here -->
-    <nav id="navbarPlaceholder"></nav>
-      <!-- Include your navigation links or menu here -->
-<div class="main">
-  <div class="container">
-    <div class="welcome">
-      <h1>Welcome, <span id="name-goes-here"></span>!</h1>
+  <nav id="navbarPlaceholder"></nav>
+    <!-- Include your navigation links or menu here -->
+    <div class="container">
+      <div class="welcome">
+        <h1>Welcome, <span id="name-goes-here"></span>!</h1>
+      </div>
     </div>
-  </div>
-  <div class="card">
-    <a target="_self" onclick="createForm()">
+  <div class="main">
+    <div class="card" id="create-card" onclick="createForm()">
       <div class="container">
         <h4><b>Create Post & Ticket</b></h4>
         <p>Report an issue or share your thoughts with the community!</p>
       </div>
-    </a>
-  </div>
-  <div class="overlay" id="overlay" onclick="closePopup()">
-    <div class="popup">
-      <div class="card">
-        <a href="post.html" target="_self">
-          <div class="container">
-            <h4><b>Create a Ticket</b></h4>
-            <p>Report an issue</p>
-          </div>
-        </a>
-      </div>
-      <div class="card">
-        <a href="discussion.html" target="_self">
-          <div class="container">
-            <h4><b>Create a Post</b></h4>
-            <p>Let your community know whats happening</p>
-          </div>
-        </a>
-      </div>
     </div>
-  </div>
-  <div class="card">
-    <a href="forums.html" target="_self">
+    <div class="card" id="view-post-card">
       <div class="container">
         <h4><b>View Posts</b></h4>
         <p>Explore how your community is doing</p>
       </div>
-    </a>
-  </div>
-  <div class="card">
-    <a href="inbox.html" target="_self">
+    </div>
+    <div class="card" id="view-ticket-card">
       <div class="container">
         <h4><b>View Tickets</b></h4>
         <p>Check the status of your tickets</p>
       </div>
-    </a>
-  </div>
-  <div class="card">
-    <a href="account.html" target="_self">
+    </div>
+    <div class="card" id="account-card">
       <div class="container">
         <h4><b>Manage Your Account</b></h4>
         <p>Share your thoughts and feedback</p>
       </div>
-    </a>
+    </div>
   </div>
 
-  <nav id="footerPlaceholder"></nav>
-</div>
+
+
+<nav id="footerPlaceholder"></nav>
   <!---------------------------------------------->
   <!-- Your own JavaScript functions go here    -->
   <!---------------------------------------------->

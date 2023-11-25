@@ -121,10 +121,13 @@ function fetchDataAndDisplay(sort, order) {
 
         dataElement.setAttribute('data-documentSubmissionID', docID);
         
-        dataElement.addEventListener('click', function() {
-          const submissionID = this.getAttribute('data-documentSubmissionID');
-          localStorage.setItem('documentSubmissionID', submissionID);
-          window.location.href = `postView.html?documentSubmissionID=${submissionID}`;
+                dataElement.addEventListener('click', function(event) {
+
+          if (event.target.tagName.toLowerCase() !== 'button') {
+            const submissionID = this.getAttribute('data-documentSubmissionID');
+            localStorage.setItem('documentSubmissionID', submissionID);
+            window.location.href = `postView.html?documentSubmissionID=${submissionID}`;
+          }
         });
 
         dataContainer.appendChild(dataElement);
@@ -262,20 +265,4 @@ function DislikePost(docId, currentLikes) {
       }
     }
   });
-}
-
-var isClicked = false;
-
-function toggleFontVariation(id) {
-  // Get the element by its class name
-  var element = id
-
-  // Toggle the state and change the 'FILL' value accordingly
-  isClicked = !isClicked;
-
-  if (isClicked) {
-    element.style.fontVariationSettings = "'FILL' 50, 'wght' 500, 'GRAD' 0, 'opsz' 30";
-  } else {
-    element.style.fontVariationSettings = "'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 30";
-  }
 }

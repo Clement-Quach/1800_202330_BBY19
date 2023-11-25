@@ -1,4 +1,3 @@
-/* Style the overlay background */
 .overlay {
   display: none;
   position: fixed;
@@ -17,8 +16,8 @@
 
 /* Style the popup box */
 .popup {
-  background-color: rgba(2, 2, 2, 0.411);
-  border-radius: 5px;
+  background-color: rgba(2, 2, 2, 0.451);
+  border-radius: 20px;
   text-align: center;
   z-index: 2;
 }
