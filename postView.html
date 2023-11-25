@@ -32,37 +32,37 @@
 </head>
 
 <body>
-<!-- <div class="title">Title goes here</div>
-<div class="container">
-    <div class="post">
+    <div class="title">${postData.title}</div>
+    <div class="container">
+      <div class="post">
         <div id="userImage">
-            <img src="./images/userIcon.jpg">
+          <img src="${profilePic}">
         </div>
-        <div id="userInfo">name goes here</div>
-        <div id="discussion">Discussion goes here</div>
-    </div>
-    <div class="comment">
+        <div id="userInfo">${userData.name}</div> <!-- Assuming name is in the user data -->
+        <div id="discussion">${postData.details}</div>
+      </div>
+      <div class="comment">
         <div id="commentMessage">LEAVE A COMMENT</div>
         <div id="commentImage">
-        <img src="./images/userIcon.jpg">
+          <img src="${profilePic}"> <!-- Using the same imgSrc for comment image -->
         </div>
-        <div id="commentName">name</div>
+        <div id="commentName">${user.displayName}</div> <!-- Display the logged-in user's name -->
         <div id="commentBox">
-            <textarea id="commentInput" placeholder="Comment here"></textarea>
+          <textarea id="commentInput" placeholder="Comment here"></textarea>
         </div>
         <div id="commentPost">
-            <input id="commentPreview" type="button" value="PREVIEW">
-            <input id="commentPostComment"  type="button" value="POST COMMENT">
+          <input id="commentPreview" type="button" value="PREVIEW">
+          <input id="commentPostComment" type="button" value="POST COMMENT">
         </div>
+      </div>
     </div>
-</div> -->
-<div id="postContent"></div>
-<nav id="footerPlaceholder"></nav>
 </body>
 <script src="./scripts/firebaseAPI_TEAM19.js"></script>
 <script src="./scripts/script.js"></script>
 <script src="./scripts/skeleton.js"></script>
 <script src="./scripts/search.js"></script>
+<script src="./scripts/postView.js"></script>
+<script src="./scripts/footer.js"></script>
 <!-- <script src="./scripts/main.js"></script> -->
 
 </html>
