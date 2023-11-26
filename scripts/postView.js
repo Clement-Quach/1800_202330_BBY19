@@ -18,22 +18,33 @@ document.addEventListener('DOMContentLoaded', () => {
           // Fetch the user's data using the userID
           db.collection('users').doc(userID).get().then((userDoc) => {
             if (userDoc.exists) {
-              const userProfileData = userDoc.data();
-              const profilePic = userProfileData.profilePic;
+                const userProfileData = userDoc.data();
+                const profilePic = userProfileData.profilePic;
+        
+                // Populating HTML elements with fetched data
+                const titleElement = document.getElementById('title');
+                const userInfoElement = document.getElementById('userInfo');
+                const discussionElement = document.getElementById('discussion');
+                const postProfilePicElement = document.getElementById('postProfilePic');
+                const postImageElement = document.getElementById('postImage');
+        
+                titleElement.textContent = userData.title || 'Default Title';
+                userInfoElement.textContent = userData.name || 'Default Name';
+                discussionElement.textContent = userData.details || 'Default Discussion';
+        
+                // Check if profilePic exists before setting the attribute
+                if (profilePic) {
+                    postProfilePicElement.setAttribute('src', profilePic);
+                } else {
+                    // If no profile pic is available, set a default image
+                    postProfilePicElement.setAttribute('src', './images/Profile-Icon.png');
+                }
 
-              // Populating HTML elements with fetched data
-              const titleElement = document.getElementById('title');
-              const userInfoElement = document.getElementById('userInfo');
-              const discussionElement = document.getElementById('discussion');
-              const postProfilePicElement = document.getElementById('postProfilePic');
-
-              titleElement.textContent = userData.title || 'Default Title';
-              userInfoElement.textContent = userData.name || 'Default Name';
-              discussionElement.textContent = userData.details || 'Default Discussion';
-
-              if (profilePic) {
-                postProfilePicElement.setAttribute('src', profilePic || './images/Profile-Icon.png');
-              }
+                if (userData.image) {
+                    postImageElement.src = userData.image;
+                } else {
+                    postImageElement.src = './images/Trash.jpg';
+                }
             } else {
               console.error('User document does not exist');
             }
@@ -52,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
