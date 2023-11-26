@@ -121,10 +121,15 @@ function fetchDataAndDisplay(sort, order) {
 
         dataElement.setAttribute('data-documentSubmissionID', docID);
         
-        dataElement.addEventListener('click', function() {
+        dataElement.addEventListener('click', function(event) {
           const submissionID = this.getAttribute('data-documentSubmissionID');
-          localStorage.setItem('documentSubmissionID', submissionID);
-          window.location.href = `postView.html?documentSubmissionID=${submissionID}`;
+        
+          if (event.target.tagName.toLowerCase() !== 'button' && submissionID) {
+            event.preventDefault();
+        
+            localStorage.setItem('documentSubmissionID', submissionID);
+            window.location.href = `postView.html?documentSubmissionID=${submissionID}`;
+          }
         });
 
         dataContainer.appendChild(dataElement);
