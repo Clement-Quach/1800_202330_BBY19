@@ -126,7 +126,7 @@ function fetchDataAndDisplay(sort, order) {
         
           if (event.target.tagName.toLowerCase() !== 'button' && submissionID) {
             event.preventDefault();
-        
+
             localStorage.setItem('documentSubmissionID', submissionID);
             window.location.href = `postView.html?documentSubmissionID=${submissionID}`;
           }
@@ -267,20 +267,4 @@ function DislikePost(docId, currentLikes) {
       }
     }
   });
-}
-
-var isClicked = false;
-
-function toggleFontVariation(id) {
-  // Get the element by its class name
-  var element = id
-
-  // Toggle the state and change the 'FILL' value accordingly
-  isClicked = !isClicked;
-
-  if (isClicked) {
-    element.style.fontVariationSettings = "'FILL' 50, 'wght' 500, 'GRAD' 0, 'opsz' 30";
-  } else {
-    element.style.fontVariationSettings = "'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 30";
-  }
 }

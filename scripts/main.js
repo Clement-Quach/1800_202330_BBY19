@@ -48,3 +48,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   })
 });
+
+document.getElementById('account-card').addEventListener("click", () => {
+  window.location.href="account.html";
+});
+
+document.getElementById('view-post-card').addEventListener("click", () => {
+  window.location.href="forums.html";
+});
+
+document.getElementById('view-ticket-card').addEventListener("click", () => {
+  window.location.href="inbox.html";
+});
+
