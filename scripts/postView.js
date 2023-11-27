@@ -100,9 +100,11 @@ function postComment() {
 
   // Get the discussion submission ID from localStorage
   const documentSubmissionID = localStorage.getItem('documentSubmissionID');
+  var warningMessage = document.getElementById('warning-message');
 
   firebase.auth().onAuthStateChanged((user) => {
     if (user && comment && documentSubmissionID) {
+      warningMessage.style.display = 'none';
       const db = firebase.firestore();
       const discussionRef = db.collection('discussionSubmissions').doc(documentSubmissionID);
       const userRef = db.collection('users').doc(user.uid);
@@ -144,6 +146,12 @@ function postComment() {
         });
     } else {
       console.error('Comment, documentSubmissionID, or user is missing');
+      warningMessage.style.opacity = '1';
+
+      // Set another timeout to fade out the element after three seconds
+      setTimeout(function () {
+        warningMessage.style.opacity = '0';
+      }, 2000);
     }
   });
 }

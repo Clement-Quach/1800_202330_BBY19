@@ -82,9 +82,12 @@
         <div id="comment-section">
             <div id="commentsContainer"></div>
         </div>
-        
+
         <div class="comment" id="make-comment">
             <div id="commentMessage">LEAVE A COMMENT</div>
+            <div class="warning" id="warning-message">
+                Please fill in all required inputs!
+            </div>
             <div id="commentName"></div>
             <div id="commentBox">
                 <textarea id="commentInput" placeholder="Comment here"></textarea>
@@ -97,17 +100,18 @@
         <!-- Confirmation and edit stuff -->
         <div id="confirmationModal" class="modal">
             <div class="modal-content">
-            <p>Are you sure you want to delete this comment?</p>
-            <button id="confirmDelete">Yes, delete</button>
-            <button id="cancelDelete">Cancel</button>
+                <p>Are you sure you want to delete this comment?</p>
+                <button class="btn btn-danger" id="cancelDelete">Cancel</button>
+                <button class="btn btn-primary" id="confirmDelete">Yes, delete</button>
             </div>
         </div>
 
         <div id="editModal" class="modal">
             <div class="modal-content">
+                <p>Edit</p>
                 <textarea id="editCommentInput" placeholder="Edit your comment"></textarea>
-                <button id="confirmEdit">Save changes</button>
-                <button id="cancelEdit">Cancel</button>
+                <button class="btn btn-danger" id="cancelEdit">Cancel</button>
+                <button class="btn btn-primary" id="confirmEdit">Save changes</button>
             </div>
         </div>
     </main>

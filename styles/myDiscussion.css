@@ -1,0 +1,304 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 990px) {
+  #dataContainer {
+    gap: 1rem;
+    width: 80%;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .class-details p {
+    text-align: center;
+    font-size: 24px;
+  }
+
+  .header {
+    width: 80%;
+    grid-template-columns: 80% 20%;
+  }
+
+  .header select {
+    width: 80%;
+  }
+
+  .card-image img {
+    max-width: 80%;
+    max-height: 60%;
+  }
+
+  .vote-image {
+    width: 50%;
+    height: 50%;
+  }
+}
+
+@media screen and (max-width: 989px) and (min-width: 401px) {
+  #dataContainer {
+    width: 80%;
+    margin-bottom: 5rem;
+    gap: 1rem;
+  }
+
+  .header select {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .card {
+    width: 80%;
+  }
+
+  .card-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+
+  .user h1 {
+    font-size: 20px;
+  }
+
+  .user h5 {
+    font-size: 12px;
+  }
+
+  .card-details p {
+    font-size: 16px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .header select {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #dataContainer {
+    width: 90%;
+    margin-bottom: 5rem;
+    gap: 1rem;
+    height: 30%;
+  }
+
+  .header select {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .card-image img {
+    max-width: 60%;
+    max-height: 40%;
+  }
+
+  #like-section {
+    align-items: center;
+  }
+
+  .vote-image {
+    width: 80%;
+    height: 60%;
+    margin-top: auto;
+    margin-bottom: auto;
+    object-fit: cover;
+  }
+
+  .user h1 {
+    font-size: 20px;
+  }
+
+  .user h5 {
+    font-size: 12px;
+  }
+
+  .card-details p {
+    font-size: 16px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .header select {
+    width: 50%;
+  }
+}
+
+.clicked {
+  background-color: aqua;
+}
+
+#dataContainer {
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+    margin-bottom: 6rem;
+    margin-left: auto;
+    margin-right: auto;
+    row-gap: 2rem;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 500,
+  'GRAD' 0,
+  'opsz' 30
+}
+
+#upvote:hover {
+  cursor: pointer;
+}
+
+.header {
+  display: grid;
+  padding: 0.5rem;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 1rem;
+}
+
+.header select {
+  text-align: center;
+}
+
+.card:hover {
+  cursor: pointer;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  background-color: #f0f0f0;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  width: 100%;
+  transition: background-color 0.25s;
+}
+
+.card-image img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card-image {
+  margin-top: 1rem;
+}
+
+.card-header {
+  background-color: #3f67eada;
+  display: grid;
+  grid-template-columns: 90% 10%;
+}
+
+.option {
+  position: absolute;
+  top: 2%;
+  right: 5%;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  min-height: fit-content;
+}
+
+.tags {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tag {
+  background: #cccccc;
+  border-radius: 50px;
+  width: fit-content;
+  font-size: 12px;
+  margin: 0;
+  color: #fff;
+  padding: 2px 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.tag-teal {
+  background-color: #47bcd4;
+}
+.tag-purple {
+  background-color: #394c86;
+}
+.tag-pink {
+  background-color: #cd5b9f;
+}
+
+#like-section {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  column-gap: 2rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+
+.vote-image {
+  margin-top: auto;
+  margin-bottom: auto;
+  object-fit: cover;
+}
+
+.like {
+  column-gap: 1rem;
+}
+
+.likeCount {
+  width: 20%;
+}
+
+.card-details p {
+  margin-top: 1rem;
+}
+
+.user {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  margin-top: auto;
+}
+
+#name {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: right;
+
+}
+
+.user-info small {
+  color: #545d7a;
+}
+
+.header {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1em;
+}
