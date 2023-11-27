@@ -1,5 +1,6 @@
 var sortSelect = document.getElementById('sort-type');
 
+
 function fetchDataAndDisplay(userID, sort, order) {
   const dataContainer = document.getElementById('dataContainer');
 
@@ -68,19 +69,17 @@ function fetchDataAndDisplay(userID, sort, order) {
               <div class="card-image">
                 <img src="${data.image}" alt="${data.title}" />
               </div> 
-              <p>${data.details}</p>
+              
+              <p> ${data.details}</p>
+             
             </div>
             <div id="like-section">
-              <button id="like-image" onclick="likePost('${
-                doc.id
-              }', '${data.likes || 0}')">Like</button>
-              <h5 id="likeCount"><span id="like-number">${data.likes || 0}</span></h5>
-              <button onclick="DislikePost('${doc.id}', '${
-              data.likes || 0
-                }')">Dislike</button>
-                <button id="editSubmit" onclick="editPost('${doc.id}')">edit</button>
-                <input type="text" id="editInput" placeholder="edit content" >
-            </div>
+              <a class="btn btn-primary card-href" href="editPost.html?docId=${data.documentSubmissionID}">Edit Post</a>
+               
+             <br>
+             <br>
+
+                </div>
           </div>
         `;
         } else {
@@ -100,19 +99,15 @@ function fetchDataAndDisplay(userID, sort, order) {
               <p>${data.details}</p>
             </div>
             <div id="like-section">
-              <button id="like-image" onclick="likePost('${
-                doc.id
-              }', '${data.likes || 0}')">Like</button>
-              <h5 id="likeCount"><span id="like-number">${data.likes || 0}</span></h5>
-              <button onclick="DislikePost('${doc.id}', '${
-              data.likes || 0
-                }')">Dislike</button>
-              <button id="editSubmit" onclick="editPost('${doc.id}')">edit</button>
-              <input type="text" id="editInput" placeholder="edit content" >
+            <a class="btn btn-primary card-href" href="editPost.html?docId=${data.documentSubmissionID}">Edit Post</a>
+
+
             </div>
           </div>
           `;
         }
+
+
 
         // Append the HTML to the container
         dataContainer.appendChild(dataElement);
@@ -256,19 +251,3 @@ function DislikePost(docId, currentLikes) {
 }
 
 
-function editPost(docId){
-  const docRef = db.collection("discussionSubmissions").doc(docId)
-  console.log("before the get")
-  docRef.get().then((doc) => {
-    
-      const changes = document.getElementById("editInput").value;
-      console.log(changes)
-      docRef.update({
-        details: changes
-
-      })
-
-    
-  })
-
-  }

@@ -56,7 +56,7 @@ function newTicket() {
     title.type = 'text';
     title.className = 'form-control';
     title.id = 'ticketName';
-    title.setAttribute('required', true);
+title.setAttribute('required', true);
 
     const createPostButton = document.getElementById('createPostButton');
     if (createPostButton) {
@@ -97,7 +97,6 @@ function newTicket() {
     let select = document.createElement('select');
     select.id = 'choseConcern';
     select.className = 'form-control';
-    select.setAttribute('required', true);
     let option = document.createElement('option');
     let option1 = document.createElement('option');
     let option2 = document.createElement('option');
@@ -236,7 +235,6 @@ function ticketSubmit() {
                 ticketNumber: generateTicketNumber(),
                 title: document.getElementById("ticketName").value,
                 concern: document.getElementById("choseConcern").value,
-                location: document.getElementById("choseLocation").value,
                 details: document.getElementById("inputText").value,
                 name: document.getElementById("name").value,
                 action: 'New',
@@ -307,7 +305,6 @@ function inputNotEmpty() {
     let concern = document.getElementById("choseConcern").value.trim();
     let detail = document.getElementById("inputText").value.trim();
     let name = document.getElementById("name").value.trim();
-
 
     return title != "" && concern != "" && detail != "" && name != "";
 }

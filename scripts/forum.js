@@ -1,10 +1,4 @@
-
-
-var sortSelect = document.getElementById('sort-type');
-
-
-function fetchDataAndDisplay(sort, order) {
-
+function fetchDataAndDisplay() {
   const dataContainer = document.getElementById("dataContainer");
 
   // Clear previous data before re-rendering
@@ -12,7 +6,7 @@ function fetchDataAndDisplay(sort, order) {
 
   // Set up a real-time listener on the 'discussionSubmissions' collection
   db.collection("discussionSubmissions")
-    .orderBy(sort, order)
+    .orderBy("timestamp", "desc")
     .onSnapshot((querySnapshot) => {
 
       dataContainer.innerHTML = "";
@@ -36,35 +30,12 @@ function fetchDataAndDisplay(sort, order) {
         const hours = dateObject.getHours().toString().padStart(2, '0');
         const minutes = dateObject.getMinutes().toString().padStart(2, '0');
 
-        const currentDate = new Date();
-
-        const timeDifference = currentDate - dateObject;
-
-        // Convert milliseconds to hours
-        const hoursDifference = timeDifference / (1000 * 60 * 60);
-
-        // Convert milliseconds to days
-        const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
-
-        var status;
-        // Check if 24 hours have passed
-        if (daysDifference > 3) {
-          status = "Past";
-        }
-        else if (hoursDifference >= 24) {
-            status = "Recent";
-        } else {
-            status = data.action;
-        }
-
         // Formatting the date and time
         const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
         if (data.image) {
           dataElement.innerHTML = `
           <div class="card-header">
-            <span class="tag tag-teal" id="title">${status}</span>
-            <span class="tag tag-purple" id="title">${data.concern}</span>
-            <span class="tag tag-pink" id="title">${data.location}</span>
+            <span class="tag tag-teal" id="title">${data.action}</span>
           </div>
           <div class="card-body">
             <div class="user">
@@ -79,10 +50,10 @@ function fetchDataAndDisplay(sort, order) {
               <p>${data.details}</p>
             </div>
             <div id="like-section">
+              <h3 id="likeCount">Likes: <span id="like-number">${data.likes || 0}</span></h3>
               <button id="like-image" onclick="likePost('${
                 doc.id
               }', '${data.likes || 0}')">Like</button>
-              <h5 id="likeCount"><span id="like-number">${data.likes || 0}</span></h5>
               <button onclick="DislikePost('${doc.id}', '${
               data.likes || 0
                 }')">Dislike</button>
@@ -92,9 +63,7 @@ function fetchDataAndDisplay(sort, order) {
         } else {
           dataElement.innerHTML = `
           <div class="card-header">
-            <span class="tag tag-teal" id="title">${status}</span>
-            <span class="tag tag-purple" id="title">${data.concern}</span>
-            <span class="tag tag-pink" id="title">${data.location}</span>
+            <span class="tag tag-teal" id="title">${data.action}</span>
           </div>
           <div class="card-body">
             <div class="user">
@@ -106,16 +75,16 @@ function fetchDataAndDisplay(sort, order) {
               <p>${data.details}</p>
             </div>
             <div id="like-section">
+              <span id="likeCount">Likes: <span id="like-number">${data.likes || 0}</span></span>
               <button id="like-image" onclick="likePost('${
                 doc.id
               }', '${data.likes || 0}')">Like</button>
-              <h5 id="likeCount"><span id="like-number">${data.likes || 0}</span></h5>
               <button onclick="DislikePost('${doc.id}', '${
-              data.likes || 0
-                }')">Dislike</button>
+                data.likes || 0
+              }')">Dislike</button>
             </div>
           </div>
-        `;
+          `;
         }
         dataContainer.appendChild(dataElement);
       });
@@ -124,74 +93,29 @@ function fetchDataAndDisplay(sort, order) {
     });
 }
 
-sortSelect.addEventListener("change", function() {
-  localStorage.setItem('dropdownValue', this.value);
-  changeSort(this.value);
-});
+fetchDataAndDisplay();
 
-
-function changeSort(sortType) {
-  dataContainer.innerHTML = "";
-  
-  setTimeout(function() {
-    window.location.href = "loading.html";
-  }, 100);
-}
-
-function runPage() {
-  var sort;
-  var order;
-
-  if (localStorage.getItem('dropdownValue')) {
-    sortSelect.value = localStorage.getItem('dropdownValue');
-    var sortType = localStorage.getItem('dropdownValue');
-  }
-
-  if (sortType == 'New') {
-    sort = "timestamp";
-    order = "desc";
-  } else if (sortType == 'Old') {
-    sort = "timestamp";
-    order = "asc";
-  } else if (sortType == 'Concern') {
-    sort = "concern";
-    order = "asc";
-  } else if (sortType == 'Likes') {
-    sort = "likes";
-    order = "desc";
-  } else if (sortType == 'City') {
-    sort = "location";
-    order = "asc";
-  }
-
-  fetchDataAndDisplay(sort, order);
-}
-
-runPage();
-
-
-
-//go to the correct user document by referencing to the user uid
 firebase.auth().onAuthStateChanged((user) => {
   // Check if user is signed in:
   if (user) {
     currentUser = db.collection("users").doc(user.id);
+  } else {
+    currentUser = null;
   }
 });
+const needToLogInMessage = "you need to log in to like or dislike a post"
 
 function likePost(docId, currentLikes) {
 
-  // var up = document.getElementById('upvote');
-
-  // toggleFontVariation(up);
-
-  const userID = firebase.auth().currentUser.uid;
-  const docRef = db.collection("discussionSubmissions").doc(docId);
-
+  if(currentUser != null){
+    const userID = firebase.auth().currentUser.uid;
+    const docRef = db.collection("discussionSubmissions").doc(docId);
+  
   docRef.get().then((doc) => {
     if (doc.exists) {
-      const likedBy = doc.data().likedBy || [];
+      const likedBy = doc.data().likedBy || []; 
       const dislikedBy = doc.data().dislikedBy || [];
+      // sendLikeNotification(docRef)
 
       if (likedBy.includes(userID)) {
         // If previously liked and now unliking
@@ -210,17 +134,17 @@ function likePost(docId, currentLikes) {
         }).then(() => {
           console.log("Document successfully updated!");
         });
-      }
-    }
-  });
-}
 
+      }
+    }}
+  )} else {
+    alert(needToLogInMessage)
+  } 
+
+  }
 function DislikePost(docId, currentLikes) {
 
-  // var down = document.getElementById('downvote');
-
-  // toggleFontVariation(down);
-
+  if (currentUser != null) {
   const userID = firebase.auth().currentUser.uid;
   const docRef = db.collection("discussionSubmissions").doc(docId);
 
@@ -248,21 +172,30 @@ function DislikePost(docId, currentLikes) {
         });
       }
     }
+    
   });
+} else {
+  alert(needToLogInMessage)
+}
 }
 
-var isClicked = false;
 
-function toggleFontVariation(id) {
-  // Get the element by its class name
-  var element = id
+// beta version of the notification system
 
-  // Toggle the state and change the 'FILL' value accordingly
-  isClicked = !isClicked;
+// function sendLikeNotification(post){
+//        const docRef = post;
+       
+//        docRef.get().then((doc) => {
+//         if(doc.exists){
+//           const originalPoster = doc.data().userID;
+//           const thePost = doc.data().formSubmissionID;
+//           const userRef = db.collection("users").doc(originalPoster)
+//           userRef.update({
+//             notifications: firebase.firestore.arrayUnion(thePost + "has been liked")
+//           })
+        
+//         }
+//        })
+// }
 
-  if (isClicked) {
-    element.style.fontVariationSettings = "'FILL' 50, 'wght' 500, 'GRAD' 0, 'opsz' 30";
-  } else {
-    element.style.fontVariationSettings = "'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 30";
-  }
-}
+
