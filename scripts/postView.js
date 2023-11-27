@@ -332,6 +332,12 @@ async function fetchCommentsAndDisplay() {
   }
 }
 
+const commentInput = document.querySelector('commentInput');
+const commentSection = document.getElementById('make-comment');
+
+
+
+
 function toggleOptions(commentID) {
   const options = document.getElementById(`options_${commentID}`);
   options.classList.toggle('show-options');
@@ -389,6 +395,25 @@ function editComment(documentSubmissionID, commentID, commentText) {
     editModal.style.display = 'none'; // Close the edit modal
   };
 }
+
+function goBack() {
+  window.history.back();
+}
+
+var isScrolling;
+var footer = document.getElementById('make-comment');
+
+window.addEventListener('scroll', function() {
+  clearTimeout(isScrolling);
+  
+  // Hide the footer
+  footer.style.opacity = '0';
+
+  isScrolling = setTimeout(function() {
+      // Reappear the footer after a delay
+      footer.style.opacity = '1';
+  }, 600); // Adjust the timeout value based on your preference
+});
 
 // Call the function to fetch comment data and display comments
 fetchCommentsAndDisplay();

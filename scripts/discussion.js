@@ -223,6 +223,17 @@ function formatTimestamp(timestamp) {
     return new Intl.DateTimeFormat('en-US', options).format(date);
 }
 
+function scrollToTopSmooth() {
+    // For modern browsers
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+
+    // For old versions of IE
+    document.body.scrollTop = 0;
+}
+
 function ticketSubmit() {
     const userID = firebase.auth().currentUser.uid;
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
@@ -301,6 +312,7 @@ function ticketSubmit() {
         }
     } else {
         warningMessage.style.display = 'block';
+        scrollToTopSmooth();
     }
 }
 

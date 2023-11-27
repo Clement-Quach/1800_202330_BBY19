@@ -30,13 +30,17 @@ body {
   margin-top: 2rem;
 }
 
+.main-icon {
+  width: 20%;
+}
+
 #create-card {
   height: 100%;
   grid-column: span 2;
   grid-row: 1;
   display: grid;
   align-items: center;
-  background-color: rgb(125, 179, 234);
+  background-color: rgb(98, 167, 236);
 }
 
 #view-post-card {
@@ -45,7 +49,11 @@ body {
   grid-column: 1;
   display: grid;
   align-items: center;
-  background-color: rgb(126, 213, 136);
+  background-color: rgb(36, 183, 53);
+}
+
+#view-post-card img {
+  width: 25%;
 }
 
 #view-ticket-card {
@@ -54,7 +62,11 @@ body {
   grid-column: 1;
   display: grid;
   align-items: center;
-  background-color: rgb(233, 182, 107);
+  background-color: rgb(242, 177, 78);
+}
+
+#view-ticket-card img {
+  width: 25%;
 }
 
 #account-card {
@@ -63,7 +75,7 @@ body {
   grid-row: 2 / span 2;
   display: grid;
   align-items: center;
-  background-color: rgba(234, 95, 141);
+  background-color: rgb(244, 63, 123);
 }
 
 body {
