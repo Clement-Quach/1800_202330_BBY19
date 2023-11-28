@@ -1,4 +1,10 @@
 function displayPostInfo() {
+
+  const dataContainer = document.getElementById("dataContainer");
+
+  // Clear previous data before re-rendering
+  dataContainer.innerHTML = "";
+
   let params = new URL( window.location.href ); //get URL of search bar
   let paramsStr = encodeURI(params)
   console.log(paramsStr);
@@ -13,6 +19,8 @@ function displayPostInfo() {
   .doc( ID )
   .get()
   .then( doc => {
+
+    dataContainer.innerHTML = "";
       thisPost = doc.data();
       postName = thisPost.title;
       postAuthor = thisPost.name;
@@ -112,8 +120,6 @@ function displayPostInfo() {
   }
   dataContainer.appendChild(dataElement);
 
-  document.getElementById('detailsInput').value = "";
-
   document.getElementById('detailsInput').value = data.details;
 
 
@@ -139,6 +145,6 @@ function saveEdits(){
     thisPost.update({
       details: newDetails, 
     })
+    window.location.href = paramsStr;
   })
-  window.location.href = params;
 }

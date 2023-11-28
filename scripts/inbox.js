@@ -18,8 +18,11 @@ function displayFirestoreData(userID) {
                 newRow.insertCell(1).textContent = submission.title;
                 newRow.insertCell(2).textContent = submission.concern;
                 newRow.insertCell(3).textContent = submission.priority;
-                newRow.insertCell(4).textContent = submission.name;
-                newRow.insertCell(5).textContent = submission.action;
+                const actionCell = newRow.insertCell(4);
+                actionCell.textContent = submission.action;
+
+
+                actionCell.classList.add('greenBackground');
                 // Add any additional columns as needed
             });
         })
