@@ -81,7 +81,7 @@ firebase.auth().onAuthStateChanged((user) => {
         const profilePic = userData.profilePic;
         const displayName = userData.name;
 
-        commentProfilePicElement.setAttribute('src', profilePic || './images/defaultProfilePic.jpg');
+        commentProfilePicElement.set('src', profilePic || './images/defaultProfilePic.jpg');
         commentNameElement.textContent = displayName;
       } else {
         console.error('User document does not exist');
