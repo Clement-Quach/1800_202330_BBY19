@@ -55,9 +55,12 @@ function fetchDataAndDisplay(userID, sort, order) {
         if (data.image) {
         dataElement.innerHTML = `
           <div class="card-header">
-            <span class="tag tag-teal" id="title">${status}</span>
-            <span class="tag tag-purple" id="title">${data.concern}</span>
-            <span class="tag tag-pink" id="title">${data.location}</span>
+            <div class="tags">
+              <span class="tag tag-teal" id="title">${status}</span>
+              <span class="tag tag-purple" id="title">${data.concern}</span>
+              <span class="tag tag-pink" id="title">${data.location}</span>
+            </div>
+
           </div>
           <div class="card-body">
             <div class="user">
@@ -88,6 +91,7 @@ function fetchDataAndDisplay(userID, sort, order) {
             <span class="tag tag-teal" id="title">${status}</span>
             <span class="tag tag-purple" id="title">${data.concern}</span>
             <span class="tag tag-pink" id="title">${data.location}</span>
+
           </div>
           <div class="card-body">
             <div class="user">

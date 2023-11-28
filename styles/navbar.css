@@ -1,0 +1,96 @@
+@media screen and (min-width: 990px) {
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  .nav-list img {
+    display: none;
+  }
+
+  .navbar-nav {
+    align-items: center;
+  }
+
+  #close-button {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 989px){
+  #navbar-top {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+
+  .navbar-brand img {
+    min-width:30%;
+  }
+
+  .navbar-toggler {
+    margin-right: 0.5rem;
+  }
+
+  #close-button {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+  }
+
+  .nav-list {
+    margin-top: 5rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+
+  .nav-link {
+    display: flex;
+    width: 200px;
+    gap: 0.3rem;
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+    align-items: center;
+    justify-content:center;
+  }
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.offcanvas {
+  background-color: rgba(255, 255, 255, 0.93);
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+.icon-image {
+  width: 11%;
+}
+
+#logout {
+  font-size: 14px;
+}
+
+.navbar-brand img {
+  width: 50%;
+}
+
+#view, #my-ticket, #my-post {
+  width: 20%;
+}
+
+#main-profile-picture {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+}

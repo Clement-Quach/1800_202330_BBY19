@@ -222,14 +222,27 @@ function formatTimestamp(timestamp) {
     return new Intl.DateTimeFormat('en-US', options).format(date);
 }
 
+function scrollToTopSmooth() {
+    // For modern browsers
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+
+    // For old versions of IE
+    document.body.scrollTop = 0;
+}
+
 function ticketSubmit() {
     const userID = firebase.auth().currentUser.uid;
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
     const submissionID = firebase.firestore().collection('discussionSubmissions').doc().id;
+    var warningMessage = document.getElementById('warning-message');
 
     const text = "Ready to submit?";
 
     if (inputNotEmpty() == true) {
+        warningMessage.style.display = 'none';
         if (confirm(text) == true) {
             let ticketDetails = {
                 ticketNumber: generateTicketNumber(),
@@ -296,7 +309,8 @@ function ticketSubmit() {
             }
         }
     } else {
-        alert("Please fill out all required fields before submitting the form.");
+        warningMessage.style.display = 'block';
+        scrollToTopSmooth();
     }
 }
 

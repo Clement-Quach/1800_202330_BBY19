@@ -33,7 +33,12 @@ function fetchDataAndDisplay() {
         // Formatting the date and time
         const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
         if (data.image) {
+          dataElement.addEventListener('click', () => {
+            window.location.href = `postView.html?postId=${doc.id}&userId=${data.userId}`;
+          });
+
           dataElement.innerHTML = `
+          <a href="postView.html">
           <div class="card-header">
             <span class="tag tag-teal" id="title">${data.action}</span>
           </div>
@@ -49,6 +54,7 @@ function fetchDataAndDisplay() {
               </div> 
               <p>${data.details}</p>
             </div>
+            </a>
             <div id="like-section">
               <h3 id="likeCount">Likes: <span id="like-number">${data.likes || 0}</span></h3>
               <button id="like-image" onclick="likePost('${
@@ -62,6 +68,7 @@ function fetchDataAndDisplay() {
         `;
         } else {
           dataElement.innerHTML = `
+          <a href="postView.html">
           <div class="card-header">
             <span class="tag tag-teal" id="title">${data.action}</span>
           </div>
@@ -74,6 +81,7 @@ function fetchDataAndDisplay() {
             <div class="card-details">
               <p>${data.details}</p>
             </div>
+            </a>
             <div id="like-section">
               <span id="likeCount">Likes: <span id="like-number">${data.likes || 0}</span></span>
               <button id="like-image" onclick="likePost('${
@@ -86,21 +94,6 @@ function fetchDataAndDisplay() {
           </div>
           `;
         }
-        const docID = doc.id; // Get the document ID
-
-        dataElement.setAttribute('data-documentSubmissionID', docID);
-        
-        dataElement.addEventListener('click', function(event) {
-          const submissionID = this.getAttribute('data-documentSubmissionID');
-        
-          if (event.target.tagName.toLowerCase() !== 'button' && submissionID) {
-            event.preventDefault();
-
-            localStorage.setItem('documentSubmissionID', submissionID);
-            window.location.href = `postView.html?documentSubmissionID=${submissionID}`;
-          }
-        });
-
         dataContainer.appendChild(dataElement);
       });
     }, (error) => {
@@ -114,23 +107,17 @@ firebase.auth().onAuthStateChanged((user) => {
   // Check if user is signed in:
   if (user) {
     currentUser = db.collection("users").doc(user.id);
-  } else {
-    currentUser = null;
   }
 });
-const needToLogInMessage = "you need to log in to like or dislike a post"
 
 function likePost(docId, currentLikes) {
+  const userID = firebase.auth().currentUser.uid;
+  const docRef = db.collection("discussionSubmissions").doc(docId);
 
-  if(currentUser != null){
-    const userID = firebase.auth().currentUser.uid;
-    const docRef = db.collection("discussionSubmissions").doc(docId);
-  
   docRef.get().then((doc) => {
     if (doc.exists) {
-      const likedBy = doc.data().likedBy || []; 
+      const likedBy = doc.data().likedBy || [];
       const dislikedBy = doc.data().dislikedBy || [];
-      // sendLikeNotification(docRef)
 
       if (likedBy.includes(userID)) {
         // If previously liked and now unliking
@@ -149,17 +136,12 @@ function likePost(docId, currentLikes) {
         }).then(() => {
           console.log("Document successfully updated!");
         });
-
       }
-    }}
-  )} else {
-    alert(needToLogInMessage)
-  } 
+    }
+  });
+}
 
-  }
 function DislikePost(docId, currentLikes) {
-
-  if (currentUser != null) {
   const userID = firebase.auth().currentUser.uid;
   const docRef = db.collection("discussionSubmissions").doc(docId);
 
@@ -187,30 +169,7 @@ function DislikePost(docId, currentLikes) {
         });
       }
     }
-    
   });
-} else {
-  alert(needToLogInMessage)
 }
-}
-
-
-// beta version of the notification system
-
-// function sendLikeNotification(post){
-//        const docRef = post;
-       
-//        docRef.get().then((doc) => {
-//         if(doc.exists){
-//           const originalPoster = doc.data().userID;
-//           const thePost = doc.data().formSubmissionID;
-//           const userRef = db.collection("users").doc(originalPoster)
-//           userRef.update({
-//             notifications: firebase.firestore.arrayUnion(thePost + "has been liked")
-//           })
-        
-//         }
-//        })
-// }
 
 

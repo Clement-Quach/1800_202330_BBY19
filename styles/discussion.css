@@ -1,19 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:ital,wght@0,400;0,500;1,400&display=swap');
+
 .image-preview-container {
     border: 1px solid black;
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
     width:min-content;
     margin-bottom: 20px;
-    display:block;
-    
-    
+    display:none;
 }
-
-
 
 #preview-selected-image {
-    max-width: 60%;
-    max-height: 60%;
-    width: 60%;
-    height: 60%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
+
+div.jumbotron {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+.warning {
+    display: none;
+    background-color: #ffcccc;
+    color: #ff0000;
+    padding: 10px;
+    text-align: center;
+}
+

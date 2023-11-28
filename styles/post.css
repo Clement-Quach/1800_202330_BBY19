@@ -1,3 +1,9 @@
-#test {
-  margin: 10rem;
+
+
+.warning {
+  display: none;
+  background-color: #ffcccc;
+  color: #ff0000;
+  padding: 10px;
+  text-align: center;
 }

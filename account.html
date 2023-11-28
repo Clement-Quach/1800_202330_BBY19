@@ -11,6 +11,13 @@
    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    <!-- Boostrap Library for offcanvas -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
    
    <!-- Firebase library -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -18,15 +25,20 @@
    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script> 
+   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
    
    <!-- Other libraries go here -->
 
 
    <!-- Link to styles of your own -->
-   <link rel="stylesheet" href="./styles/mainStyle.css">
+   <!-- <link rel="stylesheet" href="./styles/mainStyle.css"> -->
    <link rel="stylesheet" href="./styles/style.css">
    <link rel="stylesheet" href="./styles/account.css">
+   <link rel="stylesheet" href="./styles/footer.css">
+   <link rel="stylesheet" href="./styles/navbar.css">
+
 
 </head>
 <body>
@@ -34,22 +46,23 @@
   <nav id="navbarPlaceholder"></nav>
   <!-- Include your navigation links or menu here -->
   <div class="main">
-    <div class="container">
-      <div class="welcome">
-        <h1>Welcome, <span id="name-goes-here"></span>!</h1>
+    <div class="profile-section">
+      <img id="mypic-goes-here" src="./images/default_profile_picture.png" onclick="triggerFileInput()"/>
+      <div id="edit-text" onclick="triggerFileInput()">Edit</div>
+      <div class="image-input">
+        <input type="file" class="form-control" id="mypic-input" accept="image/*" disabled/>
       </div>
     </div>
-
-    <div class="profile-section">
-      <img src="./images/BBY01.jpg">
-      <h3>Account Email: <span id="account-email"></span></h3>
-    </div>
-
+  
     <div class="card">
       <div class="container">
         <form>
             <fieldset class="mb-3" id="personalInfoFields" disabled>
               <!-- name card-->
+              <div class="form-group">
+                <h3>Account Email:</h3>
+                <input type="text" id="account-email" class="form-control" disabled>
+              </div>
               <div class="form-group">
                   <h3>Name: </h3>
                   <!-- <label >Change the name people will refer to you as</label> -->
@@ -94,8 +107,9 @@
     <script src="./scripts/firebaseAPI_TEAM19.js"></script>
     <script src="./scripts/script.js"></script>
     <script src="./scripts/skeleton.js"></script>
-    <script src="./scripts/main.js"></script>
+    <!-- <script src="./scripts/main.js"></script> -->
     <script src="./scripts/accountsv2.js"></script>
-    <script src="./scripts/search.js"></script>
+    <script src="./scripts/footer.js"></script>
+    <script src="./scripts/navbar.js"></script>
 </body>
 </html> 

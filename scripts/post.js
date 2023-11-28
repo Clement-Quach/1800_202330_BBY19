@@ -286,6 +286,12 @@ function addRowToTable(rowData) {
     const tableBody = document.getElementById('td');
     const newRow = document.createElement('tr');
 
+    // Display confirmation message
+    let newOuterDiv = document.getElementById("outerDiv");
+    newOuterDiv.style.color = "black";
+    newOuterDiv.innerHTML = "<h1>Submitted!</h1>";
+
+
     newRow.innerHTML = `
         <td>${rowData.ticketNumber}</td>
         <td>${rowData.title}</td>
@@ -309,6 +315,18 @@ function formatTimestamp(timestamp) {
     return new Intl.DateTimeFormat('en-US', options).format(date);
 }
 
+function scrollToTopSmooth() {
+    // For modern browsers
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+
+    // For old versions of IE
+    document.body.scrollTop = 0;
+}
+
+
 function ticketSubmit() {
     // Get the current user ID
     const userID = firebase.auth().currentUser.uid;
@@ -319,9 +337,12 @@ function ticketSubmit() {
     // Create a unique formSubmissionID
     const formSubmissionID = firebase.firestore().collection('formSubmissions').doc().id;
 
+    var warningMessage = document.getElementById('warning-message');
+
     const text = "Ready to submit?";
 
     if (inputNotEmpty() == true) {
+        warningMessage.style.display = 'none';
         if (confirm(text) == true) {
             // Create ticketDetails object
             let ticketDetails = {
@@ -394,7 +415,8 @@ function ticketSubmit() {
             }
         }
     } else {
-        alert("Please fill out all required fields before submitting the form.");
+        warningMessage.style.display = 'block';
+        scrollToTopSmooth();
     }
 }
 
