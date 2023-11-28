@@ -6,9 +6,7 @@ function displayPostInfo() {
   console.log(indexId);
   let ID = paramsStr.slice(indexId, paramsStr.length); //get value for key "id"
   // let ID = params.searchParams.get( "docID" ); //get value for key "id"
-  
-  
-  
+
   console.log( ID );
 
   db.collection( "discussionSubmissions" )
@@ -21,8 +19,6 @@ function displayPostInfo() {
      
       postDate = thisPost.timestamp;
 
-      
-      
       const data = doc.data();
       // Create HTML elements based on the data
       const dataElement = document.createElement('div');
@@ -67,7 +63,7 @@ function displayPostInfo() {
       if (data.image) {
       dataElement.innerHTML = `
         <div class="card-header">
-          <span class="tag tag-teal" id="title"></span>
+          <span class="tag tag-teal" id="title">${status}</span>
           <span class="tag tag-purple" id="title">${data.concern}</span>
           <span class="tag tag-pink" id="title">${data.location}</span>
         </div>
@@ -99,7 +95,7 @@ function displayPostInfo() {
   }  else {
     dataElement.innerHTML = `
     <div class="card-header">
-      <span class="tag tag-teal" id="title"></span>
+      <span class="tag tag-teal" id="title">${status}</span>
       <span class="tag tag-purple" id="title">${data.concern}</span>
       <span class="tag tag-pink" id="title">${data.location}</span>
     </div>
@@ -111,13 +107,10 @@ function displayPostInfo() {
         <h5 id="name">${data.name}</h5>
       </div>
       <div class="card-details">
-      <input type="text" id="detailsInput" class="form-control" >
-        
+        <input type="text" id="detailsInput" class="form-control" >
       </div>
       <div id="like-section">
-
-      <button type="button" id="save-button" class="btn btn-info" onclick="saveEdits()">Save</button>
-
+        <button type="button" id="save-button" class="btn btn-primary" onclick="saveEdits()">Save</button>
       </div>
     </div>
     `;
@@ -144,16 +137,18 @@ function saveEdits(){
   db.collection( "discussionSubmissions" )
   .doc( ID )
   .get()
-  .then( doc => {
+  .then(() => {
+    console.log("went into the collection function")
     thisPost =  db.collection( "discussionSubmissions" ).doc(ID);
-    console.log(newDetails)
+    console.log(newDetails);
     thisPost.update({
       details: newDetails, 
       title: newTitle,
 
+    }).then(() => {
+      window.location.href = params;
     })
-
+    
   })
-
 
 }
