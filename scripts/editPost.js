@@ -73,7 +73,8 @@ function displayPostInfo() {
         </div>
         <div class="card-body">
           <div class="user">
-            <h1 id="details">${data.title}</h1>
+          
+          <h1 id="details"><input type="text" id="titleInput" class="form-control" ></h1>
             <small id="timestamp">${formattedDateTime}</small>
             <h5 id="name">${data.name}</h5>
           </div>
@@ -82,16 +83,14 @@ function displayPostInfo() {
               <img src="${data.image}" alt="${data.title}" />
             </div> 
             
-            <p> ${data.details}</p>
+            <input type="text" id="detailsInput" class="form-control" >
            
           </div>
           <div id="like-section">
-          <button type="button" class="btn btn-secondary" id="edit-button">Edit</button>
-          <span style="width: 10px"></span>
-          <button type="button" id="save-button" class="btn btn-info" disabled>Save</button>
+
+          <button type="button" id="save-button" class="btn btn-info" onclick="saveEdits()">Save</button>
              
-           <br>
-           <br>
+    
 
               </div>
         </div>
@@ -106,7 +105,8 @@ function displayPostInfo() {
     </div>
     <div class="card-body">
       <div class="user">
-        <h1 id="details">${data.title}</h1>
+ 
+        <h1 id="details"><input type="text" id="titleInput" class="form-control" ></h1>
         <small id="timestamp">${formattedDateTime}</small>
         <h5 id="name">${data.name}</h5>
       </div>
@@ -125,6 +125,7 @@ function displayPostInfo() {
   dataContainer.appendChild(dataElement);
 
   document.getElementById('detailsInput').value = data.details
+  document.getElementById('titleInput').value = data.title
 
 });
  
@@ -135,7 +136,8 @@ displayPostInfo();
 function saveEdits(){
   let params = new URL( window.location.href ); //get URL of search bar
   let paramsStr = encodeURI(params)
-  newDetails = document.getElementById('detailsInput').value;
+  let newDetails = document.getElementById('detailsInput').value;
+  let newTitle = document.getElementById('titleInput').value;
   let indexId = paramsStr.indexOf("docId=")+6;
   console.log(indexId);
   let ID = paramsStr.slice(indexId, paramsStr.length)
@@ -147,6 +149,8 @@ function saveEdits(){
     console.log(newDetails)
     thisPost.update({
       details: newDetails, 
+      title: newTitle,
+
     })
 
   })
