@@ -139,6 +139,10 @@ html, body {
   }
 }
 
+#sort-type {
+  padding: 0rem;
+}
+
 .clicked {
   background-color: aqua;
 }
@@ -204,29 +208,13 @@ html, body {
 }
 
 .card-header {
-  background-color: #3f67eada;
-  display: grid;
-  grid-template-columns: 90% 10%;
-}
-
-.option {
-  position: absolute;
-  top: 2%;
-  right: 5%;
+  background-color: rgba(47, 100, 213, 0.777)
 }
 
 .card-body {
   display: flex;
   flex-direction: column;
   min-height: fit-content;
-}
-
-.tags {
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-  align-items: center;
-  gap: 1rem;
 }
 
 .tag {
@@ -253,12 +241,13 @@ html, body {
 
 #like-section {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: auto;
   column-gap: 2rem;
   padding: 0.5rem;
   text-align: center;
+  align-items: center;
+  justify-content: right;
 }
-
 
 .vote-image {
   margin-top: auto;

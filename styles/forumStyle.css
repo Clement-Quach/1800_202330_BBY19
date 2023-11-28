@@ -204,7 +204,7 @@ html, body {
 }
 
 .card-header {
-  background-color: #3f67eada;
+  background-color: rgba(47, 100, 213, 0.777)
 }
 
 .card-body {
