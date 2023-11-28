@@ -21,16 +21,38 @@ document.addEventListener('DOMContentLoaded', () => {
               const userProfileData = userDoc.data();
               const profilePic = userProfileData.profilePic;
 
+              const dateObject = userData.timestamp.toDate();
+              
+              // Extracting date components
+              const year = dateObject.getFullYear();
+              const month = (dateObject.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+              const day = dateObject.getDate().toString().padStart(2, '0');
+
+              // Extracting time components
+              const hours = dateObject.getHours().toString().padStart(2, '0');
+              const minutes = dateObject.getMinutes().toString().padStart(2, '0');
+
+              const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+              const action = document.getElementById('action');
+              const concern = document.getElementById('concern');
+              const city = document.getElementById('city');
+
               // Populating HTML elements with fetched data
               const titleElement = document.getElementById('title');
               const userInfoElement = document.getElementById('userInfo');
               const discussionElement = document.getElementById('discussion');
               const postProfilePicElement = document.getElementById('postProfilePic');
               const postImageElement = document.getElementById('postImage');
+              const postTime = document.getElementById('timestamp');
 
               titleElement.textContent = userData.title;
               userInfoElement.textContent = userData.name;
               discussionElement.textContent = userData.details;
+              postTime.textContent = formattedDateTime;
+              action.textContent = userData.action;
+              concern.textContent = userData.concern;
+              city.textContent = userData.location;
 
               // Check if profilePic exists before setting the attribute
               if (profilePic) {

@@ -6,6 +6,7 @@ function logout() {
       // An error happened.
     });
 };
+
 function changeImage(imagePath) {
     const cityImage = document.getElementById('cityImage');
     cityImage.src = imagePath;

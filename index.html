@@ -16,9 +16,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-
-    <!-- Boostrap Library for offcanvas -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -36,7 +34,7 @@
 
 
     <!-- Link to styles of your own -->
-    <link rel="stylesheet" href="./styles/myDiscussion.css">
+    <link rel="stylesheet" href="./styles/mainStyle.css">
     <link rel="stylesheet" href="./styles/style.css">
     <link rel="stylesheet" href="./styles/footer.css">
     <link rel="stylesheet" href="./styles/navbar.css">
@@ -49,45 +47,34 @@
     <!-- Your HTML Layout go here -->
     <!------------------------------>
     <!-- Stuff for body goes here -->
-<nav id="navbarPlaceholder"></nav>
+    <nav id="navbarPlaceholder"></nav>
 
-<div class="inner-sidebar-header justify-content-center">
-  <a href="discussion.html" >
-      <button class="btn btn-primary has-icon btn-block" type="button">
-          CREATE NEW DISCUSSION
-      </button>
-  </a>
-</div>
+  <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-lg-5 py-5">
+      <div class="col-lg-7 text-center text-lg-start">
+        <h1 class="display-5 fw-bold lh-1 mb-5">Welcome to CityConnect: <br>Your gateway to a stronger, more connected community!</h1>
+        <p class="col-lg-9 fs-4" id="welcome-paragraph">Join us today and be part of the CityConnect community. Let's work together to create a city that thrives on your ideas, concerns, and collective strength. Your city hall is now just a tap away, and positive change begins with you.</p>
+      </div>
+      <div class="col-md-10 mx-auto col-lg-5" id="user-login">
+        <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+          <div id="firebaseui-auth-container"></div>
+          <small class="text-muted">Don't have an account yet? Sign up <span class="sign-up"><u><a href="signup.html">Here</a></u></span></small>
+        </div>
+        
+      </div>
+    </div>
+  </div>
 
-<div class="header">
-    <h1>My Page</h1>
-    <select id="sort-type" class="form-select form-select-lg mb-3">
-      <option value="New">New</option>
-      <option value="Old">Old</option>
-      <option value="Likes">Likes</option>
-      <option value="City">City</option>
-      <option value="Concern">Concern</option>
-    </select>
-</div>
+  <nav id="footerPlaceholder"></nav>
+  <!---------------------------------------------->
+  <!-- Your own JavaScript functions go here    -->
+  <!---------------------------------------------->
 
-<div id="dataContainer">
-  <!-- The fetched data will be displayed here -->
-</div>
-
-
-
-<nav id="footerPlaceholder"></nav>
-    <!---------------------------------------------->
-    <!-- Your own JavaScript functions go here    -->
-    <!---------------------------------------------->
-
-    <!-- Link to scripts of your own -->
-    <script src="./scripts/firebaseAPI_TEAM19.js"></script>
-    <script src="./scripts/script.js"></script>
-    <script src="./scripts/skeleton.js"></script>
-    <script src="./scripts/navbar.js"></script>
-    <script src="./scripts/myDiscussion.js"></script>
-    <script src="./scripts/footer.js"></script>
+  <!-- Link to scripts of your own -->
+  <script src="./scripts/firebaseAPI_TEAM19.js"></script>
+  <script src="./scripts/authentication.js"></script>
+  <script src="./scripts/script.js"></script>
+  <script src="./scripts/skeleton.js"></script>
 </body>
 
 </html>

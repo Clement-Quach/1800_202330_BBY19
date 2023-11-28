@@ -55,12 +55,9 @@ function fetchDataAndDisplay(userID, sort, order) {
         if (data.image) {
         dataElement.innerHTML = `
           <div class="card-header">
-            <div class="tags">
-              <span class="tag tag-teal" id="title">${status}</span>
-              <span class="tag tag-purple" id="title">${data.concern}</span>
-              <span class="tag tag-pink" id="title">${data.location}</span>
-            </div>
-
+            <span class="tag tag-teal" id="title">${status}</span>
+            <span class="tag tag-purple" id="title">${data.concern}</span>
+            <span class="tag tag-pink" id="title">${data.location}</span>
           </div>
           <div class="card-body">
             <div class="user">
@@ -78,11 +75,7 @@ function fetchDataAndDisplay(userID, sort, order) {
             </div>
             <div id="like-section">
               <a class="btn btn-primary card-href" href="editPost.html?docId=${data.documentSubmissionID}">Edit Post</a>
-               
-             <br>
-             <br>
-
-                </div>
+            </div>
           </div>
         `;
         } else {
@@ -102,9 +95,7 @@ function fetchDataAndDisplay(userID, sort, order) {
               <p>${data.details}</p>
             </div>
             <div id="like-section">
-            <a class="btn btn-primary card-href" href="editPost.html?docId=${data.documentSubmissionID}">Edit Post</a>
-
-
+              <a class="btn btn-primary card-href" href="editPost.html?docId=${data.documentSubmissionID}">Edit Post</a>
             </div>
           </div>
           `;
