@@ -40,7 +40,6 @@
     <link rel="stylesheet" href="./styles/footer.css">
     <link rel="stylesheet" href="./styles/navbar.css">
     <link rel="stylesheet" href="./styles/editPost.css">
-    
 
 
 </head>
@@ -54,8 +53,18 @@
 
     <nav id="navbarPlaceholder"></nav>
 
-    <div id="dataContainer">
+    <div class="warning" id="warning-message">
+        Please fill in all required inputs!
     </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <button class="btn btn-danger" id="cancelEdit">Cancel</button>
+            <button class="btn btn-primary" id="confirmEdit">Save changes</button>
+        </div>
+    </div>
+
+    <div id="dataContainer"></div>
 
     <nav id="footerPlaceholder"></nav>
     <!---------------------------------------------->

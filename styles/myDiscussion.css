@@ -81,10 +81,6 @@ html, body {
   .header h1 {
     font-size: 20px;
   }
-
-  .header select {
-    width: 50%;
-  }
 }
 
 @media screen and (max-width: 400px) {
@@ -96,7 +92,7 @@ html, body {
   }
 
   .header select {
-    width: 50%;
+    width: 60%;
     margin-left: auto;
     margin-right: auto;
   }
@@ -133,10 +129,6 @@ html, body {
   .header h1 {
     font-size: 20px;
   }
-
-  .header select {
-    width: 50%;
-  }
 }
 
 #sort-type {
@@ -157,13 +149,6 @@ html, body {
     row-gap: 2rem;
 }
 
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 500,
-  'GRAD' 0,
-  'opsz' 30
-}
 
 #upvote:hover {
   cursor: pointer;
@@ -290,4 +275,8 @@ html, body {
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding: 1em;
+}
+
+#create-discussion-button {
+  border-radius: 0;
 }
