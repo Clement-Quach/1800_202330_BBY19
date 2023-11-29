@@ -1,18 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:ital,wght@0,400;0,500;1,400&display=swap');
 
 .image-preview-container {
-    border: 1px solid black;
-    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
-    width:min-content;
+    margin: auto;
     margin-bottom: 20px;
-    display:none;
-}
-
-#preview-selected-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+  }
+  #preview-selected-image {
+    width: 300px; /* Set your desired width */
+    height: auto;
+  }
 
 div.jumbotron {
     border: 1px solid #ccc;

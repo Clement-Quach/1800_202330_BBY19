@@ -121,6 +121,7 @@ function displayPostInfo() {
  
 //<p>${data.details}</p>
 }
+
 displayPostInfo();
 
 function saveEdits(){
@@ -130,15 +131,14 @@ function saveEdits(){
   let indexId = paramsStr.indexOf("docId=")+6;
   console.log(indexId);
   let ID = paramsStr.slice(indexId, paramsStr.length)
-  db.collection( "discussionSubmissions" )
+  db.collection('discussionSubmissions')
   .doc( ID )
   .get()
   .then(() => {
-    thisPost =  db.collection( "discussionSubmissions" ).doc(ID);
+    thisPost =  db.collection('discussionSubmissions').doc(ID);
     console.log(newDetails);
     thisPost.update({
       details: newDetails, 
     })
   })
-  window.location.href = params;
 }
