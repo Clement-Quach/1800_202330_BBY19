@@ -40,7 +40,7 @@ body {
   grid-row: 1;
   display: grid;
   align-items: center;
-  background-color: rgb(98, 167, 236);
+  background-color: #43a45d;
 }
 
 #view-post-card {
@@ -49,7 +49,7 @@ body {
   grid-column: 1;
   display: grid;
   align-items: center;
-  background-color: rgb(36, 183, 53);
+  background-color: #5cb5ed;
 }
 
 #view-post-card img {
@@ -62,7 +62,7 @@ body {
   grid-column: 1;
   display: grid;
   align-items: center;
-  background-color: rgb(242, 177, 78);
+  background-color: #5cb5ed;
 }
 
 #view-ticket-card img {
@@ -75,7 +75,7 @@ body {
   grid-row: 2 / span 2;
   display: grid;
   align-items: center;
-  background-color: rgb(244, 63, 123);
+  background-color: #f1c47d;
 }
 
 body {

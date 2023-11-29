@@ -12,7 +12,7 @@ function populateImage() {
           console.log(picUrl);
           $("#main-profile-picture").attr("src", picUrl);
         } else {
-          console.log("picURL is null");
+          picUrl = "./images/default_profile_picture.png"
         }
       });
     } else {

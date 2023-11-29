@@ -1,26 +1,18 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar-top">
-  <a class="navbar-brand" href="../login.html">
-    <img src=".\images\cityconnect.png" alt="CityConnect" width="50%">
+  <a class="navbar-brand" href="../main.html">
+    <img src=".\images\cityconnect.png" alt="CityConnect">
   </a>
 
   <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><span class="navbar-toggler-icon"></span></button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="../about.html"> About Us</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="../login.html">Log In</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="../forums.html">Forums</a>
-      </li>
-
-    </ul>
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <button type="button" id="close-button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <div class="nav-list">
+      <div class="nav-link">
+        <img class="icon-image" src="../images/about-icon.png">
+        <a href="../about.html"> About Us</a>
+      </div>
+      <a class="nav-link" href="../login.html">Log In</a>
+    </div>
   </div>
 </nav>

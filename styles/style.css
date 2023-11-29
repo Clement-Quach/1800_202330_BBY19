@@ -21,17 +21,6 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-/* .navbar-brand img {
-  width: 50%;
-}
-
-.nav-list img {
-  border-radius: 50%;
-  width: 150px;
-  height: 150px;
-  cursor: pointer;
-} */
-
 input::-webkit-calendar-picker-indicator {
   display: none;
   background: transparent;

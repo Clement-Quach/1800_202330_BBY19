@@ -96,7 +96,7 @@ body {
 }
 
 #comment-section {
-  margin-bottom: 20rem;
+  margin-bottom: 15rem;
 }
 
 .commentContainer {
@@ -219,6 +219,7 @@ body {
   margin-top: 3vh;
   transition: opacity 0.3s;
   width: 100%;
+
 }
 
 #commentMessage {
