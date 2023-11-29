@@ -77,7 +77,8 @@ function displayPostInfo() {
         </div>
         <div class="card-body">
           <div class="user">
-            <h1 id="details">${data.title}</h1>
+          
+          <h1 id="details"><input type="text" id="titleInput" class="form-control"></h1>
             <small id="timestamp">${formattedDateTime}</small>
             <h5 id="name">${data.name}</h5>
           </div>
@@ -86,11 +87,8 @@ function displayPostInfo() {
               <img src="${data.image}" alt="${data.title}" />
             </div> 
           </div>
-          <div class="card-details">
-            <input type="text" id="detailsInput" class="form-control" >
-          </div>
+          <input type="text" id="detailsInput" class="form-control">
           <div id="like-section">
-            <button type="button" class="btn btn-secondary" id="edit-button">Edit</button>
             <button type="button" id="save-button" class="btn btn-primary" onclick="saveEdits()">Save</button>
           </div>
         </div>
@@ -105,12 +103,13 @@ function displayPostInfo() {
     </div>
     <div class="card-body">
       <div class="user">
-        <h1 id="details">${data.title}</h1>
+ 
+        <h1 id="details"><input type="text" id="titleInput" class="form-control"></h1>
         <small id="timestamp">${formattedDateTime}</small>
         <h5 id="name">${data.name}</h5>
       </div>
       <div class="card-details">
-        <input type="text" id="detailsInput" class="form-control" >
+        <input type="text" id="detailsInput" class="form-control">
       </div>
       <div id="like-section">
         <button type="button" id="save-button" class="btn btn-primary" onclick="saveEdits()">Save</button>
@@ -120,11 +119,10 @@ function displayPostInfo() {
   }
   dataContainer.appendChild(dataElement);
 
-  document.getElementById('detailsInput').value = data.details;
-
+  document.getElementById('detailsInput').value = data.details
+  document.getElementById('titleInput').value = data.title
 
 });
- 
 //<p>${data.details}</p>
 }
 displayPostInfo();
@@ -132,19 +130,38 @@ displayPostInfo();
 function saveEdits(){
   let params = new URL( window.location.href ); //get URL of search bar
   let paramsStr = encodeURI(params)
-  newDetails = document.getElementById('detailsInput').value;
+  let newDetails = document.getElementById('detailsInput').value;
+  let newTitle = document.getElementById('titleInput').value;
   let indexId = paramsStr.indexOf("docId=")+6;
+  var warningMessage = document.getElementById('warning-message');
+  var warningInput = document.getElementById('titleInput');
+  var warningInput2 = document.getElementById('detailsInput');
   console.log(indexId);
-  let ID = paramsStr.slice(indexId, paramsStr.length)
-  db.collection( "discussionSubmissions" )
-  .doc( ID )
-  .get()
-  .then(() => {
-    thisPost =  db.collection( "discussionSubmissions" ).doc(ID);
-    console.log(newDetails);
-    thisPost.update({
-      details: newDetails, 
+
+  if (newDetails.trim() != "" && newTitle.trim() != "") {
+    warningMessage.style.display = 'none';
+    warningInput.style.border = "none";
+    warningInput2.style.border = "none";
+    let ID = paramsStr.slice(indexId, paramsStr.length);
+    db.collection( "discussionSubmissions" )
+    .doc( ID )
+    .get()
+    .then(() => {
+      console.log("went into the collection function")
+      thisPost =  db.collection( "discussionSubmissions" ).doc(ID);
+      console.log(newDetails);
+      thisPost.update({
+        details: newDetails, 
+        title: newTitle,
+      }).then(() => {
+        window.location.href = params;
+      })
     })
-    window.location.href = paramsStr;
-  })
+  } else {
+    warningMessage.style.display = 'block';
+    warningInput.style.border = "1px solid red";
+    warningInput2.style.border = "1px solid red";
+
+  }
+
 }
