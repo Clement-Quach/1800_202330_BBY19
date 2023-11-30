@@ -29,9 +29,9 @@ input::-webkit-calendar-picker-indicator {
   color: #ccc;
 }
 
-.bg-light {
+/* .bg-light {
   background-color: #ffffff !important;
-}
+} */
 
 .container h1 {
   font-size: 25px;
@@ -56,10 +56,11 @@ input::-webkit-calendar-picker-indicator {
 }
 
 a.call-to-action span {
-  border: 3px solid #000000b4;
-  border-radius: 20px;
+  border: 0.1px solid #c1c1c1;
+  border-radius: 40%;
   padding: 15px;
-  background-color: #F8F9FA;
+  background-color: #ffffff;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
   color: #000;
   font-weight: bold;
   font-size: 20px;

@@ -1,3 +1,7 @@
+#footer-bottom {
+  background-color: #ffffff00 !important;
+}
+
 .overlay {
   display: none;
   position: fixed;

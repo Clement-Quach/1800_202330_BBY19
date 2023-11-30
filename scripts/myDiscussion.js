@@ -1,32 +1,31 @@
-var sortSelect = document.getElementById('sort-type');
-
+var sortSelect = document.getElementById("sort-type");
 
 function fetchDataAndDisplay(userID, sort, order) {
-  const dataContainer = document.getElementById('dataContainer');
+  const dataContainer = document.getElementById("dataContainer");
 
   // Retrieve form submission data from Firestore based on the user ID
-  db.collection('discussionSubmissions')
-      .where('userID', '==', userID) // Add this line to filter by user ID
-      .orderBy(sort, order)
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach((doc) => {
+  db.collection("discussionSubmissions")
+    .where("userID", "==", userID) // Add this line to filter by user ID
+    .orderBy(sort, order)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
         const data = doc.data();
         // Create HTML elements based on the data
-        const dataElement = document.createElement('div');
-        dataElement.className = 'card';
+        const dataElement = document.createElement("div");
+        dataElement.className = "card";
 
         const time = data.timestamp;
 
         const dateObject = time.toDate();
 
         const year = dateObject.getFullYear();
-        const month = (dateObject.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-        const day = dateObject.getDate().toString().padStart(2, '0');
+        const month = (dateObject.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
+        const day = dateObject.getDate().toString().padStart(2, "0");
 
         // Extracting time components
-        const hours = dateObject.getHours().toString().padStart(2, '0');
-        const minutes = dateObject.getMinutes().toString().padStart(2, '0');
+        const hours = dateObject.getHours().toString().padStart(2, "0");
+        const minutes = dateObject.getMinutes().toString().padStart(2, "0");
 
         const currentDate = new Date();
 
@@ -42,18 +41,35 @@ function fetchDataAndDisplay(userID, sort, order) {
         // Check if 24 hours have passed
         if (daysDifference > 3) {
           status = "Past";
-        }
-        else if (hoursDifference >= 24) {
-            status = "Recent";
+        } else if (hoursDifference >= 24) {
+          status = "Recent";
         } else {
-            status = data.action;
+          status = data.action;
         }
 
         // Formatting the date and time
         const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
 
-        if (data.image) {
-        dataElement.innerHTML = `
+        if (status === "Removed") {
+          dataElement.innerHTML = `
+          <div class="card-header">
+            <span class="tag tag-teal" id="title">${status}</span>
+          </div>
+          <div class="card-body">
+            <div class="user">
+              <h1 id="details">${data.title}</h1>
+              <small id="timestamp">${formattedDateTime}</small>
+              <h5 id="name">${data.name}</h5>
+            </div>
+            <div class="card-details">
+              <p>${data.details}</p>
+            </div>
+            <div id="like-section">
+            </div>
+          </div>
+          `;
+        } else if (data.image) {
+          dataElement.innerHTML = `
           <div class="card-header">
             <span class="tag tag-teal" id="title">${status}</span>
             <span class="tag tag-purple" id="title">${data.concern}</span>
@@ -69,12 +85,10 @@ function fetchDataAndDisplay(userID, sort, order) {
               <div class="card-image">
                 <img src="${data.image}" alt="${data.title}" />
               </div> 
-              
               <p> ${data.details}</p>
-             
             </div>
             <div id="like-section">
-              <a class="btn btn-primary card-href" href="editPost.html?docId=${data.documentSubmissionID}">Edit Post</a>
+              <a id="edit-button" class="btn btn-primary card-href" href="editPost.html?docId=${data.documentSubmissionID}">Edit Post</a>
             </div>
           </div>
         `;
@@ -95,54 +109,50 @@ function fetchDataAndDisplay(userID, sort, order) {
               <p>${data.details}</p>
             </div>
             <div id="like-section">
-              <a class="btn btn-primary card-href" href="editPost.html?docId=${data.documentSubmissionID}">Edit Post</a>
+              <a id="edit-button" class="btn btn-primary card-href" href="editPost.html?docId=${data.documentSubmissionID}">Edit Post</a>
             </div>
           </div>
           `;
         }
-
-
 
         // Append the HTML to the container
         dataContainer.appendChild(dataElement);
       });
     })
     .catch((error) => {
-      console.error('Error reading Firestore data:', error);
+      console.error("Error reading Firestore data:", error);
     });
-
 }
 
-firebase.auth().onAuthStateChanged(user => {
-
+firebase.auth().onAuthStateChanged((user) => {
   var sort;
   var order;
 
-  if (localStorage.getItem('dropdownValue')) {
-    sortSelect.value = localStorage.getItem('dropdownValue');
-    var sortType = localStorage.getItem('dropdownValue');
+  if (localStorage.getItem("dropdownValue")) {
+    sortSelect.value = localStorage.getItem("dropdownValue");
+    var sortType = localStorage.getItem("dropdownValue");
   }
 
-  if (sortType == 'New') {
+  if (sortType == "New") {
     sort = "timestamp";
     order = "desc";
-  } else if (sortType == 'Old') {
+  } else if (sortType == "Old") {
     sort = "timestamp";
     order = "asc";
-  } else if (sortType == 'Concern') {
+  } else if (sortType == "Concern") {
     sort = "concern";
     order = "asc";
-  } else if (sortType == 'Likes') {
+  } else if (sortType == "Likes") {
     sort = "likes";
     order = "desc";
-  } else if (sortType == 'City') {
+  } else if (sortType == "City") {
     sort = "location";
     order = "asc";
   }
 
   // Check if user is signed in:
   if (user) {
-    currentUser = db.collection("users").doc(user.id)
+    currentUser = db.collection("users").doc(user.id);
   }
   const userID = firebase.auth().currentUser.uid;
   console.log(userID);
@@ -150,16 +160,15 @@ firebase.auth().onAuthStateChanged(user => {
   fetchDataAndDisplay(userID, sort, order);
 });
 
-sortSelect.addEventListener("change", function() {
-  localStorage.setItem('dropdownValue', this.value);
+sortSelect.addEventListener("change", function () {
+  localStorage.setItem("dropdownValue", this.value);
   changeSort();
 });
 
-
 function changeSort() {
   dataContainer.innerHTML = "";
-  
-  setTimeout(function() {
+
+  setTimeout(function () {
     window.location.href = "loadingMyDiscussion.html";
   }, 100);
 }
@@ -173,7 +182,6 @@ firebase.auth().onAuthStateChanged((user) => {
 });
 
 function likePost(docId, currentLikes) {
-
   // var up = document.getElementById('upvote');
 
   // toggleFontVariation(up);
@@ -188,28 +196,33 @@ function likePost(docId, currentLikes) {
 
       if (likedBy.includes(userID)) {
         // If previously liked and now unliking
-        docRef.update({
-          likes: parseInt(currentLikes) - 1,
-          likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
-        }).then(() => {
-          console.log("Document successfully updated!");
-        });
+        docRef
+          .update({
+            likes: parseInt(currentLikes) - 1,
+            likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
+          })
+          .then(() => {
+            console.log("Document successfully updated!");
+          });
       } else {
         // If not previously liked or changing from dislike to like
-        docRef.update({
-          likes: dislikedBy.includes(userID) ? parseInt(currentLikes) + 2 : parseInt(currentLikes) + 1,
-          likedBy: firebase.firestore.FieldValue.arrayUnion(userID),
-          dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
-        }).then(() => {
-          console.log("Document successfully updated!");
-        });
+        docRef
+          .update({
+            likes: dislikedBy.includes(userID)
+              ? parseInt(currentLikes) + 2
+              : parseInt(currentLikes) + 1,
+            likedBy: firebase.firestore.FieldValue.arrayUnion(userID),
+            dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
+          })
+          .then(() => {
+            console.log("Document successfully updated!");
+          });
       }
     }
   });
 }
 
 function DislikePost(docId, currentLikes) {
-
   // var down = document.getElementById('downvote');
 
   // toggleFontVariation(down);
@@ -224,24 +237,29 @@ function DislikePost(docId, currentLikes) {
 
       if (dislikedBy.includes(userID)) {
         // If previously disliked and now undisliking
-        docRef.update({
-          likes: parseInt(currentLikes) + 1,
-          dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
-        }).then(() => {
-          console.log("Document successfully updated!");
-        });
+        docRef
+          .update({
+            likes: parseInt(currentLikes) + 1,
+            dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
+          })
+          .then(() => {
+            console.log("Document successfully updated!");
+          });
       } else {
         // If not previously disliked or changing from like to dislike
-        docRef.update({
-          likes: likedBy.includes(userID) ? parseInt(currentLikes) - 2 : parseInt(currentLikes) - 1,
-          dislikedBy: firebase.firestore.FieldValue.arrayUnion(userID),
-          likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
-        }).then(() => {
-          console.log("Document successfully updated!");
-        });
+        docRef
+          .update({
+            likes: likedBy.includes(userID)
+              ? parseInt(currentLikes) - 2
+              : parseInt(currentLikes) - 1,
+            dislikedBy: firebase.firestore.FieldValue.arrayUnion(userID),
+            likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
+          })
+          .then(() => {
+            console.log("Document successfully updated!");
+          });
       }
     }
   });
 }
-
 

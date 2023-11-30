@@ -8,6 +8,9 @@ html, body {
   box-sizing: border-box;
 }
 
+.back-button {
+  padding: 1rem;
+}
 
 #dataContainer {
   display: grid;
@@ -110,8 +113,10 @@ html, body {
 }
 
 #like-section {
-  text-align: right;
-  row-gap: 1rem;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 1rem;
+  justify-content: right;
 }
 
 #name {
@@ -129,6 +134,16 @@ html, body {
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding: 1em;
+}
+
+#save-button {
+  grid-column: 4;
+  grid-row: 1;
+}
+
+#remove-button {
+  grid-column: 3;
+  grid-row: 1;
 }
 
 .warning {
