@@ -222,7 +222,7 @@ function removePost() {
         .then(() => {
           // Redirect or perform any other action after updating the post
           console.log("Post details removed successfully");
-          window.location.href = params;
+          window.location.href = "myDiscussion.html";
         })
         .catch((error) => {
           console.error("Error removing post details: ", error);

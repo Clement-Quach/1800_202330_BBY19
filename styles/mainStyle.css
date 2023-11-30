@@ -47,7 +47,6 @@ body {
   grid-row: 1;
   display: grid;
   align-items: center;
-  border: #2d5975 3px solid;
   background-color: #569de8c0;
 }
 
@@ -61,8 +60,8 @@ body {
   grid-column: 1;
   display: grid;
   align-items: center;
-  border: #2d5975 3px solid;
-  background-color: #569de8c0;
+  background-color: #abcff5c0;
+  border: #2b2d2f 2px solid;
 }
 
 #view-post-card:hover {
@@ -79,8 +78,8 @@ body {
   grid-column: 1;
   display: grid;
   align-items: center;
-  border: #2d5975 3px solid;
-  background-color: #569de8c0;
+  background-color: #abcff5c0;
+  border: #2b2d2f 2px solid;
 }
 
 #view-ticket-card:hover {
@@ -97,8 +96,8 @@ body {
   grid-row: 2 / span 2;
   display: grid;
   align-items: center;
-  border: #2d5975 3px solid;
-  background-color: #569de8c0;
+  background-color: #dce6f0c0;
+  border: #2b2d2f 2px solid;
 }
 
 #account-card:hover {
