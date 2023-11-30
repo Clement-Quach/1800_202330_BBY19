@@ -6,7 +6,13 @@ function populateImage() {
       currentUser = db.collection("users").doc(user.uid);
       //get the document for current user.
       currentUser.get().then((userDoc) => {
+        var userName = userDoc.data().name;
+
         let picUrl = userDoc.data().profilePic;
+
+        if (userName != null) {
+          document.getElementById("user-name-goes-here").innerHTML = userName;
+        }
 
         if (picUrl != null) {
           console.log(picUrl);
