@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 postProfilePicElement.setAttribute('src', profilePic);
               } else {
                 // If no profile pic is available, set a default image
-                postProfilePicElement.setAttribute('src', './images/Profile-Icon.png');
+                postProfilePicElement.setAttribute('src', './images/profile-icon.png');
               }
 
               if (userData.image) {
@@ -331,8 +331,8 @@ async function fetchCommentsAndDisplay() {
               commentsHTML += `
                 <div class="commentActions">
                   <div class="options" id="options_${comment.commentID}">
-                    <button onclick="editComment('${documentSubmissionID}', '${comment.commentID}', '${comment.commentText}')">Edit</button>
-                    <button onclick="deleteComment('${documentSubmissionID}', '${comment.commentID}')">Delete</button>
+                  <button onclick="editComment('${documentSubmissionID}', '${comment.commentID}', '${comment.commentText}')">Edit</button>
+                  <button onclick="deleteComment('${documentSubmissionID}', '${comment.commentID}')">Delete</button>
                   </div>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16" onclick="toggleOptions('${comment.commentID}')">
                     <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
