@@ -113,8 +113,8 @@ function displayPostInfo() {
         <input type="text" id="detailsInput" class="form-control">
       </div>
       <div id="like-section">
-        <input type="button" id="remove-button" class="btn btn-danger" value="Remove" onclick="removePost()"></input>
-        <button type="button" id="save-button" class="btn btn-primary" onclick="saveEdits()">Save</button>
+        <input type="button" id="remove-button" class="btn btn-danger" value="Remove" onclick="displayRemoveConfirmationModal()"></input>
+        <button type="button" id="save-button" class="btn btn-primary" onclick="displaySaveConfirmationModal()">Save</button>
       </div>
     </div>
     `;
@@ -148,6 +148,10 @@ function displayPostInfo() {
 
 displayPostInfo();
 
+function displaySaveConfirmationModal() {
+  $('#saveConfirmationModal').modal('show');
+}
+
 function saveEdits(){
   let params = new URL( window.location.href ); //get URL of search bar
   let paramsStr = encodeURI(params)
@@ -174,6 +178,7 @@ function saveEdits(){
         details: newDetails, 
         title: newTitle,
       }).then(() => {
+        $('#saveConfirmationModal').modal('hide');
         window.location.href = params;
       })
     })
@@ -184,6 +189,10 @@ function saveEdits(){
 
   }
 
+}
+
+function displayRemoveConfirmationModal() {
+  $('#removeConfirmationModal').modal('show');
 }
 
 function removePost() {
@@ -220,6 +229,7 @@ function removePost() {
         .doc(ID)
         .update(updateObject)
         .then(() => {
+          $('#removeConfirmationModal').modal('hide');
           // Redirect or perform any other action after updating the post
           console.log("Post details removed successfully");
           window.location.href = "myDiscussion.html";
