@@ -41,6 +41,7 @@
     <link rel="stylesheet" href="./styles/mainStyle.css">
     <link rel="stylesheet" href="./styles/notification.css">
     <link rel="stylesheet" href="./styles/footer.css">
+    <link rel="stylesheet" href="./styles/editPost.css">
     
 </head>
 
@@ -52,21 +53,10 @@
     <!-- Stuff for body goes here -->
 <nav id="navbarPlaceholder"></nav>
 
-<div class="container" id="notification-list">
-    <h1>Notifications</h1>
-    <div class="notification alert alert-success">
-        <strong>Success!</strong> This is a success notification.
-    </div>
-    <div class="notification alert alert-info">
-        <strong>Info!</strong> This is an informational notification.
-    </div>
-    <div class="notification alert alert-warning">
-        <strong>Warning!</strong> This is a warning notification.
-    </div>
-    <div class="notification alert alert-danger">
-        <strong>Error!</strong> This is an error notification.
-    </div>
-</div>
+
+<div id="dataContainer">
+    <!-- The fetched data will be displayed here -->
+  </div>
 
 <nav id="footerPlaceholder"></nav>
     <!---------------------------------------------->
@@ -78,6 +68,7 @@
     <script src="./scripts/script.js"></script>
     <script src="./scripts/skeleton.js"></script>
     <script src="./scripts/navbar.js"></script>
+    <script src="./scripts/notification.js"></script>
 </body>
 
 </html>

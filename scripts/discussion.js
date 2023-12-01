@@ -257,7 +257,8 @@ function ticketSubmit() {
                 timestamp: timestamp,
                 documentSubmissionID: submissionID,
                 likedBy: [],
-                dislikedBy: []
+                dislikedBy: [],
+                commentNotif: false
             };
         
             const newSubmissionRef = firebase.firestore().collection('discussionSubmissions').doc(submissionID);
