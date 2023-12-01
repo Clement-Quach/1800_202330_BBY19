@@ -9,10 +9,14 @@ body {
   .main {
     margin-bottom: 10rem;
   }
+
+  
 }
 
 @media screen and (max-width: 989px) and (min-width: 401px) {
-
+  .main {
+    margin-bottom: 10rem;
+  }
 }
 
 @media screen and (max-width: 400px) {
@@ -21,7 +25,7 @@ body {
   }
 }
 
-.container {
+#name-container {
   margin-top: 1.5rem;
 }
 
@@ -47,11 +51,12 @@ body {
   grid-row: 1;
   display: grid;
   align-items: center;
-  background-color: #569de8c0;
+  background-color: #c5dcf2c0;
+  border: #2b2d2f 2px solid;
 }
 
 #create-card:hover {
-  background-color: #4981a3;
+  background-color: #82b8ebc0;
 }
 
 #view-post-card {
@@ -60,12 +65,12 @@ body {
   grid-column: 1;
   display: grid;
   align-items: center;
-  background-color: #abcff5c0;
+  background-color: #c5dcf2c0;
   border: #2b2d2f 2px solid;
 }
 
 #view-post-card:hover {
-  background-color: #4981a3;
+  background-color: #82b8ebc0;
 }
 
 #view-post-card img {
@@ -78,12 +83,12 @@ body {
   grid-column: 1;
   display: grid;
   align-items: center;
-  background-color: #abcff5c0;
+  background-color: #c5dcf2c0;
   border: #2b2d2f 2px solid;
 }
 
 #view-ticket-card:hover {
-  background-color: #4981a3;
+  background-color: #82b8ebc0;
 }
 
 #view-ticket-card img {
@@ -91,17 +96,17 @@ body {
 }
 
 #account-card {
-  height: 408px;
+  height: 100%;
   grid-column: 2;
   grid-row: 2 / span 2;
   display: grid;
   align-items: center;
-  background-color: #dce6f0c0;
+  background-color: #c5dcf2c0;
   border: #2b2d2f 2px solid;
 }
 
 #account-card:hover {
-  background-color: #4981a3;
+  background-color: #82b8ebc0;
 }
 
 body {
