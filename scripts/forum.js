@@ -1,9 +1,7 @@
-
-
 var sortSelect = document.getElementById('sort-type');
 
 
-function fetchDataAndDisplay(sort, order) {
+function fetchDataAndDisplay(sort, order, userLikedPosts, userDislikedPosts) {
 
   const dataContainer = document.getElementById("dataContainer");
 
@@ -59,9 +57,27 @@ function fetchDataAndDisplay(sort, order) {
 
         // Formatting the date and time
         const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
-        if (data.image) {
+        if (status === "Removed") {
           dataElement.innerHTML = `
           <div class="card-header">
+            <span class="tag tag-teal" id="title">${status}</span>
+          </div>
+          <div class="card-body">
+            <div class="user">
+              <h1 id="details">${data.title}</h1>
+              <small id="timestamp">${formattedDateTime}</small>
+              <h5 id="name">${data.name}</h5>
+            </div>
+            <div class="card-details">
+              <p>${data.details}</p>
+            </div>
+            <div id="like-section">
+            </div>
+          </div>
+          `;
+        } else if (data.image) {
+          dataElement.innerHTML = `
+          <div class="card-header" id="tags">
             <span class="tag tag-teal" id="title">${status}</span>
             <span class="tag tag-purple" id="title">${data.concern}</span>
             <span class="tag tag-pink" id="title">${data.location}</span>
@@ -73,17 +89,17 @@ function fetchDataAndDisplay(sort, order) {
               <h5 id="name">${data.name}</h5>
             </div>
             <div class="card-details">
-              <div class="card-image">
+              <div class="card-image" id="post-image">
                 <img src="${data.image}" alt="${data.title}" />
               </div> 
               <p>${data.details}</p>
             </div>
             <div id="like-section">
-              <button id="like-image" onclick="likePost('${
+              <button id="like-image" class="check" onclick="likePost('${
                 doc.id
               }', '${data.likes || 0}')">Like</button>
               <h5 id="likeCount"><span id="like-number">${data.likes || 0}</span></h5>
-              <button onclick="DislikePost('${doc.id}', '${
+              <button id="dislike-image" class="check" onclick="DislikePost('${doc.id}', '${
               data.likes || 0
                 }')">Dislike</button>
             </div>
@@ -91,7 +107,7 @@ function fetchDataAndDisplay(sort, order) {
         `;
         } else {
           dataElement.innerHTML = `
-          <div class="card-header">
+          <div class="card-header" id="tags">
             <span class="tag tag-teal" id="title">${status}</span>
             <span class="tag tag-purple" id="title">${data.concern}</span>
             <span class="tag tag-pink" id="title">${data.location}</span>
@@ -106,11 +122,11 @@ function fetchDataAndDisplay(sort, order) {
               <p>${data.details}</p>
             </div>
             <div id="like-section">
-              <button id="like-image" onclick="likePost('${
+              <button id="like-image" class="check" onclick="likePost('${
                 doc.id
               }', '${data.likes || 0}')">Like</button>
               <h5 id="likeCount"><span id="like-number">${data.likes || 0}</span></h5>
-              <button onclick="DislikePost('${doc.id}', '${
+              <button id="dislike-image" class="check" onclick="DislikePost('${doc.id}', '${
               data.likes || 0
                 }')">Dislike</button>
             </div>
@@ -132,7 +148,43 @@ function fetchDataAndDisplay(sort, order) {
           }
         });
 
+        const likeButton = dataElement.querySelector("#like-image");
+        const dislikeButton = dataElement.querySelector("#dislike-image");
+        const docId = doc.id;
+
+        console.log(userDislikedPosts);
+        console.log(userLikedPosts);
+
+        // Check if the post is liked by the user
+        if (userLikedPosts.includes(docId)) {
+          console.log("like");
+          likeButton.classList.add("liked");
+        }
+
+        // Check if the post is disliked by the user
+        if (userDislikedPosts.includes(docId)) {
+          console.log("dislike");
+          dislikeButton.classList.add("disliked");
+        }
+
+        // // Check if the elements exist before adding event listeners
+        // if (likeButton && dislikeButton) {
+        //   // Add event listeners to the like and dislike buttons
+        //   likeButton.addEventListener("click", () => likePost(docId, data.likes || 0));
+        //   dislikeButton.addEventListener("click", () => DislikePost(docId, data.likes || 0));
+        // }
+
         dataContainer.appendChild(dataElement);
+      
+        // if (data.details === "The author has removed the post" && data.title === "Removed") {
+        //     document.getElementById('post-image').classList.add('remove');
+        //     document.getElementById('tags').classList.add('remove');
+        //     document.getElementById('like-image').disabled = true;
+        //     document.getElementById('dislike-image').disabled = true;
+        //     document.getElementById('like-number').innerHTML = "";
+        // } else {
+        //   document.getElementById('tags').style.display = 'block';
+        // }
       });
     }, (error) => {
       console.error("Error reading Firestore data:", error);
@@ -155,7 +207,7 @@ function changeSort(sortType) {
 }
 
 //change the sort and order variable when the value has changed
-function runPage() {
+function runPage(likedPosts, dislikedPosts) {
   var sort;
   var order;
 
@@ -181,28 +233,28 @@ function runPage() {
     order = "asc";
   }
 
-  fetchDataAndDisplay(sort, order);
+  fetchDataAndDisplay(sort, order, likedPosts, dislikedPosts);
 }
 
-//run the function
-runPage();
-
-
-
-//go to the correct user document by referencing to the user uid
 firebase.auth().onAuthStateChanged((user) => {
   // Check if user is signed in:
   if (user) {
     currentUser = db.collection("users").doc(user.id);
+
+    // Fetch user's liked and disliked posts
+    currentUser.get().then((userDoc) => {
+      const likedPosts = (userDoc.data() && userDoc.data().liked) || [];
+      const dislikedPosts = (userDoc.data() && userDoc.data().disliked) || [];
+
+      // Call the function to fetch and display data with the user's liked and disliked posts
+      runPage(likedPosts, dislikedPosts);
+    });
   }
 });
 
+// ...
+
 function likePost(docId, currentLikes) {
-
-  // var up = document.getElementById('upvote');
-
-  // toggleFontVariation(up);
-
   const userID = firebase.auth().currentUser.uid;
   const docRef = db.collection("discussionSubmissions").doc(docId);
 
@@ -218,6 +270,11 @@ function likePost(docId, currentLikes) {
           likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
         }).then(() => {
           console.log("Document successfully updated!");
+
+          // Remove from user's liked posts
+          currentUser.update({
+            liked: firebase.firestore.FieldValue.arrayRemove(docId),
+          });
         });
       } else {
         // If not previously liked or changing from dislike to like
@@ -227,6 +284,11 @@ function likePost(docId, currentLikes) {
           dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
         }).then(() => {
           console.log("Document successfully updated!");
+
+          // Add to user's liked posts
+          currentUser.update({
+            liked: firebase.firestore.FieldValue.arrayUnion(docId),
+          });
         });
       }
     }
@@ -234,11 +296,6 @@ function likePost(docId, currentLikes) {
 }
 
 function DislikePost(docId, currentLikes) {
-
-  // var down = document.getElementById('downvote');
-
-  // toggleFontVariation(down);
-
   const userID = firebase.auth().currentUser.uid;
   const docRef = db.collection("discussionSubmissions").doc(docId);
 
@@ -254,6 +311,11 @@ function DislikePost(docId, currentLikes) {
           dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
         }).then(() => {
           console.log("Document successfully updated!");
+
+          // Remove from user's disliked posts
+          currentUser.update({
+            disliked: firebase.firestore.FieldValue.arrayRemove(docId),
+          });
         });
       } else {
         // If not previously disliked or changing from like to dislike
@@ -263,6 +325,11 @@ function DislikePost(docId, currentLikes) {
           likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
         }).then(() => {
           console.log("Document successfully updated!");
+
+          // Add to user's disliked posts
+          currentUser.update({
+            disliked: firebase.firestore.FieldValue.arrayUnion(docId),
+          });
         });
       }
     }

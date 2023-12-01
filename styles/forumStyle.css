@@ -285,3 +285,17 @@ html, body {
   margin-bottom: 1rem;
   padding: 1em;
 }
+
+.remove {
+  display: none;
+}
+
+#like-image.liked {
+  background-color: #4CAF50; /* Green color when liked */
+  color: white;
+}
+
+#dislike-image.disliked {
+  background-color: #FF5733; /* Orange color when disliked */
+  color: white;
+}

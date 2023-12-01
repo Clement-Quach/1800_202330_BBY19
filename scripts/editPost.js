@@ -70,7 +70,7 @@ function displayPostInfo() {
 
       if (data.image) {
       dataElement.innerHTML = `
-        <div class="card-header">
+        <div class="card-header" id="tags">
           <span class="tag tag-teal" id="title">${status}</span>
           <span class="tag tag-purple" id="title">${data.concern}</span>
           <span class="tag tag-pink" id="title">${data.location}</span>
@@ -83,13 +83,14 @@ function displayPostInfo() {
             <h5 id="name">${data.name}</h5>
           </div>
           <div class="card-details">
-            <div class="card-image">
+            <div class="card-image" id="post-image">
               <img src="${data.image}" alt="${data.title}" />
             </div> 
           </div>
           <input type="text" id="detailsInput" class="form-control">
           <div id="like-section">
             <button type="button" id="save-button" class="btn btn-primary" onclick="saveEdits()">Save</button>
+            <input type="button" id="remove-button" class="btn btn-danger" value="Remove" onclick="removePost()"></input>
           </div>
         </div>
       `;
@@ -112,21 +113,44 @@ function displayPostInfo() {
         <input type="text" id="detailsInput" class="form-control">
       </div>
       <div id="like-section">
-        <button type="button" id="save-button" class="btn btn-primary" onclick="saveEdits()">Save</button>
+        <input type="button" id="remove-button" class="btn btn-danger" value="Remove" onclick="displayRemoveConfirmationModal()"></input>
+        <button type="button" id="save-button" class="btn btn-primary" onclick="displaySaveConfirmationModal()">Save</button>
       </div>
     </div>
     `;
   }
   dataContainer.appendChild(dataElement);
 
-  document.getElementById('detailsInput').value = data.details
+
+  document.getElementById('detailsInput').value = data.details;
   document.getElementById('titleInput').value = data.title
+
+  // var detailInput = document.getElementById('detailsInput').value;
+  // var titleInput = document.getElementById('titleInput').value;
+
+  // if (detailInput.trim() == "The author has removed the post" && titleInput.trim() == "Removed") {
+  //   document.getElementById('detailsInput').disabled = true;
+  //   document.getElementById('titleInput').disabled = true;
+  //   document.getElementById('remove-button').style.display = 'none';
+  //   document.getElementById('post-image').classList.add('remove');
+  //   document.getElementById('tags').classList.add('remove');
+
+  // } else {
+  //   document.getElementById('detailsInput').disabled = false;
+  //   document.getElementById('titleInput').disabled = false;
+  //   document.getElementById('remove-button').style.display = 'block';
+  //   document.getElementById('tags').style.display = 'block';
+  // }
 
 });
 //<p>${data.details}</p>
 }
 
 displayPostInfo();
+
+function displaySaveConfirmationModal() {
+  $('#saveConfirmationModal').modal('show');
+}
 
 function saveEdits(){
   let params = new URL( window.location.href ); //get URL of search bar
@@ -148,13 +172,13 @@ function saveEdits(){
     .doc( ID )
     .get()
     .then(() => {
-      console.log("went into the collection function")
       thisPost =  db.collection( "discussionSubmissions" ).doc(ID);
       console.log(newDetails);
       thisPost.update({
         details: newDetails, 
         title: newTitle,
       }).then(() => {
+        $('#saveConfirmationModal').modal('hide');
         window.location.href = params;
       })
     })
@@ -165,4 +189,57 @@ function saveEdits(){
 
   }
 
+}
+
+function displayRemoveConfirmationModal() {
+  $('#removeConfirmationModal').modal('show');
+}
+
+function removePost() {
+  let params = new URL(window.location.href);
+  let paramsStr = encodeURI(params);
+  let indexId = paramsStr.indexOf("docId=") + 6;
+  console.log(indexId);
+  let ID = paramsStr.slice(indexId, paramsStr.length);
+
+  db.collection("discussionSubmissions")
+    .doc(ID)
+    .get()
+    .then((doc) => {
+      const thisPost = doc.data();
+
+      // Check if there is an image
+      const hasImage = thisPost.image !== undefined && thisPost.image !== null;
+
+      // Prepare the update object
+      const updateObject = {
+        action: "Removed",
+        name: "Unknown",
+        title: "Removed", // Set title to empty
+        details: "The author has removed the post.", // Set details to empty
+      };
+
+      // If there is an image, set it to null
+      if (hasImage) {
+        updateObject.image = null;
+      }
+
+      // Update the document with the prepared object
+      db.collection("discussionSubmissions")
+        .doc(ID)
+        .update(updateObject)
+        .then(() => {
+          $('#removeConfirmationModal').modal('hide');
+          // Redirect or perform any other action after updating the post
+          console.log("Post details removed successfully");
+          window.location.href = "myDiscussion.html";
+        })
+        .catch((error) => {
+          console.error("Error removing post details: ", error);
+        });
+    });
+}
+
+function goBack() {
+  window.history.back();
 }

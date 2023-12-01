@@ -56,7 +56,7 @@ function newTicket() {
     title.type = 'text';
     title.className = 'form-control';
     title.id = 'ticketName';
-    title.setAttribute('required', true);
+        title.setAttribute('required', true);
 
     const createPostButton = document.getElementById('createPostButton');
     if (createPostButton) {
@@ -197,7 +197,7 @@ function newTicket() {
     divSubmit.type = 'button';
     divSubmit.className = 'btn btn-success';
     divSubmit.innerHTML = 'SUBMIT';
-    divSubmit.addEventListener("click", ticketSubmit);
+    divSubmit.addEventListener("click", displaySubmitConfirmationModal);
 
     outerDiv.appendChild(div);
     div.appendChild(form);
@@ -213,6 +213,17 @@ function newTicket() {
 }
 
 newTicket();
+
+function displaySubmitConfirmationModal() {
+    var warningMessage = document.getElementById('warning-message');
+    if (inputNotEmpty() == true) {
+        warningMessage.style.display = 'none';
+        $('#submitConfirmationModal').modal('show');
+    } else {
+        warningMessage.style.display = 'block';
+        scrollToTopSmooth();
+    }
+}
 
 outerDiv.style.marginBottom = '5rem';
 outerDiv.style.padding = '2rem';
@@ -240,8 +251,6 @@ function ticketSubmit() {
     const submissionID = firebase.firestore().collection('discussionSubmissions').doc().id;
     var warningMessage = document.getElementById('warning-message');
 
-    const text = "Ready to submit?";
-
     if (inputNotEmpty() == true) {
         warningMessage.style.display = 'none';
         if (confirm(text) == true) {
@@ -249,7 +258,6 @@ function ticketSubmit() {
                 ticketNumber: generateTicketNumber(),
                 title: document.getElementById("ticketName").value,
                 concern: document.getElementById("choseConcern").value,
-                location: document.getElementById("choseLocation").value,
                 details: document.getElementById("inputText").value,
                 name: document.getElementById("name").value,
                 action: 'New',
@@ -277,7 +285,7 @@ function ticketSubmit() {
                         });
                     })
                     .then(() => {
-                        return newSubmissionRef.get(); // Change this line to use formSubmissionsRef instead of formSubmissionRef
+                        return newSubmissionRef.get();
                     })
                     .then(doc => {
                         const formattedTime = formatTimestamp(doc.data().timestamp);

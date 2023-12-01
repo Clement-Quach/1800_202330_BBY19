@@ -53,14 +53,51 @@
 
     <nav id="navbarPlaceholder"></nav>
 
-    <div class="warning" id="warning-message">
-        Please fill in all required inputs!
+    <div class="back-button" onclick="goBack()">
+        <span class="material-symbols-outlined">
+            arrow_back_ios
+        </span>
     </div>
 
-    <div id="editModal" class="modal">
+    <div class="warning" id="warning-message">
+        Title and details cannot be empty!
+    </div>
+
+    <!-- Remove Confirmation Modal -->
+    <div class="modal fade" id="removeConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="removeConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <button class="btn btn-danger" id="cancelEdit">Cancel</button>
-            <button class="btn btn-primary" id="confirmEdit">Save changes</button>
+            <div class="modal-header">
+            <h5 class="modal-title" id="removeConfirmationModalLabel">Confirmation</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <p>Are you sure you want to remove this post?</p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" onclick="removePost()">Remove</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Save Confirmation Modal -->
+    <div class="modal fade" id="saveConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="saveConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="saveConfirmationModalLabel">Confirmation</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <p>Are you sure you want to save the changes to this post?</p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" onclick="saveEdits()">Save Changes</button>
+            </div>
+        </div>
         </div>
     </div>
 

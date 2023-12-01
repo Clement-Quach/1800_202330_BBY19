@@ -21,17 +21,6 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-/* .navbar-brand img {
-  width: 50%;
-}
-
-.nav-list img {
-  border-radius: 50%;
-  width: 150px;
-  height: 150px;
-  cursor: pointer;
-} */
-
 input::-webkit-calendar-picker-indicator {
   display: none;
   background: transparent;
@@ -40,9 +29,9 @@ input::-webkit-calendar-picker-indicator {
   color: #ccc;
 }
 
-.bg-light {
+/* .bg-light {
   background-color: #ffffff !important;
-}
+} */
 
 .container h1 {
   font-size: 25px;
@@ -67,10 +56,11 @@ input::-webkit-calendar-picker-indicator {
 }
 
 a.call-to-action span {
-  border: 3px solid #000000b4;
-  border-radius: 20px;
+  border: 0.1px solid #c1c1c1;
+  border-radius: 40%;
   padding: 15px;
-  background-color: #F8F9FA;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
   color: #000;
   font-weight: bold;
   font-size: 20px;

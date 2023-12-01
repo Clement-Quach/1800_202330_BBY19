@@ -280,3 +280,7 @@ html, body {
 #create-discussion-button {
   border-radius: 0;
 }
+
+.remove {
+  display: none;
+}

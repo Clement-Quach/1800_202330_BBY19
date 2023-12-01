@@ -58,6 +58,7 @@ var editText = document.getElementById('edit-text');
 
 function editUserInfo() {
   //Enable the form fields and save button
+  document.getElementById("nameInput").style.border = "1px solid #ced4da";
   var edit = document.getElementById("personalInfoFields").disabled;
   document.getElementById("save-button").disabled;
 
@@ -97,41 +98,75 @@ function triggerFileInput() {
 
 function saveUserInfo() {
   firebase.auth().onAuthStateChanged(function (user) {
-    var storageRef = storage.ref("images/" + user.uid + ".jpg");
+    var userName = document.getElementById("nameInput").value;
+    var userCity = document.getElementById("cityInput").value;
+    var userPhone = document.getElementById("phoneInput").value;
+    var userContactEmail = document.getElementById("emailInput").value;
 
-    //Asynch call to put File Object (global variable ImageFile) onto Cloud
-    storageRef.put(ImageFile).then(function () {
-      console.log("Uploaded to Cloud Storage.");
+    if (ImageFile) {
+      var storageRef = storage.ref("images/" + user.uid + ".jpg");
 
-      //Asynch call to get URL from Cloud
-      storageRef.getDownloadURL().then(function (url) {
-        // Get "url" of the uploaded file
-        console.log("Got the download URL.");
-        //get values from the from
-        userName = document.getElementById("nameInput").value;
-        userCity = document.getElementById("cityInput").value; //get the value of the field with id="cityInput"
-        userPhone = document.getElementById("phoneInput").value;
-        userContactEmail = document.getElementById("emailInput").value;
+      storageRef.put(ImageFile).then(function () {
+        console.log("Uploaded to Cloud Storage.");
 
-        //Asynch call to save the form fields into Firestore.
-        db.collection("users")
-          .doc(user.uid)
-          .update({
-            name: userName,
-            city: userCity,
-            phoneNumber: userPhone,
-            userPreferedContactEmail: userContactEmail,
-            profilePic: url, // Save the URL into users collection
-          })
-          .then(function () {
-            console.log("Document successfully updated!");
-            window.location.href = "account.html";
-          });
-        document.getElementById("personalInfoFields").disabled = true;
+        storageRef.getDownloadURL().then(function (url) {
+          console.log("Got the download URL.");
+
+          // Update profile information in Firestore, including the profile picture URL
+          db.collection("users")
+            .doc(user.uid)
+            .update({
+              name: userName,
+              city: userCity,
+              phoneNumber: userPhone,
+              userPreferedContactEmail: userContactEmail,
+              profilePic: url,
+            })
+            .then(function () {
+              console.log("Document successfully updated!");
+              window.location.href = "account.html";
+            });
+        });
       });
-    });
+    } else {
+      // If no new profile picture is chosen, update other user information without profilePic
+      db.collection("users")
+        .doc(user.uid)
+        .update({
+          name: userName,
+          city: userCity,
+          phoneNumber: userPhone,
+          userPreferedContactEmail: userContactEmail,
+        })
+        .then(function () {
+          console.log("Document successfully updated!");
+          window.location.href = "account.html";
+        });
+    }
+
+    // Disable form fields after saving
+    document.getElementById("personalInfoFields").disabled = true;
   });
 }
+
+function openSaveModal() {
+  var userName = document.getElementById("nameInput").value;
+  if (userName.trim() == "") {
+    document.getElementById("nameInput").style.border = "solid 2px red";
+  } else {
+    $('#saveModal').modal('show');
+  }
+}
+
+function saveUser() {
+  // Add your logic to save user information here
+  saveUserInfo();
+  // Close the modal after saving
+  $('#saveModal').modal('hide');
+}
+
+
+
 
 // function saveUserInfo() {
 //         //enter code here
