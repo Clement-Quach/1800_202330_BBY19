@@ -58,6 +58,7 @@ var editText = document.getElementById('edit-text');
 
 function editUserInfo() {
   //Enable the form fields and save button
+  document.getElementById("nameInput").style.border = "1px solid #ced4da";
   var edit = document.getElementById("personalInfoFields").disabled;
   document.getElementById("save-button").disabled;
 
@@ -147,6 +148,24 @@ function saveUserInfo() {
     document.getElementById("personalInfoFields").disabled = true;
   });
 }
+
+function openSaveModal() {
+  var userName = document.getElementById("nameInput").value;
+  if (userName.trim() == "") {
+    document.getElementById("nameInput").style.border = "solid 2px red";
+  } else {
+    $('#saveModal').modal('show');
+  }
+}
+
+function saveUser() {
+  // Add your logic to save user information here
+  saveUserInfo();
+  // Close the modal after saving
+  $('#saveModal').modal('hide');
+}
+
+
 
 
 // function saveUserInfo() {

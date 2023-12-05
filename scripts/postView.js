@@ -50,16 +50,25 @@ document.addEventListener('DOMContentLoaded', () => {
               userInfoElement.textContent = userData.name;
               discussionElement.textContent = userData.details;
               postTime.textContent = formattedDateTime;
-              action.textContent = userData.action;
-              concern.textContent = userData.concern;
-              city.textContent = userData.location;
+
+              if (userData.action == "Removed") {
+                action.textContent = userData.action;
+                city.style.display = "none";
+                concern.style.display = "none";
+              } else {
+                action.textContent = userData.action;
+                concern.textContent = userData.concern;
+                city.textContent = userData.location;
+              }
 
               // Check if profilePic exists before setting the attribute
-              if (profilePic) {
+              if (userData.action == "Removed") {
+                postProfilePicElement.setAttribute('src', './images/profile-Icon.png');
+              } else if (profilePic) {
                 postProfilePicElement.setAttribute('src', profilePic);
               } else {
                 // If no profile pic is available, set a default image
-                postProfilePicElement.setAttribute('src', './images/Profile-Icon.png');
+                postProfilePicElement.setAttribute('src', './images/profile-icon.png');
               }
 
               if (userData.image) {
@@ -138,6 +147,7 @@ function postComment() {
 
       // Update the 'comments' field in the 'discussionSubmissions' document
       discussionRef.update({
+        commentNotif: true,
         comments: firebase.firestore.FieldValue.arrayUnion({
           commentID: commentID,
           userID: user.uid,
@@ -240,18 +250,18 @@ async function deleteComment(documentSubmissionID, commentID) {
 
 function displayDeleteConfirmationModal(documentSubmissionID, commentID) {
   const modal = document.getElementById('confirmationModal');
-  modal.style.display = 'block';
+  $('#confirmationModal').modal('show');
 
   // Action on confirm delete
-  document.getElementById('confirmDelete').onclick = function () {
+  $('#confirmDelete').on('click', function () {
     confirmDelete(documentSubmissionID, commentID);
-    modal.style.display = 'none';
-  };
+    $('#confirmationModal').modal('hide');
+  });
 
   // Action on cancel delete
-  document.getElementById('cancelDelete').onclick = function () {
-    modal.style.display = 'none';
-  };
+  $('#cancelDelete').on('click', function () {
+    $('#confirmationModal').modal('hide');
+  });
 
   // Close the confirmation modal on outside click
   window.onclick = function (event) {
@@ -331,8 +341,8 @@ async function fetchCommentsAndDisplay() {
               commentsHTML += `
                 <div class="commentActions">
                   <div class="options" id="options_${comment.commentID}">
-                    <button onclick="editComment('${documentSubmissionID}', '${comment.commentID}', '${comment.commentText}')">Edit</button>
-                    <button onclick="deleteComment('${documentSubmissionID}', '${comment.commentID}')">Delete</button>
+                  <button onclick="editComment('${documentSubmissionID}', '${comment.commentID}', '${comment.commentText}')">Edit</button>
+                  <button onclick="deleteComment('${documentSubmissionID}', '${comment.commentID}')">Delete</button>
                   </div>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16" onclick="toggleOptions('${comment.commentID}')">
                     <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
@@ -383,7 +393,7 @@ const cancelEditBtn = document.getElementById('cancelEdit');
 // Function to display the edit modal with the existing comment text
 function displayEditModal(commentText) {
   editCommentInput.value = commentText;
-  editModal.style.display = 'block';
+  $('#editModal').modal('show');
 }
 
 // Event listener for the Edit button in the comment
@@ -411,7 +421,7 @@ function editComment(documentSubmissionID, commentID, commentText) {
 
         await discussionRef.update({ comments: updatedComments });
         console.log('Comment edited successfully!');
-        editModal.style.display = 'none'; // Close the edit modal
+        $('#editModal').modal('hide');
       } else {
         console.error('Discussion document does not exist.');
       }

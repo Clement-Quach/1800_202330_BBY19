@@ -36,7 +36,7 @@ function fetchDataAndDisplay(userID) {
         // Convert milliseconds to days
         const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
 
-        var status;
+        var status = "New Comment";
         // Check if 24 hours have passed
 
             
@@ -90,6 +90,21 @@ function fetchDataAndDisplay(userID) {
           `;
         }
 
+        const docID = doc.id; // Get the document ID
+
+        dataElement.setAttribute('data-documentSubmissionID', docID);
+
+        dataElement.addEventListener('click', function(event) {
+          const submissionID = this.getAttribute('data-documentSubmissionID');
+          
+          if (event.target.tagName.toLowerCase() !== 'button' && submissionID) {
+            event.preventDefault();
+
+            localStorage.setItem('documentSubmissionID', submissionID);
+            window.location.href = `postView.html?documentSubmissionID=${submissionID}`;
+          }
+        });
+
 
 
         // Append the HTML to the container
@@ -136,6 +151,8 @@ function markAsRead(inputId) {
           })
           .then(() => {
             console.log("Document successfully updated!");
+          }).then(() => {
+            location.reload();
           });
 
 }})}
