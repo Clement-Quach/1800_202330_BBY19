@@ -115,7 +115,10 @@ firebase.auth().onAuthStateChanged((user) => {
         if (commentProfilePicElement != null) {
           commentProfilePicElement.set('src', profilePic || './images/defaultProfilePic.jpg');
         }
-        commentNameElement.textContent = displayName;
+
+        if (commentNameElement != null) {
+          commentNameElement.textContent = displayName;
+        }
       } else {
         console.error('User document does not exist');
       }

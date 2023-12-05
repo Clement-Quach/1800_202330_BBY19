@@ -305,6 +305,7 @@ html, body {
 
 button, input[type="button"] {
   display: flex;
+  background-color: #fff;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -319,11 +320,11 @@ button:hover {
 }
 
 .liked {
-  background-color: #333;  /* Change this to the desired darker color */
+  background-color: #333;
   color: #fff; 
 }
 
 .disliked {
-  background-color: #333;  /* Change this to the desired darker color */
+  background-color: #333;
   color: #fff; 
 }

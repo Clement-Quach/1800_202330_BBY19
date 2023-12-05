@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:ital,wght@0,400;0,500;1,400&display=swap');
 
+
 @media screen and (max-width: 400px) {
   .container h3 {
     font-size: 15px;
@@ -98,7 +99,7 @@ p {
   position: relative;
   opacity: 0;
   top: -100px;
-  color: #ffffffee;
+  color: #ffffff;
   font-size: 20px;
   font-weight: bold;
   cursor: pointer;

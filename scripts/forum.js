@@ -1,3 +1,7 @@
+var currentUser;
+var likeButton;
+var dislikeButton;
+
 var sortSelect = document.getElementById('sort-type');
 
 firebase.auth().onAuthStateChanged((user) => {
@@ -5,11 +9,12 @@ firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     //go to the correct user document by referencing to the user uid
     currentUser = db.collection("users").doc(user.uid);
-    console.log(user.id);
+    console.log(user.uid);
     // Fetch user's liked and disliked posts
     currentUser.get().then((userDoc) => {
       const likedPosts = (userDoc.data() && userDoc.data().liked) || [];
       const dislikedPosts = (userDoc.data() && userDoc.data().disliked) || [];
+      
 
       // Call the function to fetch and display data with the user's liked and disliked posts
       runPage(likedPosts, dislikedPosts);
@@ -156,30 +161,32 @@ function fetchDataAndDisplay(sort, order, userLikedPosts, userDislikedPosts) {
           }
         });
 
-        const likeButton = dataElement.querySelector(".like");
-        const dislikeButton = dataElement.querySelector(".dislike");
-        const docId = doc.id;
+        if (dataElement.querySelector(".like") != null && dataElement.querySelector(".dislike") != null) {
+          const likeButton = dataElement.querySelector(".like");
+          const dislikeButton = dataElement.querySelector(".dislike");
+          const docId = doc.id;
 
-        likeButton.id = 'like-' + docId;
+          likeButton.id = 'like-' + docId;
 
-        dislikeButton.id = 'dislike-' + docId;
+          dislikeButton.id = 'dislike-' + docId;
 
-        // Check if the post is liked by the user
-        if (userLikedPosts.includes(docId)) {
-          console.log("like");
-          likeButton.classList.add("liked");
-        }
+          // Check if the post is liked by the user
+          if (userLikedPosts.includes(docId)) {
+            console.log("like");
+            likeButton.classList.add("liked");
+          }
 
-        // Check if the post is disliked by the user
-        if (userDislikedPosts.includes(docId)) {
-          console.log("dislike");
-          dislikeButton.classList.add("disliked");
-        }
+          // Check if the post is disliked by the user
+          if (userDislikedPosts.includes(docId)) {
+            console.log("dislike");
+            dislikeButton.classList.add("disliked");
+          }
 
-        // Check if the elements exist before adding event listeners
-        if (likeButton && dislikeButton) {
+          // Check if the elements exist before adding event listeners
           // Add event listeners to the like and dislike buttons
-          likeButton.onclick = () => likePost(docId, data.likes || 0);
+          likeButton.onclick = () => {
+            likePost(docId, data.likes || 0);
+          }
           dislikeButton.onclick = () => DislikePost(docId, data.likes || 0);
         }
 
@@ -193,11 +200,11 @@ function fetchDataAndDisplay(sort, order, userLikedPosts, userDislikedPosts) {
 //call changeSort() every time the user changes the value in the dropdown list
 sortSelect.addEventListener("change", function() {
   localStorage.setItem('dropdownValue', this.value);
-  changeSort(this.value);
+  changeSort();
 });
 
 //when the user changes the value, it directs them to the loading page
-function changeSort(sortType) {
+function changeSort() {
   dataContainer.innerHTML = "";
   
   setTimeout(function() {
@@ -235,17 +242,11 @@ function runPage(likedPosts, dislikedPosts) {
   fetchDataAndDisplay(sort, order, likedPosts, dislikedPosts);
 }
 
-
-const likeButton = document.getElementById("like-" + docId);
-const dislikeButton = document.getElementById("dislike-" + docId);
-
 function likePost(docId, currentLikes) {
   const userID = firebase.auth().currentUser.uid;
   const docRef = db.collection("discussionSubmissions").doc(docId);
   const likeButton = document.getElementById("like-" + docId);
   const dislikeButton = document.getElementById("dislike-" + docId);
-
-
 
   docRef.get().then((doc) => {
     if (doc.exists) {
@@ -259,14 +260,12 @@ function likePost(docId, currentLikes) {
           likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
         }).then(() => {
           console.log("Document successfully updated!");
-          likeButton.classList.toggle("liked");
-          dislikeButton.classList.remove("disliked");
+          // Remove "liked" class and set background color
           // Remove from user's liked posts
           currentUser.update({
             liked: firebase.firestore.FieldValue.arrayRemove(docId),
           });
         });
-        likeButton.classList.toggle("liked");
       } else {
         // If not previously liked or changing from dislike to like
         docRef.update({
@@ -274,10 +273,8 @@ function likePost(docId, currentLikes) {
           likedBy: firebase.firestore.FieldValue.arrayUnion(userID),
           dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
         }).then(() => {
-          likeButton.classList.toggle("liked");
-          dislikeButton.classList.remove("disliked");
           console.log("Document successfully updated!");
-
+          // Add "liked" class and set background color
           // Add to user's liked posts
           currentUser.update({
             liked: firebase.firestore.FieldValue.arrayUnion(docId),
@@ -287,7 +284,6 @@ function likePost(docId, currentLikes) {
       }
     }
   });
-  likeButton.classList.toggle("liked");
 }
 
 function DislikePost(docId, currentLikes) {
@@ -295,7 +291,6 @@ function DislikePost(docId, currentLikes) {
   const docRef = db.collection("discussionSubmissions").doc(docId);
   const likeButton = document.getElementById("like-" + docId);
   const dislikeButton = document.getElementById("dislike-" + docId);
-
 
   docRef.get().then((doc) => {
     if (doc.exists) {
@@ -308,12 +303,9 @@ function DislikePost(docId, currentLikes) {
           likes: parseInt(currentLikes) + 1,
           dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
         }).then(() => {
-          // Toggle the "disliked" class
-          dislikeButton.classList.toggle("disliked");
-          // Remove the "liked" class
-          likeButton.classList.remove("liked");
           console.log("Document successfully updated!");
-
+          // Remove "disliked" class and set background color
+          // Remove "liked" class
           // Remove from user's disliked posts
           currentUser.update({
             disliked: firebase.firestore.FieldValue.arrayRemove(docId),
@@ -326,12 +318,9 @@ function DislikePost(docId, currentLikes) {
           dislikedBy: firebase.firestore.FieldValue.arrayUnion(userID),
           likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
         }).then(() => {
-          // Toggle the "disliked" class
-          dislikeButton.classList.toggle("disliked");
-          // Remove the "liked" class
-          likeButton.classList.remove("liked");
           console.log("Document successfully updated!");
-
+          // Add "disliked" class and set background color
+          // Remove "liked" class
           // Add to user's disliked posts
           currentUser.update({
             disliked: firebase.firestore.FieldValue.arrayUnion(docId),
@@ -342,3 +331,4 @@ function DislikePost(docId, currentLikes) {
     }
   });
 }
+// ...

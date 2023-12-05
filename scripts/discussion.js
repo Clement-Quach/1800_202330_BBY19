@@ -156,6 +156,7 @@ function newTicket() {
 
                     var userName = userDoc.data().name;
                     nameInput.value = userName;
+                    nameInput.disabled = true;
                     var userCity = userDoc.data().city;
                     let optionLocation4 = document.createElement('option');
                     optionLocation4.value = userCity;
@@ -260,70 +261,69 @@ function ticketSubmit() {
 
     if (inputNotEmpty() == true) {
         warningMessage.style.display = 'none';
-        if (confirm(text) == true) {
-            let ticketDetails = {
-                ticketNumber: generateTicketNumber(),
-                title: document.getElementById("ticketName").value,
-                concern: document.getElementById("choseConcern").value,
-                details: document.getElementById("inputText").value,
-                name: document.getElementById("name").value,
-                action: 'New',
-                userID: userID,
-                timestamp: timestamp,
-                documentSubmissionID: submissionID,
-                likedBy: [],
-                dislikedBy: []
-            };
+        let ticketDetails = {
+            ticketNumber: generateTicketNumber(),
+            title: document.getElementById("ticketName").value,
+            concern: document.getElementById("choseConcern").value,
+            details: document.getElementById("inputText").value,
+            name: document.getElementById("name").value,
+            location: document.getElementById("choseLocation").value,
+            action: 'New',
+            userID: userID,
+            timestamp: timestamp,
+            documentSubmissionID: submissionID,
+            likedBy: [],
+            dislikedBy: []
+        };
+    
+        const newSubmissionRef = firebase.firestore().collection('discussionSubmissions').doc(submissionID);
         
-            const newSubmissionRef = firebase.firestore().collection('discussionSubmissions').doc(submissionID);
-            
-            let imageInput = document.getElementById('imageAttachment').files[0];
-        
-            if (imageInput) {
-                uploadPic(submissionID, imageInput)
-                    .then(url => {
-                        ticketDetails.image = url; // Add the image URL to ticketDetails object
-                        return newSubmissionRef.set(ticketDetails); // Create the submission with image URL
-                    })
-                    .then(() => {
-                        const userRef = firebase.firestore().collection('users').doc(userID);
-                        return userRef.update({
-                            userSubmissions: firebase.firestore.FieldValue.arrayUnion(submissionID)
-                        });
-                    })
-                    .then(() => {
-                        return newSubmissionRef.get();
-                    })
-                    .then(doc => {
-                        const formattedTime = formatTimestamp(doc.data().timestamp);
-                        console.log('Submission time:', formattedTime);
-                        window.location.href = "discussionThanks.html";
-                        resetNewTicketDiv();
-                    })
-                    .catch(error => {
-                        console.error('Error: ', error);
+        let imageInput = document.getElementById('imageAttachment').files[0];
+    
+        if (imageInput) {
+            uploadPic(submissionID, imageInput)
+                .then(url => {
+                    ticketDetails.image = url; // Add the image URL to ticketDetails object
+                    return newSubmissionRef.set(ticketDetails); // Create the submission with image URL
+                })
+                .then(() => {
+                    const userRef = firebase.firestore().collection('users').doc(userID);
+                    return userRef.update({
+                        userSubmissions: firebase.firestore.FieldValue.arrayUnion(submissionID)
                     });
-            } else {
-                newSubmissionRef.set(ticketDetails)
-                    .then(() => {
-                        const userRef = firebase.firestore().collection('users').doc(userID);
-                        return userRef.update({
-                            userSubmissions: firebase.firestore.FieldValue.arrayUnion(submissionID)
-                        });
-                    })
-                    .then(() => {
-                        return newSubmissionRef.get();
-                    })
-                    .then(doc => {
-                        const formattedTime = formatTimestamp(doc.data().timestamp);
-                        console.log('Submission time:', formattedTime);
-                        window.location.href = "discussionThanks.html";
-                        resetNewTicketDiv();
-                    })
-                    .catch(error => {
-                        console.error('Error: ', error);
+                })
+                .then(() => {
+                    return newSubmissionRef.get();
+                })
+                .then(doc => {
+                    const formattedTime = formatTimestamp(doc.data().timestamp);
+                    console.log('Submission time:', formattedTime);
+                    window.location.href = "discussionThanks.html";
+                    resetNewTicketDiv();
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                });
+        } else {
+            newSubmissionRef.set(ticketDetails)
+                .then(() => {
+                    const userRef = firebase.firestore().collection('users').doc(userID);
+                    return userRef.update({
+                        userSubmissions: firebase.firestore.FieldValue.arrayUnion(submissionID)
                     });
-            }
+                })
+                .then(() => {
+                    return newSubmissionRef.get();
+                })
+                .then(doc => {
+                    const formattedTime = formatTimestamp(doc.data().timestamp);
+                    console.log('Submission time:', formattedTime);
+                    window.location.href = "discussionThanks.html";
+                    resetNewTicketDiv();
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                });
         }
     } else {
         warningMessage.style.display = 'block';

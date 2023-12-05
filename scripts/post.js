@@ -215,6 +215,7 @@ function newTicket() {
 
         var userName = userDoc.data().name;
         nameInput.value = userName;
+        nameInput.disabled = true;
       });
     } else {
       // No user is signed in.
