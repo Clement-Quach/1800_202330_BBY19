@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
               // Check if profilePic exists before setting the attribute
               if (userData.action == "Removed") {
-                postProfilePicElement.setAttribute('src', './images/profile-Icon.png');
+                postProfilePicElement.setAttribute('src', './images/profile-icon.png');
               } else if (profilePic) {
                 postProfilePicElement.setAttribute('src', profilePic);
               } else {
@@ -112,7 +112,9 @@ firebase.auth().onAuthStateChanged((user) => {
         const profilePic = userData.profilePic;
         const displayName = userData.name;
 
-        commentProfilePicElement.set('src', profilePic || './images/defaultProfilePic.jpg');
+        if (commentProfilePicElement != null) {
+          commentProfilePicElement.set('src', profilePic || './images/defaultProfilePic.jpg');
+        }
         commentNameElement.textContent = displayName;
       } else {
         console.error('User document does not exist');

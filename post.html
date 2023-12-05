@@ -33,6 +33,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="./styles/mainStyle.css">
     <link rel="stylesheet" href="./styles/style.css">
     <link rel="stylesheet" href="./styles/post.css">
@@ -50,11 +51,14 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="submitConfirmationModalLabel">Confirmation</h5>
+              <h5 class="modal-title" id="submitConfirmationModalLabel">Warning<span class="material-symbols-outlined">
+                warning
+                </span></h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <p>Ready to submit?</p>
+                <p>Please note that submitted tickets are <b>permanent records</b> sent directly to the City Hall. Once submitted, <b>information cannot be deleted or altered</b>. Ensure accuracy and necessity before submission to avoid unnecessary resource consumption. Submit only if <b>absolutely necessary</b>.</p>
+                <p>Ready to submit?</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
