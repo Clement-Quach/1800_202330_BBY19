@@ -355,16 +355,6 @@ function uploadPic(submissionID, imageInput) {
 }
 
 
-
-// Add an event listener to the "SUBMIT" button to call the ticketSubmit function
-document.addEventListener('DOMContentLoaded', function () {
-    let divSubmit = document.querySelector('.btn-success');
-    if (divSubmit) {
-        divSubmit.addEventListener("click", ticketSubmit);
-    }
-});
-
-
 function resetNewTicketDiv() {
     let newOuterDiv = document.getElementById("outerDiv");
     newOuterDiv.style.color = "";

@@ -152,6 +152,7 @@ function postComment() {
 
       // Update the 'comments' field in the 'discussionSubmissions' document
       discussionRef.update({
+        commentNotif: true,
         comments: firebase.firestore.FieldValue.arrayUnion({
           commentID: commentID,
           userID: user.uid,
