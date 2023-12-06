@@ -1,5 +1,6 @@
 #footer-bottom {
-  background-color: #ffffff00 !important;
+  background-color: #fffffff6 !important;
+  align-items: center;
 }
 
 .overlay {
@@ -49,4 +50,14 @@
 .card-pop a {
   text-decoration: none;
   color: black; /* Dark gray text */
+}
+
+#notification-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+#notifi-section {
+  position: relative;
 }

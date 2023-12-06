@@ -241,6 +241,7 @@ html, body {
   column-gap: 2rem;
   padding: 0.5rem;
   text-align: center;
+  align-items: center;
 }
 
 .vote-image {
@@ -290,12 +291,40 @@ html, body {
   display: none;
 }
 
-#like-image.liked {
-  background-color: #4CAF50; /* Green color when liked */
-  color: white;
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
 }
 
-#dislike-image.disliked {
-  background-color: #FF5733; /* Orange color when disliked */
-  color: white;
+.material-symbols-outlined {
+  font-size: 20px;
+}
+
+button, input[type="button"] {
+  display: flex;
+  background-color: #fff;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid rgb(18, 18, 18);
+  border-radius: 10px;
+  padding: 0.1rem;
+  outline: none; /* Optional: Remove the outline when the button is focused */
+}
+
+button:hover {
+  background-color: #878484;
+}
+
+.liked {
+  background-color: #333;
+  color: #fff; 
+}
+
+.disliked {
+  background-color: #333;
+  color: #fff; 
 }

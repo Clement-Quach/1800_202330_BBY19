@@ -68,8 +68,8 @@ function editUserInfo() {
     document.getElementById("save-button").disabled = false;
     document.getElementById("mypic-input").disabled = false;
     document.getElementById("edit-button").style.color = "black";
-    editText.style.opacity = '0.8';
-    profilePictureContainer.style.filter = 'blur(2px)';
+    editText.style.opacity = '1';
+    profilePictureContainer.style.filter = 'blur(3px)';
 
     // document.getElementById('mypic-goes-here').addEventListener('mouseover', function() {
     //     editText.style.fontSize = "20px";

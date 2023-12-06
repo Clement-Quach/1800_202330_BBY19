@@ -56,20 +56,17 @@ input::-webkit-calendar-picker-indicator {
 }
 
 a.call-to-action span {
-  border: 0.1px solid #c1c1c1;
   border-radius: 40%;
   padding: 15px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+  background-color: #ffffff00;
   color: #000;
-  font-weight: bold;
-  font-size: 20px;
+  font-size: 30px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 a.call-to-action span:hover {
-  background-color: #E2E3E4;
+  background-color: #dad2d2a8;
 }
 
 a {

@@ -60,7 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
               // Check if profilePic exists before setting the attribute
               if (userData.action == "Removed") {
                 postProfilePicElement.setAttribute('src', './images/profile-icon.png');
-              }  else {
+              } else if (profilePic) {
+                postProfilePicElement.setAttribute('src', profilePic);
+              } else {
                 // If no profile pic is available, set a default image
                 postProfilePicElement.setAttribute('src', './images/profile-icon.png');
               }
@@ -106,10 +108,7 @@ firebase.auth().onAuthStateChanged((user) => {
         const profilePic = userData.profilePic;
         const displayName = userData.name;
 
-        // Update profile picture src
-        commentProfilePicElement.src = profilePic || './images/default_profile_picture.png';
-
-        // Update display name text content
+        commentProfilePicElement.set('src', profilePic || './images/defaultProfilePic.jpg');
         commentNameElement.textContent = displayName;
       } else {
         console.error('User document does not exist');
@@ -145,6 +144,7 @@ function postComment() {
 
       // Update the 'comments' field in the 'discussionSubmissions' document
       discussionRef.update({
+        commentNotif: true,
         comments: firebase.firestore.FieldValue.arrayUnion({
           commentID: commentID,
           userID: user.uid,

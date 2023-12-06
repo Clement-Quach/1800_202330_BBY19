@@ -284,3 +284,10 @@ html, body {
 .remove {
   display: none;
 }
+
+#empty-not {
+  display: grid;
+  place-items: center;
+  align-items: center;
+  background-color: rgba(97, 80, 76, 0.721)(242, 138, 138);
+}

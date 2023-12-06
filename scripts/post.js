@@ -191,6 +191,12 @@ function newTicket() {
 
         var userName = userDoc.data().name;
         nameInput.value = userName;
+        var userCity = userDoc.data().city;
+        let optionLocation4 = document.createElement('option');
+        optionLocation4.value = userCity;
+        optionLocation4.innerHTML = userCity;
+        selectLocation.appendChild(optionLocation4);
+        selectLocation.value = userCity;
       });
     } else {
       // No user is signed in.
@@ -209,6 +215,7 @@ function newTicket() {
 
         var userName = userDoc.data().name;
         nameInput.value = userName;
+        nameInput.disabled = true;
       });
     } else {
       // No user is signed in.
