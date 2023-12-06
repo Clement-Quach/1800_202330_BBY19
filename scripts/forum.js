@@ -331,4 +331,17 @@ function DislikePost(docId, currentLikes) {
     }
   });
 }
-// ...
+
+// Function to store the current scroll position in sessionStorage
+function storeScrollPosition() {
+  sessionStorage.setItem('scrollPosition', window.scrollY || window.pageYOffset);
+}
+
+// Function to set the scroll position back after the page is refreshed
+function setScrollPosition() {
+  const scrollPosition = sessionStorage.getItem('scrollPosition');
+  if (scrollPosition !== null) {
+      window.scrollTo(0, scrollPosition);
+      sessionStorage.removeItem('scrollPosition');
+  }
+}

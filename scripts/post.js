@@ -193,10 +193,12 @@ function newTicket() {
         nameInput.value = userName;
         var userCity = userDoc.data().city;
         let optionLocation4 = document.createElement('option');
-        optionLocation4.value = userCity;
-        optionLocation4.innerHTML = userCity;
-        selectLocation.appendChild(optionLocation4);
-        selectLocation.value = userCity;
+        if (userCity.trim() != "") {
+          selectLocation.value = userCity;
+          optionLocation4.value = userCity;
+          optionLocation4.innerHTML = userCity;
+          selectLocation.appendChild(optionLocation4);
+        }
       });
     } else {
       // No user is signed in.
@@ -454,9 +456,30 @@ function inputNotEmpty() {
   let priority = document.getElementById("chosePriority").value.trim();
   let detail = document.getElementById("inputText").value.trim();
   let name = document.getElementById("name").value.trim();
+  let city = document.getElementById("choseLocation").value.trim();
+
+  if (title == "") {
+      document.getElementById("ticketName").style.borderColor = "red";
+  }
+
+  if (concern == "") {
+      document.getElementById("choseConcern").style.borderColor = "red";
+  } 
+  
+  if (detail == "") {
+      document.getElementById("inputText").style.borderColor = "red";
+  }
+  
+  if (name == "") {
+      document.getElementById("name").style.borderColor = "red";
+  }
+  
+  if (city == "") {
+      document.getElementById("choseLocation").style.borderColor = "red";
+  }
 
   return (
-    title != "" && concern != "" && priority != "" && detail != "" && name != ""
+    title != "" && concern != "" && priority != "" && detail != "" && name != "" && city != ""
   );
 }
 

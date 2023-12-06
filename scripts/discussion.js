@@ -159,10 +159,12 @@ function newTicket() {
                     nameInput.disabled = true;
                     var userCity = userDoc.data().city;
                     let optionLocation4 = document.createElement('option');
-                    optionLocation4.value = userCity;
-                    optionLocation4.innerHTML = userCity;
-                    selectLocation.appendChild(optionLocation4);
-                    selectLocation.value = userCity;
+                    if (userCity.trim() != "") {
+                        optionLocation4.value = userCity;
+                        optionLocation4.innerHTML = userCity;
+                        selectLocation.appendChild(optionLocation4);
+                        selectLocation.value = userCity;
+                    }
 
             })
         } else {
@@ -331,14 +333,35 @@ function ticketSubmit() {
     }
 }
 
+//Check if any input is empty
 function inputNotEmpty() {
     let title = document.getElementById("ticketName").value.trim();
     let concern = document.getElementById("choseConcern").value.trim();
     let detail = document.getElementById("inputText").value.trim();
     let name = document.getElementById("name").value.trim();
+    let city = document.getElementById("choseLocation").value.trim();
 
+    if (title == "") {
+        document.getElementById("ticketName").style.borderColor = "red";
+    }
 
-    return title != "" && concern != "" && detail != "" && name != "";
+    if (concern == "") {
+        document.getElementById("choseConcern").style.borderColor = "red";
+    } 
+    
+    if (detail == "") {
+        document.getElementById("inputText").style.borderColor = "red";
+    }
+    
+    if (name == "") {
+        document.getElementById("name").style.borderColor = "red";
+    }
+    
+    if (city == "") {
+        document.getElementById("choseLocation").style.borderColor = "red";
+    }
+
+    return title != "" && concern != "" && detail != "" && name != "" && city != "";
 }
 
 function uploadPic(submissionID, imageInput) {

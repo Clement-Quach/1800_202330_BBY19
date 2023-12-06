@@ -113,7 +113,7 @@ firebase.auth().onAuthStateChanged((user) => {
         const displayName = userData.name;
 
         if (commentProfilePicElement != null) {
-          commentProfilePicElement.set('src', profilePic || './images/defaultProfilePic.jpg');
+          commentProfilePicElement.set('src', profilePic || './images/profile-icon.png');
         }
 
         if (commentNameElement != null) {
