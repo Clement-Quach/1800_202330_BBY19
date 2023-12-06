@@ -21,11 +21,12 @@ function notificationAlert(userID) {
     .then(querySnapshot => {
       if (querySnapshot.size > 0) {
         // Matching documents found
-        document.getElementById("notification").style.backgroundColor = "rgba(97, 80, 76, 0.721)(242, 138, 138)";
+        document.getElementById("notification-icon").style.display = "block";
+        document.getElementById("number").innerHTML = querySnapshot.size;
       } else {
         // No matching documents found
         console.log('No matching documents found.');
-        document.getElementById("notification").style.backgroundColor = "none";
+        document.getElementById("notification-icon").style.display = "none";
         // You can handle this case accordingly, e.g., display a message or perform other actions.
       }
     })
