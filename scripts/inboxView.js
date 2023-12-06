@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const db = firebase.firestore();
-  const auth = firebase.auth(); // Firebase authentication instance
-  const documentSubmissionID = localStorage.getItem('documentSubmissionID');
+    const db = firebase.firestore();
+    const auth = firebase.auth(); // Firebase authentication instance
+    const formSubmissionID = localStorage.getItem('formSubmissionID');
 
-  // Listen for changes in authentication state
-  auth.onAuthStateChanged((user) => {
+// Listen for changes in authentication state
+auth.onAuthStateChanged((user) => {
     if (user) {
-      const postRef = db.collection('discussionSubmissions').doc(documentSubmissionID);
+      const postRef = db.collection('formSubmissions').doc(formSubmissionID);
 
       postRef.onSnapshot((doc) => {
         if (doc.exists) {
@@ -37,14 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
               // Populating HTML elements with fetched data
               const titleElement = document.getElementById('title');
               const userInfoElement = document.getElementById('userInfo');
-              const discussionElement = document.getElementById('discussion');
+              const formElement = document.getElementById('discussion');
               const postProfilePicElement = document.getElementById('postProfilePic');
               const postImageElement = document.getElementById('postImage');
               const postTime = document.getElementById('timestamp');
 
               titleElement.textContent = userData.title;
               userInfoElement.textContent = userData.name;
-              discussionElement.textContent = userData.details;
+              formElement.textContent = userData.details;
               postTime.textContent = formattedDateTime;
 
               if (userData.action == "Removed") {
@@ -90,8 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('User is not logged in');
     }
   });
-});
-
+});  
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
@@ -128,23 +127,23 @@ function postComment() {
   const comment = commentInput.value; // Get the comment text from the textarea
 
   // Get the discussion submission ID from localStorage
-  const documentSubmissionID = localStorage.getItem('documentSubmissionID');
+  const formSubmissionID = localStorage.getItem('formSubmissionID');
   var warningMessage = document.getElementById('warning-message');
 
   firebase.auth().onAuthStateChanged((user) => {
-    if (user && comment && documentSubmissionID) {
+    if (user && comment && formSubmissionID) {
       warningMessage.style.display = 'none';
       const db = firebase.firestore();
-      const discussionRef = db.collection('discussionSubmissions').doc(documentSubmissionID);
+      const formRef = db.collection('formSubmissions').doc(formSubmissionID);
       const userRef = db.collection('users').doc(user.uid);
       const Timestamp = firebase.firestore.Timestamp;
 
       const createdAt = Timestamp.now();
 
-      const commentID = db.collection('discussionSubmissions').doc().id;
+      const commentID = db.collection('formSubmissions').doc().id;
 
-      // Update the 'comments' field in the 'discussionSubmissions' document
-      discussionRef.update({
+      // Update the 'comments' field in the 'formSubmissions' document
+      formRef.update({
         comments: firebase.firestore.FieldValue.arrayUnion({
           commentID: commentID,
           userID: user.uid,
@@ -156,7 +155,7 @@ function postComment() {
           // Add the comment reference to the user's document in 'users' collection
           userRef.update({
             comments: firebase.firestore.FieldValue.arrayUnion({
-              documentSubmissionID: documentSubmissionID,
+              formSubmissionID: formSubmissionID,
               commentTimestamp: createdAt,
               commentID: commentID,
             })
@@ -174,7 +173,7 @@ function postComment() {
           console.error('Error posting comment: ', error);
         });
     } else {
-      console.error('Comment, documentSubmissionID, or user is missing');
+      console.error('Comment, formSubmissionID, or user is missing');
       warningMessage.style.opacity = '1';
 
       // Set another timeout to fade out the element after three seconds
@@ -201,7 +200,7 @@ function getUserInfo(userID) {
   });
 }
 
-async function editComment(documentSubmissionID, commentID) {
+async function editComment(formSubmissionID, commentID) {
   const commentElement = document.getElementById(`comment_${commentID}`);
   if (commentElement) {
     const commentText = commentElement.textContent.trim();
@@ -211,12 +210,12 @@ async function editComment(documentSubmissionID, commentID) {
       // Update the comment in the database with the new text
       try {
         const db = firebase.firestore();
-        const discussionRef = db.collection('discussionSubmissions').doc(documentSubmissionID);
+        const formRef = db.collection('formSubmissions').doc(formSubmissionID);
 
         // Retrieve the current comments
-        const discussionDoc = await discussionRef.get();
-        if (discussionDoc.exists) {
-          const comments = discussionDoc.data().comments || [];
+        const formDoc = await formRef.get();
+        if (formDoc.exists) {
+          const comments = formDoc.data().comments || [];
           const updatedComments = comments.map(comment => {
             if (comment.commentID === commentID) {
               return { ...comment, commentText: newCommentText };
@@ -225,10 +224,10 @@ async function editComment(documentSubmissionID, commentID) {
           });
 
           // Update the Firestore document with the modified comments array
-          await discussionRef.update({ comments: updatedComments });
+          await formRef.update({ comments: updatedComments });
           console.log('Comment updated successfully!');
         } else {
-          console.error('Discussion document does not exist.');
+          console.error('Form document does not exist.');
         }
       } catch (error) {
         console.error('Error updating comment:', error);
@@ -241,17 +240,17 @@ async function editComment(documentSubmissionID, commentID) {
   }
 }
 
-async function deleteComment(documentSubmissionID, commentID) {
-  displayDeleteConfirmationModal(documentSubmissionID, commentID);
+async function deleteComment(formSubmissionID, commentID) {
+  displayDeleteConfirmationModal(formSubmissionID, commentID);
 }
 
-function displayDeleteConfirmationModal(documentSubmissionID, commentID) {
+function displayDeleteConfirmationModal(formSubmissionID, commentID) {
   const modal = document.getElementById('confirmationModal');
   $('#confirmationModal').modal('show');
 
   // Action on confirm delete
   $('#confirmDelete').on('click', function () {
-    confirmDelete(documentSubmissionID, commentID);
+    confirmDelete(formSubmissionID, commentID);
     $('#confirmationModal').modal('hide');
   });
 
@@ -268,17 +267,17 @@ function displayDeleteConfirmationModal(documentSubmissionID, commentID) {
   };
 }
 
-async function confirmDelete(documentSubmissionID, commentID) {
+async function confirmDelete(formSubmissionID, commentID) {
   const db = firebase.firestore();
-  const discussionRef = db.collection('discussionSubmissions').doc(documentSubmissionID);
+  const formRef = db.collection('formSubmissions').doc(formSubmissionID);
 
   try {
-    const discussionDoc = await discussionRef.get();
-    if (discussionDoc.exists) {
-      const comments = discussionDoc.data().comments || [];
+    const formDoc = await formRef.get();
+    if (formDoc.exists) {
+      const comments = formDoc.data().comments || [];
       const updatedComments = comments.filter(comment => comment.commentID !== commentID);
 
-      await discussionRef.update({ comments: updatedComments });
+      await formRef.update({ comments: updatedComments });
       console.log('Comment deleted successfully!');
       
       // Additionally, delete the comment reference from the user's document
@@ -307,14 +306,14 @@ async function confirmDelete(documentSubmissionID, commentID) {
 
 async function fetchCommentsAndDisplay() {
   const db = firebase.firestore();
-  const documentSubmissionID = localStorage.getItem('documentSubmissionID');
+  const formSubmissionID = localStorage.getItem('formSubmissionID');
 
-  if (documentSubmissionID) {
-    const discussionRef = db.collection('discussionSubmissions').doc(documentSubmissionID);
+  if (formSubmissionID) {
+    const formRef = db.collection('formSubmissions').doc(formSubmissionID);
 
     try {
       // Listen for real-time updates to the comments array
-      discussionRef.onSnapshot(async (doc) => {
+      formRef.onSnapshot(async (doc) => {
         if (doc.exists) {
           const commentsData = doc.data().comments || [];
           let commentsHTML = '';
@@ -338,8 +337,8 @@ async function fetchCommentsAndDisplay() {
               commentsHTML += `
                 <div class="commentActions">
                   <div class="options" id="options_${comment.commentID}">
-                  <button onclick="editComment('${documentSubmissionID}', '${comment.commentID}', '${comment.commentText}')">Edit</button>
-                  <button onclick="deleteComment('${documentSubmissionID}', '${comment.commentID}')">Delete</button>
+                  <button onclick="editComment('${formSubmissionID}', '${comment.commentID}', '${comment.commentText}')">Edit</button>
+                  <button onclick="deleteComment('${formSubmissionID}', '${comment.commentID}')">Delete</button>
                   </div>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16" onclick="toggleOptions('${comment.commentID}')">
                     <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
@@ -394,7 +393,7 @@ function displayEditModal(commentText) {
 }
 
 // Event listener for the Edit button in the comment
-function editComment(documentSubmissionID, commentID, commentText) {
+function editComment(formSubmissionID, commentID, commentText) {
   displayEditModal(commentText);
 
   // When the user clicks "Save changes"
@@ -404,8 +403,8 @@ function editComment(documentSubmissionID, commentID, commentText) {
     // Update the comment in Firebase Firestore with the new text
     try {
       const db = firebase.firestore();
-      const discussionRef = db.collection('discussionSubmissions').doc(documentSubmissionID);
-      const doc = await discussionRef.get();
+      const formRef = db.collection('formSubmissions').doc(formSubmissionID);
+      const doc = await formRef.get();
 
       if (doc.exists) {
         const comments = doc.data().comments || [];
@@ -416,7 +415,7 @@ function editComment(documentSubmissionID, commentID, commentText) {
           return comment;
         });
 
-        await discussionRef.update({ comments: updatedComments });
+        await formRef.update({ comments: updatedComments });
         console.log('Comment edited successfully!');
         $('#editModal').modal('hide');
       } else {
@@ -451,6 +450,17 @@ window.addEventListener('scroll', function() {
       footer.style.opacity = '1';
   }, 600); // Adjust the timeout value based on your preference
 });
+
+
+function toggleDropdown() {
+    var ticketDetails = document.getElementById("ticketDetails");
+    if (ticketDetails.style.display === "none") {
+        ticketDetails.style.display = "block";
+    } else {
+        ticketDetails.style.display = "none";
+    }
+}
+
 
 // Call the function to fetch comment data and display comments
 fetchCommentsAndDisplay();
