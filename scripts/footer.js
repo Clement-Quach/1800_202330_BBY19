@@ -22,7 +22,6 @@ function notificationAlert(userID) {
       if (querySnapshot.size > 0) {
         // Matching documents found
         document.getElementById("notification-icon").style.display = "block";
-        document.getElementById("number").innerHTML = querySnapshot.size;
       } else {
         // No matching documents found
         console.log('No matching documents found.');

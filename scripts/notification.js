@@ -40,13 +40,29 @@ function fetchDataAndDisplay(userID) {
         var status = "New Comment";
         // Check if 24 hours have passed
 
-            
-
-
         // Formatting the date and time
         const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
 
-        if (data.image) {
+        if (status === "Removed") {
+          dataElement.innerHTML = `
+          <div class="card-header">
+            <span class="tag tag-teal" id="title">${status}</span>
+          </div>
+          <div class="card-body">
+            <div class="user">
+              <h1 id="details">${data.title}</h1>
+              <small id="timestamp">${formattedDateTime}</small>
+              <h5 id="name">${data.name}</h5>
+            </div>
+            <div class="card-details">
+              <p>${data.details}</p>
+            </div>
+            <div id="like-section">
+              <button type="button" id="save-button" class="btn btn-primary" onclick="markAsRead('${doc.id}')">Mark as Read</button>
+            </div>
+          </div>
+          `;
+        } else if (data.image) {
         dataElement.innerHTML = `
         <div class="card-header">
           <span class="tag tag-teal" id="title">${status}</span>
@@ -62,10 +78,10 @@ function fetchDataAndDisplay(userID) {
           </div>
           <div class="card-details">
             <p>${data.details}</p>
+          </div>
+          <div id="like-section">
             <button type="button" id="save-button" class="btn btn-primary" onclick="markAsRead('${doc.id}')">Mark as Read</button>
           </div>
-
-
         </div>
         `;
         } else {
@@ -74,7 +90,6 @@ function fetchDataAndDisplay(userID) {
             <span class="tag tag-teal" id="title">${status}</span>
             <span class="tag tag-purple" id="title">${data.concern}</span>
             <span class="tag tag-pink" id="title">${data.location}</span>
-
           </div>
           <div class="card-body">
             <div class="user">
@@ -84,8 +99,10 @@ function fetchDataAndDisplay(userID) {
             </div>
             <div class="card-details">
               <p>${data.details}</p>
+            </div>
+            <div id="like-section">
               <button type="button" id="save-button" class="btn btn-primary" onclick="markAsRead('${doc.id}')">Mark as Read</button>
-              </div>
+            </div>
 
           </div>
           `;

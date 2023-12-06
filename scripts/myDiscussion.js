@@ -10,6 +10,7 @@ function fetchDataAndDisplay(userID, sort, order) {
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
+        dataContainer.innerHTML = "";
         const data = doc.data();
         // Create HTML elements based on the data
         const dataElement = document.createElement("div");
