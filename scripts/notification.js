@@ -82,6 +82,9 @@ function fetchDataAndDisplay(userID) {
             <h5 id="name">${data.name}</h5>
           </div>
           <div class="card-details">
+          <div class="card-image">
+          <img src="${data.image}" alt="${data.title}" />
+          </div> 
             <p>${data.details}</p>
           </div>
           <div id="like-section">
