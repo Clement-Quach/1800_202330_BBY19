@@ -10,7 +10,11 @@ function fetchDataAndDisplay(userID, sort, order) {
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        dataContainer.innerHTML = "";
+        if (querySnapshot.size != 0) {
+          document.getElementById("empty-not").style.display = "none";
+        } else {
+          document.getElementById("empty-not").style.display = "grid";
+        }
         const data = doc.data();
         // Create HTML elements based on the data
         const dataElement = document.createElement("div");
@@ -116,21 +120,6 @@ function fetchDataAndDisplay(userID, sort, order) {
           `;
         }
 
-        const docID = doc.id; // Get the document ID
-
-        dataElement.setAttribute('data-documentSubmissionID', docID);
-        
-        dataElement.addEventListener('click', function(event) {
-          const submissionID = this.getAttribute('data-documentSubmissionID');
-        
-          if (event.target.tagName.toLowerCase() !== 'a' && submissionID) {
-            event.preventDefault();
-
-            localStorage.setItem('documentSubmissionID', submissionID);
-            window.location.href = `postView.html?documentSubmissionID=${submissionID}`;
-          }
-        });
-
         // Append the HTML to the container
         dataContainer.appendChild(dataElement);
       });
@@ -158,9 +147,6 @@ firebase.auth().onAuthStateChanged((user) => {
   } else if (sortType == "Concern") {
     sort = "concern";
     order = "asc";
-  } else if (sortType == "Likes") {
-    sort = "likes";
-    order = "desc";
   } else if (sortType == "City") {
     sort = "location";
     order = "asc";
@@ -174,26 +160,6 @@ firebase.auth().onAuthStateChanged((user) => {
   console.log(userID);
   // Call the function with the user ID
   fetchDataAndDisplay(userID, sort, order);
-
-  var content = document.getElementById("dataContainer");
-  if (content.innerHTML.trim() == "") {
-        // Create a new div element
-        var emptyNotDiv = document.createElement("div");
-
-        // Set the id attribute of the div
-        emptyNotDiv.id = "empty-not";
-    
-        // Create a new paragraph element
-        var paragraph = document.createElement("p");
-    
-        // Set the text content of the paragraph
-        paragraph.textContent = "Click + to Create Your Own Post!";
-    
-        // Append the paragraph element to the div
-        emptyNotDiv.appendChild(paragraph);
-
-        content.appendChild(emptyNotDiv);
-  }
 });
 
 sortSelect.addEventListener("change", function () {
@@ -298,4 +264,3 @@ function DislikePost(docId, currentLikes) {
     }
   });
 }
-

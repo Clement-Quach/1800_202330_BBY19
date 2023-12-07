@@ -20,7 +20,6 @@ function populateUserInfo() {
         if (accountEmail != null) {
           email = document.getElementById("account-email");
           email.value = accountEmail;
-
         }
 
         if (userName != null) {
