@@ -84,6 +84,7 @@ function editUserInfo() {
     document.getElementById("save-button").disabled = true;
     document.getElementById("mypic-input").disabled = false;
     document.getElementById("edit-button").style.color = "white";
+    profilePictureContainer.style.border = "none";
     editText.style.opacity = '0';
     profilePictureContainer.style.filter = 'none';
   }

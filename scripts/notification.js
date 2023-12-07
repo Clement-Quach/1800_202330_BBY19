@@ -9,6 +9,11 @@ function fetchDataAndDisplay(userID) {
       .where('commentNotif', '==', true)
       .get()
       .then(querySnapshot => {
+        if (querySnapshot.size != 0) {
+          document.getElementById("empty-not").style.display = "none";
+        } else {
+          document.getElementById("empty-not").style.display = "grid";
+        }
         querySnapshot.forEach((doc) => {
         const data = doc.data();
         // Create HTML elements based on the data
@@ -122,7 +127,6 @@ function fetchDataAndDisplay(userID) {
             window.location.href = `postView.html?documentSubmissionID=${submissionID}`;
           }
         });
-
 
 
         // Append the HTML to the container

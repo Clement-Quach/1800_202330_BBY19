@@ -166,9 +166,9 @@ function fetchDataAndDisplay(sort, order, userLikedPosts, userDislikedPosts) {
           const dislikeButton = dataElement.querySelector(".dislike");
           const docId = doc.id;
 
-          likeButton.id = 'like-' + docId;
+          likeButton.id = `like-${docId}`;
 
-          dislikeButton.id = 'dislike-' + docId;
+          dislikeButton.id = `dislike-${docId}`;
 
           // Check if the post is liked by the user
           if (userLikedPosts.includes(docId)) {

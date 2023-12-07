@@ -174,6 +174,26 @@ firebase.auth().onAuthStateChanged((user) => {
   console.log(userID);
   // Call the function with the user ID
   fetchDataAndDisplay(userID, sort, order);
+
+  var content = document.getElementById("dataContainer");
+  if (content.innerHTML.trim() == "") {
+        // Create a new div element
+        var emptyNotDiv = document.createElement("div");
+
+        // Set the id attribute of the div
+        emptyNotDiv.id = "empty-not";
+    
+        // Create a new paragraph element
+        var paragraph = document.createElement("p");
+    
+        // Set the text content of the paragraph
+        paragraph.textContent = "Click + to Create Your Own Post!";
+    
+        // Append the paragraph element to the div
+        emptyNotDiv.appendChild(paragraph);
+
+        content.appendChild(emptyNotDiv);
+  }
 });
 
 sortSelect.addEventListener("change", function () {
