@@ -106,7 +106,7 @@ firebase.auth().onAuthStateChanged((user) => {
         const displayName = userData.name;
 
         // Update profile picture src
-        commentProfilePicElement.src = profilePic || './images/default_profile_picture.png';
+        commentProfilePicElement.src = profilePic || './profile-icon.png';
 
         // Update display name text content
         commentNameElement.textContent = displayName;

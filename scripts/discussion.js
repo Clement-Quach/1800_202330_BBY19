@@ -103,16 +103,19 @@ function newTicket() {
     let option2 = document.createElement('option');
     let option3 = document.createElement('option');
     let option4 = document.createElement('option');
+    let option5 = document.createElement('option');
     option.value = 'Street';
     option1.value = 'Safety';
     option3.value = 'Public Service';
     option4.value = 'Housing';
     option2.value = 'Emergency';
+    option5.value = 'Other';
     option.innerHTML = 'Street';
     option1.innerHTML = 'Safety';
     option3.innerHTML = 'Public Service';
     option4.innerHTML = 'Housing';
     option2.innerHTML = 'Emergency';
+    option5.innerHTML = 'Other';
     divConcern.appendChild(labelConcern);
     divConcern.appendChild(select);
     select.appendChild(option);
@@ -120,17 +123,18 @@ function newTicket() {
     select.appendChild(option2);
     select.appendChild(option3);
     select.appendChild(option4);
+    select.appendChild(option5);
 
     let divMessage = document.createElement('div');
     divMessage.className = 'form-group';
     let labelMessage = document.createElement('label');
-    labelMessage.innerHTML = 'Problem';
+    labelMessage.innerHTML = 'Details';
     labelMessage.htmlFor = 'inputText';
     let messageText = document.createElement('textarea');
     messageText.className = 'form-control';
     messageText.id = 'inputText';
     messageText.rows = '3';
-    messageText.placeholder = 'Problem details';
+    messageText.placeholder = 'Enter Details...';
     divMessage.appendChild(labelMessage);
     divMessage.appendChild(messageText);
     

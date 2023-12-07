@@ -3,7 +3,6 @@ var notification = document.getElementById("notification");
 
 function createForm() {
   document.getElementById('overlay').style.display = 'grid';
-  notification.style.backgroundColor = "black";
 
 }
 
