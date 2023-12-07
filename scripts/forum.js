@@ -165,10 +165,15 @@ function fetchDataAndDisplay(sort, order, userLikedPosts, userDislikedPosts) {
           const likeButton = dataElement.querySelector(".like");
           const dislikeButton = dataElement.querySelector(".dislike");
           const docId = doc.id;
+          const likeSection = dataElement.querySelector("#like-section"); // Get the like-section div
 
-          likeButton.id = 'like-' + docId;
-
-          dislikeButton.id = 'dislike-' + docId;
+          if (likeSection) {
+          likeButton.id = `like-${docId}`;
+          dislikeButton.id = `dislike-${docId}`;
+          }
+        
+        
+          
 
           // Check if the post is liked by the user
           if (userLikedPosts.includes(docId)) {
@@ -245,8 +250,6 @@ function runPage(likedPosts, dislikedPosts) {
 function likePost(docId, currentLikes) {
   const userID = firebase.auth().currentUser.uid;
   const docRef = db.collection("discussionSubmissions").doc(docId);
-  const likeButton = document.getElementById("like-" + docId);
-  const dislikeButton = document.getElementById("dislike-" + docId);
 
   docRef.get().then((doc) => {
     if (doc.exists) {
@@ -260,7 +263,14 @@ function likePost(docId, currentLikes) {
           likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
         }).then(() => {
           console.log("Document successfully updated!");
-          // Remove "liked" class and set background color
+          // Remove "liked" class from like button
+          // Set background color to default
+          const likeButton = document.getElementById(`like-${docId}`);
+          if (likeButton) {
+            likeButton.classList.remove("liked");
+            likeButton.style.backgroundColor = ''; // Set the default background color
+          }
+
           // Remove from user's liked posts
           currentUser.update({
             liked: firebase.firestore.FieldValue.arrayRemove(docId),
@@ -274,8 +284,22 @@ function likePost(docId, currentLikes) {
           dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
         }).then(() => {
           console.log("Document successfully updated!");
-          // Add "liked" class and set background color
-          // Add to user's liked posts
+          // Add "liked" class to like button
+          // Change background color
+          const likeButton = document.getElementById(`like-${docId}`);
+          if (likeButton) {
+            likeButton.classList.add("liked");
+            likeButton.style.backgroundColor = '#878484'; // Change to desired color when liked
+          }
+
+          // Remove "disliked" class from dislike button
+          const dislikeButton = document.getElementById(`dislike-${docId}`);
+          if (dislikeButton) {
+            dislikeButton.classList.remove("disliked");
+            dislikeButton.style.backgroundColor = ''; // Set the default background color
+          }
+
+          // Add to user's liked posts and remove from disliked posts
           currentUser.update({
             liked: firebase.firestore.FieldValue.arrayUnion(docId),
             disliked: firebase.firestore.FieldValue.arrayRemove(docId)
@@ -289,8 +313,6 @@ function likePost(docId, currentLikes) {
 function DislikePost(docId, currentLikes) {
   const userID = firebase.auth().currentUser.uid;
   const docRef = db.collection("discussionSubmissions").doc(docId);
-  const likeButton = document.getElementById("like-" + docId);
-  const dislikeButton = document.getElementById("dislike-" + docId);
 
   docRef.get().then((doc) => {
     if (doc.exists) {
@@ -304,8 +326,14 @@ function DislikePost(docId, currentLikes) {
           dislikedBy: firebase.firestore.FieldValue.arrayRemove(userID),
         }).then(() => {
           console.log("Document successfully updated!");
-          // Remove "disliked" class and set background color
-          // Remove "liked" class
+          // Remove "disliked" class from dislike button
+          // Set background color to default
+          const dislikeButton = document.getElementById(`dislike-${docId}`);
+          if (dislikeButton) {
+            dislikeButton.classList.remove("disliked");
+            dislikeButton.style.backgroundColor = ''; // Set the default background color
+          }
+
           // Remove from user's disliked posts
           currentUser.update({
             disliked: firebase.firestore.FieldValue.arrayRemove(docId),
@@ -319,9 +347,22 @@ function DislikePost(docId, currentLikes) {
           likedBy: firebase.firestore.FieldValue.arrayRemove(userID),
         }).then(() => {
           console.log("Document successfully updated!");
-          // Add "disliked" class and set background color
-          // Remove "liked" class
-          // Add to user's disliked posts
+          // Add "disliked" class to dislike button
+          // Change background color
+          const dislikeButton = document.getElementById(`dislike-${docId}`);
+          if (dislikeButton) {
+            dislikeButton.classList.add("disliked");
+            dislikeButton.style.backgroundColor = '#878484'; // Change to desired color when disliked
+          }
+
+          // Remove "liked" class from like button
+          const likeButton = document.getElementById(`like-${docId}`);
+          if (likeButton) {
+            likeButton.classList.remove("liked");
+            likeButton.style.backgroundColor = ''; // Set the default background color
+          }
+
+          // Add to user's disliked posts and remove from liked posts
           currentUser.update({
             disliked: firebase.firestore.FieldValue.arrayUnion(docId),
             liked: firebase.firestore.FieldValue.arrayRemove(docId)
@@ -331,4 +372,4 @@ function DislikePost(docId, currentLikes) {
     }
   });
 }
-// ...
+
