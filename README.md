@@ -121,7 +121,10 @@ Firebase hosting files:
 
 ## Limitations
 
-- known bugs
+- known bugs:
+        -commenting on a post that youve commented on before while on the webversion causes you to not be able to comment on that post.
+        - making a title too long and one word in tickets causes all tickets to be pushed off the screen
+        
 
 
 ## Resources
@@ -131,7 +134,7 @@ Firebase hosting files:
 ## Contact
 
 - Wayne Chen - wchen206@my.bcit.ca
-- 
+- Clement Quach -cquach6@my.bcit.ca
 - 
 
 ## Acknowledgements
