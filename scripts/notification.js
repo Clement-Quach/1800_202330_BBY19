@@ -32,15 +32,11 @@ function fetchDataAndDisplay(userID) {
         const hours = dateObject.getHours().toString().padStart(2, '0');
         const minutes = dateObject.getMinutes().toString().padStart(2, '0');
 
-        const currentDate = new Date();
+        
 
-        const timeDifference = currentDate - dateObject;
 
-        // Convert milliseconds to hours
-        const hoursDifference = timeDifference / (1000 * 60 * 60);
 
-        // Convert milliseconds to days
-        const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
 
         var status = "New Comment";
         // Check if 24 hours have passed
@@ -48,6 +44,7 @@ function fetchDataAndDisplay(userID) {
         // Formatting the date and time
         const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
 
+        // check if the post has been deleted.
         if (status === "Removed") {
           dataElement.innerHTML = `
           <div class="card-header">
@@ -67,6 +64,7 @@ function fetchDataAndDisplay(userID) {
             </div>
           </div>
           `;
+          //prints the post if it has an image
         } else if (data.image) {
         dataElement.innerHTML = `
         <div class="card-header">
@@ -82,6 +80,9 @@ function fetchDataAndDisplay(userID) {
             <h5 id="name">${data.name}</h5>
           </div>
           <div class="card-details">
+          <div class="card-image">
+          <img src="${data.image}" alt="${data.title}" />
+          </div> 
             <p>${data.details}</p>
           </div>
           <div id="like-section">
@@ -90,6 +91,7 @@ function fetchDataAndDisplay(userID) {
         </div>
         `;
         } else {
+          // prints the post without any images
           dataElement.innerHTML = `
           <div class="card-header">
             <span class="tag tag-teal" id="title">${status}</span>
@@ -140,6 +142,7 @@ function fetchDataAndDisplay(userID) {
 
 }
 
+
 firebase.auth().onAuthStateChanged(user => {
 
   
@@ -154,18 +157,16 @@ firebase.auth().onAuthStateChanged(user => {
   fetchDataAndDisplay(userID);
 });
 
-
+// function to change the notification status of posts.
 function markAsRead(inputId) {
-  // var up = document.getElementById('upvote');
 
-  // toggleFontVariation(up);
   console.log("before if")
 
   const docRef = db.collection("discussionSubmissions").doc(inputId);
 
   docRef.get().then((doc) => {
     if (doc.exists) {
-        // If previously liked and now unliking
+        // set the notification to false
         docRef
           .update({
             commentNotif: false,
@@ -174,6 +175,7 @@ function markAsRead(inputId) {
           .then(() => {
             console.log("Document successfully updated!");
           }).then(() => {
+            // refresh page
             location.reload();
           });
 

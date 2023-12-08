@@ -70,13 +70,6 @@ function editUserInfo() {
     editText.style.opacity = '1';
     profilePictureContainer.style.filter = 'blur(3px)';
 
-    // document.getElementById('mypic-goes-here').addEventListener('mouseover', function() {
-    //     editText.style.fontSize = "20px";
-    // });
-
-    // document.getElementById('mypic-goes-here').addEventListener('mouseout', function() {
-    //     editText.style.fontSize = "14px";
-    // });
 
   } else {
     document.getElementById("personalInfoFields").disabled = true;
@@ -98,6 +91,7 @@ function triggerFileInput() {
 
 function saveUserInfo() {
   firebase.auth().onAuthStateChanged(function (user) {
+    // get the inputs from the form by ID.
     var userName = document.getElementById("nameInput").value;
     var userCity = document.getElementById("cityInput").value;
     var userPhone = document.getElementById("phoneInput").value;
@@ -168,58 +162,7 @@ function saveUser() {
 
 
 
-// function saveUserInfo() {
-//         //enter code here
-//         firebase.auth().onAuthStateChanged(function (user) {
-//             var storageRef = storage.ref("images/" + user.uid + ".jpg");
 
-//             //Asynch call to put File Object (global variable ImageFile) onto Cloud
-//             storageRef.put(ImageFile)
-//                 .then(function () {
-//                     console.log('Uploaded to Cloud Storage.');
-
-//                     //Asynch call to get URL from Cloud
-//                     storageRef.getDownloadURL()
-//                         .then(function (url) { // Get "url" of the uploaded file
-//                             console.log("Got the download URL.");
-//                         })
-//                         db.collection("users").doc(user.uid).update({
-//                             profilePic: url // Save the URL into users collection
-//                         })
-//                 })
-//         })
-
-//         //a) get user entered values
-//         if (document.getElementById('nameInput').value.trim() === "") {
-//             alert('Name cannot be blank. Please enter a name.');
-//         } else {
-//             userName = document.getElementById('nameInput').value;
-//             userCity = document.getElementById('cityInput').value;       //get the value of the field with id="cityInput"
-//             userPhone = document.getElementById('phoneInput').value;
-//             userContactEmail = document.getElementById('emailInput').value;
-//             text = `Are you sure you want to change the information below?`
-
-//             if (confirm(text) == true) {
-//                 //if yes, update user's document in Firestore
-//                 currentUser.update({
-//                     name: userName,
-//                     city: userCity,
-//                     phoneNumber: userPhone,
-//                     userPreferedContactEmail: userContactEmail
-//                 })
-//                 .then(() => {
-//                     console.log("Document successfully updated!");
-//                     window.location.href = "account.html";
-//                 })
-//                 alert("Successfully saved!");
-//                 //c) disable edit
-//                 document.getElementById('personalInfoFields').disabled = true;
-//             } else {
-//                 //if no
-//                 alert("You canceled!");
-//             }
-//         }      //get the value of the field with id="nameInput"
-//     }
 
 //call the function to run it
 populateUserInfo();

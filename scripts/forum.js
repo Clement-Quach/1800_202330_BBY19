@@ -247,15 +247,20 @@ function runPage(likedPosts, dislikedPosts) {
   fetchDataAndDisplay(sort, order, likedPosts, dislikedPosts);
 }
 
+
+//function to like the post.
 function likePost(docId, currentLikes) {
+  //get this particular post.
   const userID = firebase.auth().currentUser.uid;
   const docRef = db.collection("discussionSubmissions").doc(docId);
 
   docRef.get().then((doc) => {
     if (doc.exists) {
+      //get the list of users who have liked to post.
       const likedBy = doc.data().likedBy || [];
       const dislikedBy = doc.data().dislikedBy || [];
 
+      // ifs to check if the user has already liked this post
       if (likedBy.includes(userID)) {
         // If previously liked and now unliking
         docRef.update({
@@ -310,12 +315,15 @@ function likePost(docId, currentLikes) {
   });
 }
 
+// dislike a post function
 function DislikePost(docId, currentLikes) {
+  // get the data for this particular post.
   const userID = firebase.auth().currentUser.uid;
   const docRef = db.collection("discussionSubmissions").doc(docId);
 
   docRef.get().then((doc) => {
     if (doc.exists) {
+      // get the lists of people who have liked or disliked this post.
       const likedBy = doc.data().likedBy || [];
       const dislikedBy = doc.data().dislikedBy || [];
 
