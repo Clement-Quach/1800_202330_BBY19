@@ -10,24 +10,27 @@ const previewImage = (event) => {
 
     }
 };
-function generateTicketNumber(){
+
+// Generates a random ticket number.
+function generateTicketNumber() {
     let chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZ";
     let nums = "0123456789";
     let string_length = 3;
     let number_length = 2;
     let randomstring = '';
     let randomnumber = '';
-    for (let i=0; i<string_length; i++) {
+    for (let i = 0; i < string_length; i++) {
         let rnum = Math.floor(Math.random() * chars.length);
-        randomstring += chars.substring(rnum,rnum+1);
+        randomstring += chars.substring(rnum, rnum + 1);
     }
-    for (let i=0; i<number_length; i++) {
+    for (let i = 0; i < number_length; i++) {
         let r = Math.floor(Math.random() * nums.length);
-        randomnumber += nums.substring(r,r+1);
+        randomnumber += nums.substring(r, r + 1);
     }
-    return  (randomstring + randomnumber);
+    return (randomstring + randomnumber);
 }
 
+// Creates a new ticket for the user.
 function newTicket() {
 
     var createButton = document.getElementById("outerDiv");
@@ -37,32 +40,35 @@ function newTicket() {
     })
 
     resetNewTicketDiv();
+
+    // Generates the form and populates in the html
     let outerDiv = document.getElementById("outerDiv");
-    outerDiv.className = 'container';   
+    outerDiv.className = 'container';
     let div = document.createElement('div');
     div.className = 'jumbotron';
-    div.style.backgroundColor = "#498FF0"; // Use backgroundColor to set the background color
+    div.style.backgroundColor = "#498FF0";
     let form = document.createElement('form');
     form.id = 'newTicketForm';
-    form.innerHTML = '<h1>Create a post</h1>'; // Close the h1 tag
+    form.innerHTML = '<h1>Create a post</h1>';
     form.scrollIntoView();
     let divTitle = document.createElement('div');
     divTitle.className = 'form-group';
     let labelTitle = document.createElement('label');
     labelTitle.className = 'form-group';
     labelTitle.innerHTML = 'Title';
-    labelTitle.htmlFor = 'ticketName'; // Use htmlFor to associate the label with the input
+    labelTitle.htmlFor = 'ticketName';
     let title = document.createElement("input");
     title.type = 'text';
     title.className = 'form-control';
     title.id = 'ticketName';
-        title.setAttribute('required', true);
+    title.setAttribute('required', true);
 
     const createPostButton = document.getElementById('createPostButton');
     if (createPostButton) {
         createPostButton.style.display = 'none';
     }
-    
+
+    // Dropdown for location selection
     let divLocation = document.createElement('div');
     divLocation.className = 'form-group';
     let labelLocation = document.createElement('label');
@@ -89,6 +95,7 @@ function newTicket() {
     divTitle.appendChild(labelTitle);
     divTitle.appendChild(title);
 
+    // Selection for Concerns
     let divConcern = document.createElement('div');
     divConcern.className = 'form-group';
     let labelConcern = document.createElement('label');
@@ -125,6 +132,7 @@ function newTicket() {
     select.appendChild(option4);
     select.appendChild(option5);
 
+    // Set attributes for the input element
     let divMessage = document.createElement('div');
     divMessage.className = 'form-group';
     let labelMessage = document.createElement('label');
@@ -137,7 +145,7 @@ function newTicket() {
     messageText.placeholder = 'Enter Details...';
     divMessage.appendChild(labelMessage);
     divMessage.appendChild(messageText);
-    
+
 
     let divName = document.createElement('div');
     divName.className = 'form-group';
@@ -156,30 +164,31 @@ function newTicket() {
             currentUser = db.collection("users").doc(user.uid);
             //get the document for current user.
             currentUser.get().then(userDoc => {
-                    //get the data fields of the user
+                //get the data fields of the user
 
-                    var userName = userDoc.data().name;
-                    nameInput.value = userName;
-                    nameInput.disabled = true;
-                    var userCity = userDoc.data().city;
-                    let optionLocation4 = document.createElement('option');
-                    if (userCity.trim() != "") {
-                        optionLocation4.value = userCity;
-                        optionLocation4.innerHTML = userCity;
-                        selectLocation.appendChild(optionLocation4);
-                        selectLocation.value = userCity;
-                    }
+                var userName = userDoc.data().name;
+                nameInput.value = userName;
+                nameInput.disabled = true;
+                var userCity = userDoc.data().city;
+                let optionLocation4 = document.createElement('option');
+                if (userCity.trim() != "") {
+                    optionLocation4.value = userCity;
+                    optionLocation4.innerHTML = userCity;
+                    selectLocation.appendChild(optionLocation4);
+                    selectLocation.value = userCity;
+                }
 
             })
         } else {
             // No user is signed in.
-            console.log ("No user is signed in");
+            console.log("No user is signed in");
         }
     });
 
     divName.appendChild(labelName);
     divName.appendChild(nameInput);
 
+    // Image selection for users
     let divImage = document.createElement('div');
     divImage.className = 'form-group';
     let labelImage = document.createElement('label');
@@ -228,6 +237,7 @@ function newTicket() {
 
 newTicket();
 
+// Displays a warning screen upon submitting form.
 function displaySubmitConfirmationModal() {
     var warningMessage = document.getElementById('warning-message');
     if (inputNotEmpty() == true) {
@@ -242,6 +252,7 @@ function displaySubmitConfirmationModal() {
 outerDiv.style.marginBottom = '5rem';
 outerDiv.style.padding = '2rem';
 
+// Timestamp function for better firestore documentation
 function formatTimestamp(timestamp) {
     const date = timestamp.toDate(); // Convert Firebase timestamp to JavaScript Date object
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
@@ -259,6 +270,7 @@ function scrollToTopSmooth() {
     document.body.scrollTop = 0;
 }
 
+// Writes for data to firestore.
 function ticketSubmit() {
     const userID = firebase.auth().currentUser.uid;
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
@@ -281,11 +293,11 @@ function ticketSubmit() {
             likedBy: [],
             dislikedBy: []
         };
-    
+
         const newSubmissionRef = firebase.firestore().collection('discussionSubmissions').doc(submissionID);
-        
+
         let imageInput = document.getElementById('imageAttachment').files[0];
-    
+
         if (imageInput) {
             uploadPic(submissionID, imageInput)
                 .then(url => {
@@ -351,16 +363,16 @@ function inputNotEmpty() {
 
     if (concern == "") {
         document.getElementById("choseConcern").style.borderColor = "red";
-    } 
-    
+    }
+
     if (detail == "") {
         document.getElementById("inputText").style.borderColor = "red";
     }
-    
+
     if (name == "") {
         document.getElementById("name").style.borderColor = "red";
     }
-    
+
     if (city == "") {
         document.getElementById("choseLocation").style.borderColor = "red";
     }
@@ -381,7 +393,7 @@ function uploadPic(submissionID, imageInput) {
         });
 }
 
-
+// Resets the form upon submitting.
 function resetNewTicketDiv() {
     let newOuterDiv = document.getElementById("outerDiv");
     newOuterDiv.style.color = "";

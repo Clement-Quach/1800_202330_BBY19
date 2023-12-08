@@ -312,7 +312,7 @@ button, input[type="button"] {
   border: 1px solid rgb(18, 18, 18);
   border-radius: 10px;
   padding: 0.1rem;
-  outline: none; /* Optional: Remove the outline when the button is focused */
+  outline: none;
 }
 
 button:hover {
@@ -320,8 +320,7 @@ button:hover {
 }
 
 .liked {
-  background-color: #878484; /* Change text color to blue when liked */
-  /* Add other styling properties as desired */
+  background-color: #878484;
 }
 
 .disliked {
