@@ -19,7 +19,6 @@
   z-index: 2;
 }
 
-/* Style the popup box */
 .popup {
   background-color: rgba(2, 2, 2, 0.451);
   border-radius: 20px;
@@ -49,7 +48,7 @@
 
 .card-pop a {
   text-decoration: none;
-  color: black; /* Dark gray text */
+  color: black;
 }
 
 #notification-icon {

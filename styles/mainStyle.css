@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&display=swap');
 
-/* Your other CSS styles go here */
 body {
   font-family: 'Roboto', sans-serif;
 }
@@ -136,7 +135,7 @@ body {
 
 .card a {
   text-decoration: none;
-  color: black; /* Dark gray text */
+  color: black;
 }
 
 h4 {

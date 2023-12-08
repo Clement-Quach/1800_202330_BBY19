@@ -29,10 +29,6 @@ input::-webkit-calendar-picker-indicator {
   color: #ccc;
 }
 
-/* .bg-light {
-  background-color: #ffffff !important;
-} */
-
 .container h1 {
   font-size: 25px;
   text-align: center;
@@ -93,7 +89,6 @@ a:focus {
   margin-top: 5%;
 }
 
-/* Apply some basic styling to the table */
 #ticketTable {
   background-color: #f2f2f2;
   width: 100%;
@@ -107,20 +102,17 @@ a:focus {
   
 }
 
-/* Style header row differently for better readability */
 #ticketTable thead {
   background-color: #121212;
   color: #fff;
 }
 
-/* Style alternate rows with different background colors for better readability */
 #ticketTable tbody tr:nth-child(odd) {
   background-color: #f9f9f9;
 }
 
-/* Style the "Action" cell with a different color */
 #ticketTable tbody td:nth-child(6) {
-  background-color: #dff0d8; /* Change to your preferred color */
+  background-color: #dff0d8;
 }
 
 .table-responsive {
@@ -129,7 +121,6 @@ a:focus {
   overflow: hidden;
 }
 
-/* Reset margins and padding on table cells */
 #ticketTable th, #ticketTable td {
   padding: 10px;
   text-align: left;

@@ -1,3 +1,4 @@
+
 const previewImage = (event) => {
   const imageFiles = event.target.files;
   const imageFilesLength = imageFiles.length;
@@ -11,6 +12,7 @@ const previewImage = (event) => {
   }
 };
 
+// Generates a random ticket number.
 function generateTicketNumber() {
   let chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZ";
   let nums = "0123456789";
@@ -29,6 +31,7 @@ function generateTicketNumber() {
   return randomstring + randomnumber;
 }
 
+// Creates a new ticket for the user.
 function newTicket() {
   var createButton = document.getElementById("outerDiv");
 
@@ -42,11 +45,13 @@ function newTicket() {
   }
 
   resetNewTicketDiv();
+
+  // Generates the form and populates in the html
   let outerDiv = document.getElementById("outerDiv");
   outerDiv.className = "container";
   let div = document.createElement("div");
   div.className = "jumbotron";
-  div.style.backgroundColor = "#3B3A38"; // Use backgroundColor to set the background color
+  div.style.backgroundColor = "#3B3A38";
   let form = document.createElement("form");
   form.id = "newTicketForm";
   form.innerHTML = "<h1>Create a Ticket</h1>";
@@ -62,6 +67,7 @@ function newTicket() {
   title.className = "form-control";
   title.id = "ticketName";
 
+  // Dropdown for location selection
   let divLocation = document.createElement("div");
   divLocation.className = "form-group";
   let labelLocation = document.createElement("label");
@@ -88,6 +94,7 @@ function newTicket() {
   divTitle.appendChild(labelTitle);
   divTitle.appendChild(title);
 
+  // Selection for Concerns
   let divConcern = document.createElement("div");
   divConcern.className = "form-group";
   let labelConcern = document.createElement("label");
@@ -110,12 +117,14 @@ function newTicket() {
   option5.value = "Others";
 
   var inputElement = document.createElement("input");
+
   // Set attributes for the input element
   inputElement.id = "other-input";
   inputElement.type = "text";
   inputElement.placeholder = "Type something...";
   inputElement.style.display = "none";
 
+  //Selection for Concerns
   option.innerHTML = "Street";
   option1.innerHTML = "Safety";
   option3.innerHTML = "Public Service";
@@ -132,6 +141,7 @@ function newTicket() {
   select.appendChild(option5);
   select.appendChild(inputElement);
 
+  // Selection for priority level
   let divPriority = document.createElement("div");
   divPriority.className = "form-group";
   let labelPriority = document.createElement("label");
@@ -143,8 +153,6 @@ function newTicket() {
   let optionPriority = document.createElement("option");
   let optionPriority1 = document.createElement("option");
   let optionPriority2 = document.createElement("option");
-  let optionPriority3 = document.createElement("option");
-  let optionPriority4 = document.createElement("option");
   optionPriority.value = "Low";
   optionPriority.innerHTML = "Low";
   optionPriority1.value = "Medium";
@@ -236,6 +244,7 @@ function newTicket() {
   imageInput.type = "file";
   imageInput.id = "imageAttachment";
   imageInput.className = "form-control-file";
+
   // Add an event listener to the image input to trigger image preview
   imageInput.addEventListener("change", previewImage);
 
@@ -278,6 +287,7 @@ function newTicket() {
 
 newTicket();
 
+// Displays a warning screen upon submitting form.
 function displaySubmitConfirmationModal() {
     var warningMessage = document.getElementById('warning-message');
     if (inputNotEmpty() == true) {
@@ -351,6 +361,7 @@ function scrollToTopSmooth() {
   document.body.scrollTop = 0;
 }
 
+// Writes form data to firestore.
 function ticketSubmit() {
   // Get the current user ID
   const userID = firebase.auth().currentUser.uid;
@@ -450,6 +461,7 @@ function ticketSubmit() {
   }
 }
 
+// If form data is empty, the input box will highlight red and warn user that input is empty
 function inputNotEmpty() {
   let title = document.getElementById("ticketName").value.trim();
   let concern = document.getElementById("choseConcern").value.trim();
@@ -490,6 +502,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+// Firebase storage image submission
 function uploadPic(submissionID, imageInput) {
   var storageRef = storage.ref("images/" + submissionID + ".jpg");
 
@@ -504,12 +517,14 @@ function uploadPic(submissionID, imageInput) {
     });
 }
 
+// Once form is submitted, clears the form.
 function resetNewTicketDiv() {
   let newOuterDiv = document.getElementById("outerDiv");
   newOuterDiv.style.color = "";
   newOuterDiv.innerHTML = "";
 }
 
+// Generates a random table color.
 function randomTableColor() {
   let x = Math.floor(Math.random() * 3);
   let colors = [

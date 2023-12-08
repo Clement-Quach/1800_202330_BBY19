@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const db = firebase.firestore();
-    const auth = firebase.auth(); // Firebase authentication instance
-    const formSubmissionID = localStorage.getItem('formSubmissionID');
+  const db = firebase.firestore();
+  const auth = firebase.auth(); // Firebase authentication instance
+  const formSubmissionID = localStorage.getItem('formSubmissionID');
 
-// Listen for changes in authentication state
-auth.onAuthStateChanged((user) => {
+  // Listen for changes in authentication state
+  auth.onAuthStateChanged((user) => {
     if (user) {
       const postRef = db.collection('formSubmissions').doc(formSubmissionID);
 
@@ -18,7 +18,7 @@ auth.onAuthStateChanged((user) => {
             if (userDoc.exists) {
 
               const dateObject = userData.timestamp.toDate();
-              
+
               // Extracting date components
               const year = dateObject.getFullYear();
               const month = (dateObject.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
@@ -60,7 +60,7 @@ auth.onAuthStateChanged((user) => {
               // Check if profilePic exists before setting the attribute
               if (userData.action == "Removed") {
                 postProfilePicElement.setAttribute('src', './images/profile-icon.png');
-              }  else {
+              } else {
                 // If no profile pic is available, set a default image
                 postProfilePicElement.setAttribute('src', './images/profile-icon.png');
               }
@@ -90,7 +90,7 @@ auth.onAuthStateChanged((user) => {
       console.error('User is not logged in');
     }
   });
-});  
+});
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
@@ -267,6 +267,7 @@ function displayDeleteConfirmationModal(formSubmissionID, commentID) {
   };
 }
 
+// Funtion that displays a confirmation modal upon deleting a post.
 async function confirmDelete(formSubmissionID, commentID) {
   const db = firebase.firestore();
   const formRef = db.collection('formSubmissions').doc(formSubmissionID);
@@ -279,18 +280,18 @@ async function confirmDelete(formSubmissionID, commentID) {
 
       await formRef.update({ comments: updatedComments });
       console.log('Comment deleted successfully!');
-      
+
       // Additionally, delete the comment reference from the user's document
       const user = firebase.auth().currentUser;
       if (user) {
         const userRef = db.collection('users').doc(user.uid);
         const userDoc = await userRef.get();
-        
+
         if (userDoc.exists) {
           const userData = userDoc.data();
           const userComments = userData.comments || [];
           const updatedUserComments = userComments.filter(comment => comment.commentID !== commentID);
-          
+
           await userRef.update({ comments: updatedUserComments });
           console.log('Comment reference deleted for the user');
         }
@@ -303,7 +304,7 @@ async function confirmDelete(formSubmissionID, commentID) {
   }
 }
 
-
+// Function that reads from firestore and displays unique posts based on the user that is logged in.
 async function fetchCommentsAndDisplay() {
   const db = firebase.firestore();
   const formSubmissionID = localStorage.getItem('formSubmissionID');
@@ -322,6 +323,7 @@ async function fetchCommentsAndDisplay() {
             try {
               const userData = await getUserInfo(comment.userID);
 
+              // InnerHTML for displaying user post
               commentsHTML += `
               <div class="commentContainer">
                 <div class="commentsName">${userData?.name || 'Anonymous'}</div>
@@ -331,10 +333,10 @@ async function fetchCommentsAndDisplay() {
                 <div class="commentText" id="comment_${comment.commentID}">
                   ${comment.commentText}
                 </div>`;
-              
-            const user = firebase.auth().currentUser;
-            if (user && user.uid === comment.userID) {
-              commentsHTML += `
+
+              const user = firebase.auth().currentUser;
+              if (user && user.uid === comment.userID) {
+                commentsHTML += `
                 <div class="commentActions">
                   <div class="options" id="options_${comment.commentID}">
                   <button onclick="editComment('${formSubmissionID}', '${comment.commentID}', '${comment.commentText}')">Edit</button>
@@ -344,10 +346,10 @@ async function fetchCommentsAndDisplay() {
                     <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                   </svg>
                 </div>`;
-            }
-            
-            commentsHTML += `</div>`;
-            
+              }
+
+              commentsHTML += `</div>`;
+
 
             } catch (error) {
               console.error('Error fetching user information:', error);
@@ -370,9 +372,6 @@ async function fetchCommentsAndDisplay() {
 
 const commentInput = document.querySelector('commentInput');
 const commentSection = document.getElementById('make-comment');
-
-
-
 
 function toggleOptions(commentID) {
   const options = document.getElementById(`options_${commentID}`);
@@ -432,6 +431,7 @@ function editComment(formSubmissionID, commentID, commentText) {
   };
 }
 
+// Goes back a page
 function goBack() {
   window.history.back();
 }
@@ -439,28 +439,27 @@ function goBack() {
 var isScrolling;
 var footer = document.getElementById('make-comment');
 
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', function () {
   clearTimeout(isScrolling);
-  
+
   // Hide the footer
   footer.style.opacity = '0';
 
-  isScrolling = setTimeout(function() {
-      // Reappear the footer after a delay
-      footer.style.opacity = '1';
+  isScrolling = setTimeout(function () {
+    // Reappear the footer after a delay
+    footer.style.opacity = '1';
   }, 600); // Adjust the timeout value based on your preference
 });
 
 
 function toggleDropdown() {
-    var ticketDetails = document.getElementById("ticketDetails");
-    if (ticketDetails.style.display === "none") {
-        ticketDetails.style.display = "block";
-    } else {
-        ticketDetails.style.display = "none";
-    }
+  var ticketDetails = document.getElementById("ticketDetails");
+  if (ticketDetails.style.display === "none") {
+    ticketDetails.style.display = "block";
+  } else {
+    ticketDetails.style.display = "none";
+  }
 }
-
 
 // Call the function to fetch comment data and display comments
 fetchCommentsAndDisplay();

@@ -43,17 +43,6 @@ function displayFirestoreData(userID) {
       });
 }
 
-
-// Add an event listener to the "Fetch Data" button to call the function when clicked
-// const fetchDataButton = document.getElementById('fetchDataButton');
-// fetchDataButton.addEventListener('click', () => {
-//     // Get the current user ID
-//     const userID = firebase.auth().currentUser.uid;
-//     console.log(userID);
-//     // Call the function with the user ID
-//     displayFirestoreData(userID);
-// });
-
 firebase.auth().onAuthStateChanged(user => {
     // Check if user is signed in:
     if (user) {
