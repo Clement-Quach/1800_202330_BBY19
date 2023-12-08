@@ -120,6 +120,21 @@ function fetchDataAndDisplay(userID, sort, order) {
           `;
         }
 
+        const docID = doc.id; // Get the document ID
+
+        dataElement.setAttribute('data-documentSubmissionID', docID);
+        
+        dataElement.addEventListener('click', function(event) {
+          const submissionID = this.getAttribute('data-documentSubmissionID');
+        
+          if (event.target.tagName.toLowerCase() !== 'a' && submissionID) {
+            event.preventDefault();
+
+            localStorage.setItem('documentSubmissionID', submissionID);
+            window.location.href = `postView.html?documentSubmissionID=${submissionID}`;
+          }
+        });
+
         // Append the HTML to the container
         dataContainer.appendChild(dataElement);
       });
