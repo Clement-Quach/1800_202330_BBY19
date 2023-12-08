@@ -11,10 +11,10 @@ function displayPostInfo() {
   let indexId = paramsStr.indexOf("docId=")+6;
   console.log(indexId);
   let ID = paramsStr.slice(indexId, paramsStr.length); //get value for key "id"
-  // let ID = params.searchParams.get( "docID" ); //get value for key "id"
 
   console.log( ID );
 
+  // get the particular post
   db.collection( "discussionSubmissions" )
   .doc( ID )
   .get()
@@ -67,7 +67,7 @@ function displayPostInfo() {
 
 
       const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
-
+      // display post
       if (data.image) {
       dataElement.innerHTML = `
         <div class="card-header" id="tags">
@@ -125,35 +125,25 @@ function displayPostInfo() {
   document.getElementById('detailsInput').value = data.details;
   document.getElementById('titleInput').value = data.title
 
-  // var detailInput = document.getElementById('detailsInput').value;
-  // var titleInput = document.getElementById('titleInput').value;
 
-  // if (detailInput.trim() == "The author has removed the post" && titleInput.trim() == "Removed") {
-  //   document.getElementById('detailsInput').disabled = true;
-  //   document.getElementById('titleInput').disabled = true;
-  //   document.getElementById('remove-button').style.display = 'none';
-  //   document.getElementById('post-image').classList.add('remove');
-  //   document.getElementById('tags').classList.add('remove');
-
-  // } else {
-  //   document.getElementById('detailsInput').disabled = false;
-  //   document.getElementById('titleInput').disabled = false;
-  //   document.getElementById('remove-button').style.display = 'block';
-  //   document.getElementById('tags').style.display = 'block';
-  // }
 
 });
-//<p>${data.details}</p>
+
 }
 
+// call function
 displayPostInfo();
 
+// save confirmation to make sure this is what the user wants.
 function displaySaveConfirmationModal() {
   $('#saveConfirmationModal').modal('show');
 }
 
+// save edits.
 function saveEdits(){
+
   let params = new URL( window.location.href ); //get URL of search bar
+  // decode the url to a usuable document ID.
   let paramsStr = encodeURI(params)
   let newDetails = document.getElementById('detailsInput').value;
   let newTitle = document.getElementById('titleInput').value;
@@ -168,16 +158,19 @@ function saveEdits(){
     warningInput.style.border = "none";
     warningInput2.style.border = "none";
     let ID = paramsStr.slice(indexId, paramsStr.length);
+    // get the database.
     db.collection( "discussionSubmissions" )
     .doc( ID )
     .get()
     .then(() => {
+      // update function.
       thisPost =  db.collection( "discussionSubmissions" ).doc(ID);
       console.log(newDetails);
       thisPost.update({
         details: newDetails, 
         title: newTitle,
       }).then(() => {
+        // call confirmation.
         $('#saveConfirmationModal').modal('hide');
         window.location.href = params;
       })
@@ -194,6 +187,7 @@ function saveEdits(){
 function displayRemoveConfirmationModal() {
   $('#removeConfirmationModal').modal('show');
 }
+
 
 function removePost() {
   let params = new URL(window.location.href);
@@ -240,6 +234,7 @@ function removePost() {
     });
 }
 
+// finish and head back to the last page.
 function goBack() {
   window.history.back();
 }
