@@ -1,5 +1,6 @@
 var currentUser; //points to the document of the user who is logged in
 
+//Display the user information
 function populateUserInfo() {
   firebase.auth().onAuthStateChanged((user) => {
     // Check if user is signed in:
@@ -52,8 +53,8 @@ function populateUserInfo() {
   });
 }
 
-var profilePictureContainer = document.getElementById('mypic-goes-here');
-var editText = document.getElementById('edit-text');
+var profilePictureContainer = document.getElementById("mypic-goes-here");
+var editText = document.getElementById("edit-text");
 
 function editUserInfo() {
   //Enable the form fields and save button
@@ -67,26 +68,24 @@ function editUserInfo() {
     document.getElementById("save-button").disabled = false;
     document.getElementById("mypic-input").disabled = false;
     document.getElementById("edit-button").style.color = "black";
-    editText.style.opacity = '1';
-    profilePictureContainer.style.filter = 'blur(3px)';
-
-
+    editText.style.opacity = "1";
+    profilePictureContainer.style.filter = "blur(3px)";
   } else {
     document.getElementById("personalInfoFields").disabled = true;
     document.getElementById("save-button").disabled = true;
     document.getElementById("mypic-input").disabled = false;
     document.getElementById("edit-button").style.color = "white";
     profilePictureContainer.style.border = "none";
-    editText.style.opacity = '0';
-    profilePictureContainer.style.filter = 'none';
+    editText.style.opacity = "0";
+    profilePictureContainer.style.filter = "none";
   }
 }
 
 function triggerFileInput() {
-    var edit = document.getElementById("personalInfoFields").disabled;
-    if (edit == false) {
-        document.getElementById('mypic-input').click();
-    }
+  var edit = document.getElementById("personalInfoFields").disabled;
+  if (edit == false) {
+    document.getElementById("mypic-input").click();
+  }
 }
 
 function saveUserInfo() {
@@ -148,7 +147,7 @@ function openSaveModal() {
   if (userName.trim() == "") {
     document.getElementById("nameInput").style.border = "solid 2px red";
   } else {
-    $('#saveModal').modal('show');
+    $("#saveModal").modal("show");
   }
 }
 
@@ -156,32 +155,27 @@ function saveUser() {
   // Add your logic to save user information here
   saveUserInfo();
   // Close the modal after saving
-  $('#saveModal').modal('hide');
+  $("#saveModal").modal("hide");
 }
 
-
-
-
-
-
-//call the function to run it
+//Call the function to run it
 populateUserInfo();
 
-var ImageFile; //global variable to store the File Object reference
+var ImageFile; //Global variable to store the File Object reference
 
 function chooseFileListener() {
-  const fileInput = document.getElementById("mypic-input"); // pointer #1
-  const image = document.getElementById("mypic-goes-here"); // pointer #2
+  const fileInput = document.getElementById("mypic-input");
+  const image = document.getElementById("mypic-goes-here"); 
 
-  //attach listener to input file
-  //when this file changes, do something
+  //Attach listener to input file
+  //When this file changes, do something
   fileInput.addEventListener("change", function (e) {
     //the change event returns a file "e.target.files[0]"
     ImageFile = e.target.files[0];
     var blob = URL.createObjectURL(ImageFile);
 
     //change the DOM img element source to point to this file
-    image.src = blob; //assign the "src" property of the "img" tag
+    image.src = blob;
   });
 }
 
