@@ -121,7 +121,8 @@ Firebase hosting files:
 
 ## Limitations
 
-- known bugs
+- When voting on forums.html, users can only upvote one post at a time, changing the button color. If they upvote another post, the first one reverts to its original color. The color change is visible on the client side and will properly display the server-side color after a page refresh.
+- When users go on myDiscussion.html, users are only able to view one post on the web app. In live serve, users are able to view all posts accociated to them.
 
 
 ## Resources
@@ -131,7 +132,7 @@ Firebase hosting files:
 ## Contact
 
 - Wayne Chen - wchen206@my.bcit.ca
-- 
+- Daniel Law - dlaw37@My.bcit.ca
 - 
 
 ## Acknowledgements
