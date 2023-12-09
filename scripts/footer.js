@@ -1,6 +1,19 @@
 var notif = false;
 var notification = document.getElementById("notification");
 
+
+firebase.auth().onAuthStateChanged((user) => {
+  // Check if user is signed in:
+  if (user) {
+    currentUser = db.collection("users").doc(user.id);
+  }
+  const userID = firebase.auth().currentUser.uid;
+  console.log(userID);
+  // Call the function with the user ID
+  notificationAlert(userID);
+});
+
+
 function createForm() {
   document.getElementById("overlay").style.display = "grid";
 }
@@ -30,14 +43,3 @@ function notificationAlert(userID) {
       console.error("Error getting documents: ", error);
     });
 }
-
-firebase.auth().onAuthStateChanged((user) => {
-  // Check if user is signed in:
-  if (user) {
-    currentUser = db.collection("users").doc(user.id);
-  }
-  const userID = firebase.auth().currentUser.uid;
-  console.log(userID);
-  // Call the function with the user ID
-  notificationAlert(userID);
-});
