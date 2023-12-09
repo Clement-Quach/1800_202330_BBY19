@@ -1,8 +1,66 @@
 var sortSelect = document.getElementById("sort-type");
 
+var sort;
+var order;
+
+firebase.auth().onAuthStateChanged((user) => {
+
+  if (localStorage.getItem("dropdownValue")) {
+    sortSelect.value = localStorage.getItem("dropdownValue");
+    var sortType = localStorage.getItem("dropdownValue");
+  } else {
+    sort = "timestamp";
+    order = "desc";
+  }
+
+  if (sortType == "New") {
+    sort = "timestamp";
+    order = "desc";
+  } else if (sortType == "Old") {
+    sort = "timestamp";
+    order = "asc";
+  } else if (sortType == "Concern") {
+    sort = "concern";
+    order = "asc";
+  } else if (sortType == "Likes") {
+    sort = "likes";
+    order = "desc";
+  } else if (sortType == "City") {
+    sort = "location";
+    order = "asc";
+  }
+
+  // Check if user is signed in:
+  if (user) {
+    currentUser = db.collection("users").doc(user.id);
+  }
+  const userID = firebase.auth().currentUser.uid;
+  console.log(userID);
+  // Call the function with the user ID
+  fetchDataAndDisplay(userID, sort, order);
+});
+
+sortSelect.addEventListener("change", function () {
+  localStorage.setItem("dropdownValue", this.value);
+  changeSort();
+});
+
+function changeSort() {
+  dataContainer.innerHTML = "";
+
+  setTimeout(function () {
+    window.location.href = "loadingMyDiscussion.html";
+  }, 100);
+}
+
 function fetchDataAndDisplay(userID, sort, order) {
   const dataContainer = document.getElementById("dataContainer");
-
+  console.log(sort + order)
+  if (sort.trim() == "" && order.trim() == "") {
+    sort = "likes";
+    order = "desc"; 
+  }
+  
   // Retrieve form submission data from Firestore based on the user ID
   db.collection("discussionSubmissions")
     .where("userID", "==", userID) // Add this line to filter by user ID
@@ -142,55 +200,6 @@ function fetchDataAndDisplay(userID, sort, order) {
     .catch((error) => {
       console.error("Error reading Firestore data:", error);
     });
-}
-
-firebase.auth().onAuthStateChanged((user) => {
-  var sort;
-  var order;
-
-  if (localStorage.getItem("dropdownValue")) {
-    sortSelect.value = localStorage.getItem("dropdownValue");
-    var sortType = localStorage.getItem("dropdownValue");
-  }
-
-  if (sortType == "New") {
-    sort = "timestamp";
-    order = "desc";
-  } else if (sortType == "Old") {
-    sort = "timestamp";
-    order = "asc";
-  } else if (sortType == "Concern") {
-    sort = "concern";
-    order = "asc";
-  } else if (sortType == "Likes") {
-    sort = "likes";
-    order = "desc";
-  } else if (sortType == "City") {
-    sort = "location";
-    order = "asc";
-  }
-
-  // Check if user is signed in:
-  if (user) {
-    currentUser = db.collection("users").doc(user.id);
-  }
-  const userID = firebase.auth().currentUser.uid;
-  console.log(userID);
-  // Call the function with the user ID
-  fetchDataAndDisplay(userID, sort, order);
-});
-
-sortSelect.addEventListener("change", function () {
-  localStorage.setItem("dropdownValue", this.value);
-  changeSort();
-});
-
-function changeSort() {
-  dataContainer.innerHTML = "";
-
-  setTimeout(function () {
-    window.location.href = "loadingMyDiscussion.html";
-  }, 100);
 }
 
 //go to the correct user document by referencing to the user uid

@@ -1,8 +1,56 @@
 var currentUser;
 var likeButton;
 var dislikeButton;
+var sort;
+var order;
 
 var sortSelect = document.getElementById('sort-type');
+
+//call changeSort() every time the user changes the value in the dropdown list
+sortSelect.addEventListener("change", function() {
+  localStorage.setItem('dropdownValue', this.value);
+  changeSort();
+});
+
+//when the user changes the value, it directs them to the loading page
+function changeSort() {
+  dataContainer.innerHTML = "";
+  
+  setTimeout(function() {
+    window.location.href = "loading.html";
+  }, 100);
+}
+
+//change the sort and order variable when the value has changed
+function runPage(likedPosts, dislikedPosts) {
+
+  if (localStorage.getItem('dropdownValue')) {
+    sortSelect.value = localStorage.getItem('dropdownValue');
+    var sortType = localStorage.getItem('dropdownValue');
+  } else {
+    sort = "timestamp";
+    order = "desc";
+  }
+
+  if (sortType == 'New') {
+    sort = "timestamp";
+    order = "desc";
+  } else if (sortType == 'Old') {
+    sort = "timestamp";
+    order = "asc";
+  } else if (sortType == 'Concern') {
+    sort = "concern";
+    order = "asc";
+  } else if (sortType == 'Likes') {
+    sort = "likes";
+    order = "desc";
+  } else if (sortType == 'City') {
+    sort = "location";
+    order = "asc";
+  }
+
+  fetchDataAndDisplay(sort, order, likedPosts, dislikedPosts);
+}
 
 firebase.auth().onAuthStateChanged((user) => {
   // Check if user is signed in:
@@ -200,51 +248,6 @@ function fetchDataAndDisplay(sort, order, userLikedPosts, userDislikedPosts) {
     }, (error) => {
       console.error("Error reading Firestore data:", error);
     });
-}
-
-//call changeSort() every time the user changes the value in the dropdown list
-sortSelect.addEventListener("change", function() {
-  localStorage.setItem('dropdownValue', this.value);
-  changeSort();
-});
-
-//when the user changes the value, it directs them to the loading page
-function changeSort() {
-  dataContainer.innerHTML = "";
-  
-  setTimeout(function() {
-    window.location.href = "loading.html";
-  }, 100);
-}
-
-//change the sort and order variable when the value has changed
-function runPage(likedPosts, dislikedPosts) {
-  var sort;
-  var order;
-
-  if (localStorage.getItem('dropdownValue')) {
-    sortSelect.value = localStorage.getItem('dropdownValue');
-    var sortType = localStorage.getItem('dropdownValue');
-  }
-
-  if (sortType == 'New') {
-    sort = "timestamp";
-    order = "desc";
-  } else if (sortType == 'Old') {
-    sort = "timestamp";
-    order = "asc";
-  } else if (sortType == 'Concern') {
-    sort = "concern";
-    order = "asc";
-  } else if (sortType == 'Likes') {
-    sort = "likes";
-    order = "desc";
-  } else if (sortType == 'City') {
-    sort = "location";
-    order = "asc";
-  }
-
-  fetchDataAndDisplay(sort, order, likedPosts, dislikedPosts);
 }
 
 
