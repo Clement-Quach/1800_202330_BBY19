@@ -188,7 +188,6 @@ function displayRemoveConfirmationModal() {
   $('#removeConfirmationModal').modal('show');
 }
 
-
 function removePost() {
   let params = new URL(window.location.href);
   let paramsStr = encodeURI(params);
@@ -226,7 +225,7 @@ function removePost() {
           $('#removeConfirmationModal').modal('hide');
           // Redirect or perform any other action after updating the post
           console.log("Post details removed successfully");
-          window.location.href = "myDiscussion.html";
+          window.location.href = "myDIscussion.html";
         })
         .catch((error) => {
           console.error("Error removing post details: ", error);
