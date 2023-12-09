@@ -198,7 +198,7 @@ body {
 #discussion {
   grid-column: 1 / span 5;
   background-color: #fff;
-  padding: 0 1rem 1rem 1rem;
+  padding: 0 1rem 1.5rem 1rem;
   margin-bottom: 0.5rem;
   color: #333;
   height: 10vh;

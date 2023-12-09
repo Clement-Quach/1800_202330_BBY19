@@ -162,6 +162,9 @@ firebase.auth().onAuthStateChanged((user) => {
   } else if (sortType == "Concern") {
     sort = "concern";
     order = "asc";
+  } else if (sortType == "Likes") {
+    sort = "likes";
+    order = "desc";
   } else if (sortType == "City") {
     sort = "location";
     order = "asc";
