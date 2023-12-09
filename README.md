@@ -38,7 +38,7 @@ Top level of project folder:
 └── inboxView.html             # HTML file that displays the full view of a ticket submission
 └── loading.html               # Loading HTML file for forums.html
 └── loadingMyDiscussion.html   # Loading HTML file for myDiscussion.html
-├── main.html                  # main HTML file, the landing page after log-in or user set-up
+├── main.html                  # Main HTML file, the landing page after log-in or user set-up
 └── myDiscussion.html          # HTML file that displays all the discussion submissions of the user
 └── notification.html          # HTML file that displays user's notification
 └── post.html                  # HTML file for creating a ticket
