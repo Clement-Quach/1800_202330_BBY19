@@ -89,8 +89,8 @@ function displayPostInfo() {
           </div>
           <input type="text" id="detailsInput" class="form-control">
           <div id="like-section">
-            <button type="button" id="save-button" class="btn btn-primary" onclick="saveEdits()">Save</button>
-            <input type="button" id="remove-button" class="btn btn-danger" value="Remove" onclick="removePost()"></input>
+            <input type="button" id="remove-button" class="btn btn-danger" value="Remove" onclick="displayRemoveConfirmationModal()"></input>
+            <button type="button" id="save-button" class="btn btn-primary" onclick="displaySaveConfirmationModal())">Save</button>
           </div>
         </div>
       `;
